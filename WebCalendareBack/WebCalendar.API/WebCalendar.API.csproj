@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationLevel\WebCalendar.Application.csproj" />
-    <ProjectReference Include="..\Domain\WebCalendar.Domain.csproj" />
+    <ProjectReference Include="..\WebCalendar.Application\WebCalendar.Application.csproj" />
+    <ProjectReference Include="..\WebCalendar.Domain\WebCalendar.Domain.csproj" />
     <ProjectReference Include="..\WebCalendar.Infrostructure\WebCalendar.Infrastructure.csproj" />
   </ItemGroup>
 

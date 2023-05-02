@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\WebCalendar.Domain.csproj" />
+    <ProjectReference Include="..\WebCalendar.Domain\WebCalendar.Domain.csproj" />
   </ItemGroup>
 
 </Project>

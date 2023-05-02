@@ -1,5 +1,4 @@
-﻿using WebCalendar.Application.Events.Commands;
-using WebCalendar.Domain.Events;
+﻿using WebCalendar.Domain.Events;
 
 namespace WebCalendar.Application.Events.EventsUpdating
 {

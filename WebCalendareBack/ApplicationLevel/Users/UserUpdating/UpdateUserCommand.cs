@@ -1,4 +1,4 @@
-﻿namespace WebCalendar.Application.Users.Commands
+﻿namespace WebCalendar.Application.Users.UserUpdating
 {
     public class UpdateUserCommand
     {

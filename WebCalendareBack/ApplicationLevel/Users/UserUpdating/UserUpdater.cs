@@ -1,5 +1,4 @@
-﻿using WebCalendar.Application.Users.Commands;
-using WebCalendar.Domain.Users;
+﻿using WebCalendar.Domain.Users;
 
 namespace WebCalendar.Application.Users.UserUpdating
 {
@@ -19,12 +18,9 @@ namespace WebCalendar.Application.Users.UserUpdating
             ValidationCheck(updateUserCommand);
 
             User user = _userRepository.GetById(updateUserCommand.Id);
+            user.UpdateLogin(updateUserCommand.Login, updateUserCommand.PasswordHash);
+            _userRepository.Update(user);
 
-            if (user.CheckPasswordHash(updateUserCommand.PasswordHash))
-            {
-                user.UpdateLogin(updateUserCommand.Login);
-                _userRepository.Update(user);
-            }
 
         }
         public bool UpdatePasswordHash(long id, string oldPasswordHash, string newPasswordHash)
@@ -37,6 +33,7 @@ namespace WebCalendar.Application.Users.UserUpdating
         {
             _validationUser.CheckingContentInRepository(updateUserCommand.Id);
             _validationUser.CheckingLogin(updateUserCommand.Login);
+            _validationUser.CheckingUser(updateUserCommand.Login, updateUserCommand.PasswordHash);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WebCalendar.Application.Users.Commands
+﻿namespace WebCalendar.Application.Users.UsersCreating
 {
     public class AddUserCommand
     {

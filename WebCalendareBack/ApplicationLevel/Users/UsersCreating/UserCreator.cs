@@ -1,5 +1,4 @@
 ﻿using WebCalendar.Application.Events.Commands;
-using WebCalendar.Application.Users.Commands;
 using WebCalendar.Domain.Users;
 using WebCalendar.Domain.Validation.EventValidation;
 

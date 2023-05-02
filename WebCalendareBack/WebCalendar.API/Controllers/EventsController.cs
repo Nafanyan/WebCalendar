@@ -10,13 +10,14 @@ namespace WebCalendar.API.Controllers
         public List<Event> events = new List<Event>();
         public EventsController()
         {
+            events.Add(new Event("1", "2", new DateTime(2023, 3, 28, 10, 10, 00), new DateTime(2023, 3, 28, 12, 10, 00)));
+            events.Add(new Event("1", "2", new DateTime(2023, 4, 1, 10, 10, 00), new DateTime(2023, 4, 1, 12, 10, 00)));
+            events.Add(new Event("1", "2", new DateTime(2023, 4, 18, 10, 10, 00), new DateTime(2023, 4, 18, 12, 10, 00)));
             events.Add(new Event("1", "2", new DateTime(2023,4,25,10,10,00), new DateTime(2023, 4, 25, 12, 10, 00)));
             events.Add(new Event("1", "2", new DateTime(2023, 4, 26, 10, 10, 00), new DateTime(2023, 4, 26, 12, 10, 00)));
             events.Add(new Event("1", "2", new DateTime(2023, 4, 27, 10, 10, 00), new DateTime(2023, 4, 27, 12, 10, 00)));
             events.Add(new Event("1", "2", new DateTime(2023, 4, 28, 10, 10, 00), new DateTime(2023, 4, 28, 12, 10, 00)));
             events.Add(new Event("1", "2", new DateTime(2023, 4, 29, 10, 10, 00), new DateTime(2023, 4, 29, 12, 10, 00)));
-
-
         }
 
         [HttpGet()]
@@ -35,10 +36,9 @@ namespace WebCalendar.API.Controllers
         [HttpGet("weeks/{year}/{mounth}/{day}")]
         public IActionResult GetEventsWeek([FromRoute] int year, int mounth, int day)
         {
-            int numWeek = day % 7;
-            return Ok(events.Where(e => e.StartEvent.Year == year)
-                .Where(e => e.StartEvent.Month == mounth)
-                .Where(e => e.StartEvent.Day > numWeek * 7  && day <= numWeek * 7 + 7));
+            DateTime nowDay = new DateTime(year, mounth, day);
+            return Ok(events.Where(e => e.StartEvent.DayOfYear > nowDay.DayOfYear - (int)(nowDay.DayOfWeek) &&
+            e.StartEvent.DayOfYear <= nowDay.DayOfYear - (int)(nowDay.DayOfWeek) + 7));
         }
 
         [HttpGet("days/{year}/{mounth}/{day}")]

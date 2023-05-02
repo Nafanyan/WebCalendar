@@ -15,7 +15,7 @@ namespace WebCalendar.Application.Users.UserDeleting
 
         public void Delete(long id, string passwordHash)
         {
-            ValidationCheck(id);
+            ValidationCheck(id, passwordHash);
 
             User user = _userRepository.GetById(id);
 
@@ -24,9 +24,10 @@ namespace WebCalendar.Application.Users.UserDeleting
                 _userRepository.Delete(id);
             }
         }
-        private void ValidationCheck(long id)
+        private void ValidationCheck(long id, string passwordHash)
         {
             _validationUser.CheckingContentInRepository(id);
+            _validationUser.CheckingUser(_userRepository.GetById(id).Login, passwordHash);
         }
     }
 }

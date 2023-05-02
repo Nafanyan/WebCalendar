@@ -31,5 +31,18 @@ namespace WebCalendar.Domain.Validation.UserValidation
                 throw new UserException("A user with this login already exists");
             }
         }
+
+        public void CheckingUser(string login, string hashPassword)
+        {
+            User user = _userRepository.GetByLogin(login);
+            if (user == null)
+            {
+                throw new UserException("There is no user with this login");
+            }
+            if (!user.CheckPasswordHash(hashPassword))
+            {
+                throw new UserException("The wrong password was entered for this login");
+            }
+        }
     }
 }

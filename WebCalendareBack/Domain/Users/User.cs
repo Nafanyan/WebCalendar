@@ -7,7 +7,7 @@ namespace WebCalendar.Domain.Users
         public long Id { get; init; }
         public List<Event> Events { get; private set; }
         public string Login { get; private set; }
-        private string PasswordHash { get; set; }
+        private string PasswordHash { get;  set; }
 
         public User(string login, string passwordHash)
         {
@@ -16,9 +16,12 @@ namespace WebCalendar.Domain.Users
             PasswordHash = passwordHash;
         }
 
-        public void UpdateLogin(string login)
+        public void UpdateLogin(string login, string passwordHash)
         {
-            Login = login;
+            if (CheckPasswordHash(passwordHash))
+            {
+                Login = login;
+            }
         }
         public bool UpdatePasswordHash(string oldPasswordHash, string newPasswordHash)
         {

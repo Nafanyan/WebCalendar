@@ -1,4 +1,6 @@
-﻿namespace WebCalendar.Domain.Users
+﻿using Domain.Entitys;
+
+namespace Domain.Repositories
 {
     public interface IUserRepository
     {

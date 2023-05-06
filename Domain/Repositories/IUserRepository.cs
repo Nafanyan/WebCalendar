@@ -2,13 +2,8 @@
 
 namespace Domain.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        IReadOnlyList<User> GetAll();
-        User GetById(long id);
         User GetByLogin(string login);
-        long Add(User user);
-        void Update(User user);
-        void Delete(long id);
     }
 }

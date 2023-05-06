@@ -1,5 +1,4 @@
-﻿using WebCalendar.Domain.Events;
-
+﻿
 namespace Domain.Entitys
 {
     public class User

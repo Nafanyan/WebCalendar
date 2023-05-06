@@ -21,7 +21,5 @@ namespace Domain.Entitys
         {
             PasswordHash = newPasswordHash;
         }
-
-
     }
 }

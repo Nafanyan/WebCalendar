@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'Oswald';
+  src: local('Oswald'),
+       url('../fonts/Oswald-Regular.ttf') format('truetype'),
+       url('../fonts/Oswald-Regular.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Oswald-Regular.woff') format('woff'); 
+  font-weight: 400;
+  font-style: 'regular';
+}
+
+body{
+  background-color: #EAEAEA;
+}
+
+header {
+  position: relative;
+  height: 83px;
+  margin-top: 1%;
+  width: 1920px;
+}
+
+.home-link:active, /* активная/посещенная ссылка */
+.home-link:hover,  /* при наведении */
+.home-link {
+  position: relative;
+  margin-left: 3.22%;
+  
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 'regular';
+  font-size: 56px;
+  color: #000000;
+  text-decoration: none;
+}

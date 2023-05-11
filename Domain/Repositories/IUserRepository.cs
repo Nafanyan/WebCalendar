@@ -6,6 +6,6 @@ namespace Domain.Repositories
     public interface IUserRepository : IAddedRepository<User>, IRemovableRepository<User>
     {
         Task<User> GetById(long id);
-        Task<IReadOnlyList<Event>> GetEvents(long userId);
+        Task<IReadOnlyList<Event>> GetEvents(long id);
     }
 }

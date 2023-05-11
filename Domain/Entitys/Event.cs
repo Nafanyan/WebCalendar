@@ -3,20 +3,20 @@
     public class Event
     {
         public long Id { get; private set; }
-        public string EventRecord { get; private set; }
+        public string Name { get; private set; }
         public string Description { get; private set; }
         public EventPeriod EventPeriod { get; private set; }
 
         public Event(string record, string description, EventPeriod eventPeriod)
         {
-            EventRecord = record;
+            Name = record;
             Description = description;
             EventPeriod = eventPeriod;
         }
 
         public void SetRecord(string record)
         {
-            EventRecord = record;
+            Name = record;
         }
         public void SetDescription(string description)
         {

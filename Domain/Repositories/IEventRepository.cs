@@ -5,6 +5,6 @@ namespace Domain.Repositories
 {
     public interface IEventRepository : IAddedRepository<Event>, IRemovableRepository<Event>
     {
-        Task<Event> GetEvent(long keysEvent, User user);
+        Task<Event> GetEvent(long id, User user);
     }
 }

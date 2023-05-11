@@ -3,8 +3,7 @@ using Domain.Repositories.BasicRepositories;
 
 namespace Domain.Repositories
 {
-    public interface IEventRepository : IAddedRepository<Event>, 
-        IRemovableRepository<Event>
+    public interface IEventRepository : IAddedRepository<Event>, IRemovableRepository<Event>
     {
         Task<Event> GetEvent(long keysEvent, User user);
     }

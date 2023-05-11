@@ -16,9 +16,9 @@
         {
             Login = login;
         }
-        public void SetPasswordHash( string newPasswordHash)
+        public void SetPasswordHash(string passwordHash)
         {
-            PasswordHash = newPasswordHash;
+            PasswordHash = passwordHash;
         }
     }
 }

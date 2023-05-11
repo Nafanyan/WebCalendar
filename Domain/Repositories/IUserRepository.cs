@@ -5,10 +5,9 @@ namespace Domain.Repositories
 {
     public class KeysUser
     {
-        public long KeyId { get; set }
+        public long KeyId { get; set; }
     }
-    public interface IUserRepository : IRecievedRepository<KeysUser, User>,
-        IAddedRepository<User>,
+    public interface IUserRepository : IAddedRepository<User>,
         IRemovableRepository<KeysUser>,
         IUpdatedRepository<User>
     {

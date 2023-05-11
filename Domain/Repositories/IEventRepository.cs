@@ -3,14 +3,10 @@ using Domain.Repositories.BasicRepositories;
 
 namespace Domain.Repositories
 {
-    public class KeysEvent
-    {
-        public long KeyId { get; set; }
-    }
-    public interface IEventRepository : IRecievedRepository<KeysEvent, Event>, 
-        IAddedRepository<Event>, 
-        IRemovableRepository<long>,
+    public interface IEventRepository : IAddedRepository<Event>, 
+        IRemovableRepository<Event>,
         IUpdatedRepository<Event>
     {
+        Task<Event> GetEvent(long keysEvent, User user);
     }
 }

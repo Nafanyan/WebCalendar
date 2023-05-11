@@ -1,8 +1,8 @@
 ﻿
 namespace Domain.Repositories.BasicRepositories
 {
-    public interface IRemovableRepository<DbKey> where DbKey : class
+    public interface IRemovableRepository<TEntety> where TEntety : class
     {
-        void Delete(DbKey key);
+        Task Delete(TEntety entety);
     }
 }

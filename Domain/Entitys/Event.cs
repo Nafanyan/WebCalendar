@@ -14,7 +14,7 @@
             EventPeriod = eventPeriod;
         }
 
-        public void SetRecord(string name)
+        public void SetName(string name)
         {
             Name = name;
         }

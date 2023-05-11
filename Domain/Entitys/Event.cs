@@ -14,9 +14,9 @@
             EventPeriod = eventPeriod;
         }
 
-        public void SetRecord(string record)
+        public void SetRecord(string name)
         {
-            Name = record;
+            Name = name;
         }
         public void SetDescription(string description)
         {

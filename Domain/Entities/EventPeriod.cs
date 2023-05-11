@@ -9,7 +9,7 @@
         {
             if (startEvent.ToShortDateString != endEvent.ToShortDateString)
             {
-                new ArgumentException("The event must occur within one day");
+                throw new ArgumentException("The event must occur within one day");
             }
             StartEvent = startEvent;
             EndEvent = endEvent;

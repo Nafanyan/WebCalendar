@@ -5,15 +5,13 @@
         public long Id { get; private set; }
         public string Record { get; private set; }
         public string Description { get; private set; }
-        public DateTime StartEvent { get; private set; }
-        public DateTime EndEvent { get; private set; }
+        public EventPeriod EventPeriod { get; private set; }
 
-        public Event(string record, string description, DateTime startEvent, DateTime endEvent)
+        public Event(string record, string description, EventPeriod eventPeriod)
         {
             Record = record;
             Description = description;
-            StartEvent = startEvent;
-            EndEvent = endEvent;
+            EventPeriod = eventPeriod;
         }
         public void SetRecord(string record)
         {
@@ -23,10 +21,15 @@
         {
             Description = description;
         }
-        public void UpdateDateEvent(DateTime startEvent, DateTime endEvent)
+        public void SetDateEvent(EventPeriod eventPeriod)
         {
-            StartEvent = startEvent;
-            EndEvent = endEvent;
+            EventPeriod = eventPeriod;
         }
+    }
+
+    public class EventPeriod
+    {
+        public DateTime StartEvent { get; set; }
+        public DateTime EndEvent { get; set; }
     }
 }

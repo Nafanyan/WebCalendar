@@ -12,11 +12,11 @@
             PasswordHash = passwordHash;
         }
 
-        public void UpdateLogin(string login, string passwordHash)
+        public void SetLogin(string login)
         {
             Login = login;
         }
-        public void UpdatePasswordHash(string oldPasswordHash, string newPasswordHash)
+        public void SetPasswordHash( string newPasswordHash)
         {
             PasswordHash = newPasswordHash;
         }

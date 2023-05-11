@@ -1,8 +1,16 @@
 ﻿using Domain.Entitys;
+using Domain.Repositories.BasicRepositories;
+
 namespace Domain.Repositories
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public class KeysUser
     {
-        User GetByLogin(string login);
+        public long KeyId { get; set }
+    }
+    public interface IUserRepository : IRecievedRepository<KeysUser, User>,
+        IAddedRepository<User>,
+        IRemovableRepository<KeysUser>,
+        IUpdatedRepository<User>
+    {
     }
 }

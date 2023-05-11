@@ -3,13 +3,11 @@ using Domain.Repositories.BasicRepositories;
 
 namespace Domain.Repositories
 {
-    public class KeysUser
-    {
-        public long KeyId { get; set; }
-    }
     public interface IUserRepository : IAddedRepository<User>,
-        IRemovableRepository<KeysUser>,
+        IRemovableRepository<User>,
         IUpdatedRepository<User>
     {
+        Task<User> GetUser(long id);
+        Task<IReadOnlyList<Event>> GetEvents(User user);
     }
 }

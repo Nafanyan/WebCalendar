@@ -2,7 +2,7 @@
 {
     public class Event
     {
-        public long Id { get; private set; }
+        public long UserId { get; init; }
         public string Name { get; private set; }
         public string Description { get; private set; }
         public EventPeriod EventPeriod { get; private set; }

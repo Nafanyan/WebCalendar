@@ -7,9 +7,9 @@
         public string Description { get; private set; }
         public EventPeriod EventPeriod { get; private set; }
 
-        public Event(string record, string description, EventPeriod eventPeriod)
+        public Event(string name, string description, EventPeriod eventPeriod)
         {
-            Name = record;
+            Name = name;
             Description = description;
             EventPeriod = eventPeriod;
         }

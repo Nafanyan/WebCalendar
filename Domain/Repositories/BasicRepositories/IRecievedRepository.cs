@@ -2,10 +2,10 @@
 namespace Domain.Repositories.BasicRepositories
 {
     public interface IRecievedRepository<DbKey, TEntity> 
-        where DbKey : class, IComparable
+        where DbKey : class
         where TEntity : class
     {
-        TEntity GetByKey(DbKey dbKey);
-        IReadOnlyList<TEntity> GetAll();
+        Task<TEntity> GetByKey(DbKey dbKey);
+        Task<IReadOnlyList<TEntity>> GetAll();
     }
 }

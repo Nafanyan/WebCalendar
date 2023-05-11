@@ -27,10 +27,4 @@
             EventPeriod = eventPeriod;
         }
     }
-
-    public class EventPeriod
-    {
-        public DateTime StartEvent { get; set; }
-        public DateTime EndEvent { get; set; }
-    }
 }

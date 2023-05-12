@@ -1,6 +1,6 @@
 ﻿namespace Application.Events.EventsReceiving
 {
-    public class ReceiveEventCommand
+    public class GetEventQuery
     {
         public long UserId { get; init; }
         public DateTime StartEvent { get; init; }

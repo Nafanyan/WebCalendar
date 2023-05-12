@@ -4,28 +4,28 @@ using Domain.Repositories;
 
 namespace WebCalendar.Application.Events.EventsUpdating
 {
-    public interface IEventUpdator
+    public interface IUpdateEventCommandHandler
     {
-        public void Update(UpdateEventCommand updateEventCommand);
+        public void Execute(UpdateEventCommand updateEventCommand);
     }
-    public class EventUpdater : BaseEventUseCase, IEventUpdator
+    public class UpdateEventCommandHandler : BaseEventUseCase, IUpdateEventCommandHandler
     {
         private EventPeriod _eventPeriod;
 
-        public EventUpdater(IEventRepository eventRepository) : base(eventRepository)
+        public UpdateEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
         {
         }
 
-        public void Update(UpdateEventCommand updateEventCommand)
+        public void Execute(UpdateEventCommand updateEventCommand)
         {
-            ValidationCheck(updateEventCommand);
+            CommandValidation(updateEventCommand);
 
             Event e = _eventRepository.GetEvent(updateEventCommand.UserId, _eventPeriod).Result;
             e.SetName(updateEventCommand.Name);
             e.SetDescription(updateEventCommand.Description);
             e.SetDateEvent(_eventPeriod);
         }
-        private void ValidationCheck(UpdateEventCommand updateEventCommand)
+        private void CommandValidation(UpdateEventCommand updateEventCommand)
         {
             _validationEvent.DateNull(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
             _validationEvent.DateСorrectness(updateEventCommand.StartEvent, updateEventCommand.EndEvent);

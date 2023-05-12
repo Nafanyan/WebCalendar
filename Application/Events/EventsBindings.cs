@@ -10,10 +10,10 @@ namespace WebCalendar.Application.Events
     {
         public static IServiceCollection AddEventsBindings(this IServiceCollection services)
         {
-            services.AddScoped<IEventCreator, EventCreator>();
-            services.AddScoped<IEventUpdator, EventUpdater>();
-            services.AddScoped<IEventDeletor, EventDeleter>();
-            services.AddScoped<IEventReciever, EventReciever>();
+            services.AddScoped<IAddEventCommandHandler, AddEventCommandHandler>();
+            services.AddScoped<IUpdateEventCommandHandler, UpdateEventCommandHandler>();
+            services.AddScoped<IDeleteEventCommandHandler, DeleteEventCommandHandler>();
+            services.AddScoped<IGetEventQueryHandler, GetEventQueryHandler>();
 
             return services;
         }

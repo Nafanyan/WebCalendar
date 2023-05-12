@@ -3,26 +3,26 @@ using Domain.Repositories;
 
 namespace WebCalendar.Application.Events.EventsCreating
 {
-    public interface IEventCreator
+    public interface IAddEventCommandHandler
     {
-        void Create(AddEventCommand addEventCommand);
+        void Execute(AddEventCommand addEventCommand);
     }
 
-    public class EventCreator : BaseEventUseCase, IEventCreator
+    public class AddEventCommandHandler : BaseEventUseCase, IAddEventCommandHandler
     {
-        public EventCreator(IEventRepository eventRepository) : base(eventRepository)
+        public AddEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
         {
         }
 
-        public void Create(AddEventCommand addEventCommand)
+        public void Execute(AddEventCommand addEventCommand)
         {
-            ValidationCheck(addEventCommand);
+            CommandValidation(addEventCommand);
 
             EventPeriod eventPeriod = new EventPeriod(addEventCommand.StartEvent, addEventCommand.EndEvent);
             Event e = new Event(addEventCommand.Name, addEventCommand.Description, eventPeriod);
             _eventRepository.Add(e);
         }
-        private void ValidationCheck(AddEventCommand addEventCommand)
+        private void CommandValidation(AddEventCommand addEventCommand)
         {
             _validationEvent.NameNull(addEventCommand.Name);
             _validationEvent.DateNull(addEventCommand.StartEvent, addEventCommand.EndEvent);

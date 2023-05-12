@@ -1,26 +1,35 @@
-﻿using WebCalendar.Domain.Events;
+﻿using Application.Events.EventsDeleting;
+using Domain.Entities;
+using Domain.Repositories;
 
 namespace WebCalendar.Application.Events.EventsDeleting
 {
     public interface IEventDeletor
     {
-        public void Delete(long id);
+        public void Delete(DeleteEventCommand deleteEventCommand);
     }
-    public class EventDeleter : BaseEventUsCase, IEventDeletor
+
+    public class EventDeleter : BaseEventUseCase, IEventDeletor
     {
+        private EventPeriod _eventPeriod;
         public EventDeleter(IEventRepository eventRepository) : base(eventRepository)
         {
         }
 
-        public void Delete(long id)
+        public void Delete(DeleteEventCommand deleteEventCommand)
         {
-            ValidationCheck(id);
-            _eventRepository.Delete(id);
-        }
+            ValidationCheck(deleteEventCommand);
 
-        private void ValidationCheck(long id)
+            Event e = _eventRepository.GetEvent(deleteEventCommand.UserId, _eventPeriod).Result;
+            _eventRepository.Delete(e);
+        }
+        private void ValidationCheck(DeleteEventCommand deleteEventCommand)
         {
-            _validationEvent.ValueNotFound(id);
+            _validationEvent.DateNull(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
+            _validationEvent.DateСorrectness(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
+            _eventPeriod = new EventPeriod(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
+
+            _validationEvent.ValueNotFound(deleteEventCommand.UserId, _eventPeriod);
         }
     }
 }

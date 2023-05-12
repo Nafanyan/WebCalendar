@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace WebCalendar.Domain.Validation.UserValidation
 {
-    internal class UserValidation
+    public class UserValidation
     {
         private readonly IUserRepository _userRepository;
 

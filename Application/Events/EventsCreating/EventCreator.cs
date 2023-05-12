@@ -1,4 +1,5 @@
-﻿using WebCalendar.Domain.Events;
+﻿using Domain.Entities;
+using Domain.Repositories;
 
 namespace WebCalendar.Application.Events.EventsCreating
 {
@@ -6,7 +7,8 @@ namespace WebCalendar.Application.Events.EventsCreating
     {
         void Create(AddEventCommand addEventCommand);
     }
-    public class EventCreator : BaseEventUsCase, IEventCreator
+
+    public class EventCreator : BaseEventUseCase, IEventCreator
     {
         public EventCreator(IEventRepository eventRepository) : base(eventRepository)
         {
@@ -16,15 +18,13 @@ namespace WebCalendar.Application.Events.EventsCreating
         {
             ValidationCheck(addEventCommand);
 
-            Event e = new Event(addEventCommand.Record, addEventCommand.Description, 
-                addEventCommand.StartEvent, addEventCommand.EndEvent);
-
+            EventPeriod eventPeriod = new EventPeriod(addEventCommand.StartEvent, addEventCommand.EndEvent);
+            Event e = new Event(addEventCommand.Name, addEventCommand.Description, eventPeriod);
             _eventRepository.Add(e);
         }
-
         private void ValidationCheck(AddEventCommand addEventCommand)
         {
-            _validationEvent.NameNull(addEventCommand.Record);
+            _validationEvent.NameNull(addEventCommand.Name);
             _validationEvent.DateNull(addEventCommand.StartEvent, addEventCommand.EndEvent);
             _validationEvent.DateСorrectness(addEventCommand.StartEvent, addEventCommand.EndEvent);
         }

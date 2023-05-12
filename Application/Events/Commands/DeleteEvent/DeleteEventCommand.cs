@@ -1,4 +1,4 @@
-﻿namespace Application.Events.EventsDeleting
+﻿namespace Application.Events.Commands.DeleteEvent
 {
     public class DeleteEventCommand
     {

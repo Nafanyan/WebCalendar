@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Application.Events.EventsCreating
+namespace Application.Events.Commands.CreateEvent
 {
     public interface IAddEventCommandHandler
     {

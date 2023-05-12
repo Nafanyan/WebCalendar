@@ -1,8 +1,7 @@
-﻿using Application.Events.EventsReceiving;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Application.Events.EventsReciever
+namespace Application.Events.Queries.GetEvent
 {
     public interface IGetEventQueryHandler
     {

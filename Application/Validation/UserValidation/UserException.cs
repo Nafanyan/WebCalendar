@@ -1,4 +1,4 @@
-﻿namespace WebCalendar.Domain.Validation.UserValidation
+﻿namespace Application.Validation.UserValidation
 {
     internal class UserException : Exception
     {

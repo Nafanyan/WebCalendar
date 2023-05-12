@@ -1,7 +1,7 @@
-﻿using Domain.Repositories;
-using WebCalendar.Domain.Validation.EventValidation;
+﻿using Application.Validation.EventValidation;
+using Domain.Repositories;
 
-namespace WebCalendar.Application.Events
+namespace Application.Events
 {
     public abstract class BaseEventUseCase
     {

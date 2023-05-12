@@ -1,8 +1,7 @@
-﻿using Application.Events.EventsReceiving;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Application.Events.EventsUpdating
+namespace Application.Events.Commands.UpdateEvent
 {
     public interface IUpdateEventCommandHandler
     {
@@ -33,4 +32,5 @@ namespace WebCalendar.Application.Events.EventsUpdating
 
             _validationEvent.ValueNotFound(updateEventCommand.UserId, _eventPeriod);
         }
+    }
 }

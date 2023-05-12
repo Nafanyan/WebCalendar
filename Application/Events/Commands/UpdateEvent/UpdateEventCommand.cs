@@ -1,4 +1,4 @@
-﻿namespace WebCalendar.Application.Events.EventsUpdating
+﻿namespace Application.Events.Commands.UpdateEvent
 {
     public class UpdateEventCommand
     {

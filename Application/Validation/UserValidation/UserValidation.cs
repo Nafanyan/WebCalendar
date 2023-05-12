@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Domain.Validation.UserValidation
+namespace Application.Validation.UserValidation
 {
     public class UserValidation
     {
@@ -31,16 +31,24 @@ namespace WebCalendar.Domain.Validation.UserValidation
                 throw new UserException("A user with this login already exists");
             }
         }
-        public void UserVerification(string login, string hashPassword)
+        public void UserVerification(string login, string passwordHash)
         {
             User user = _userRepository.GetAll().Result.Where(u => u.Login == login).FirstOrDefault();
             if (user == null)
             {
                 throw new UserException("There is no user with this login");
             }
-            if (user.PasswordHash != hashPassword)
+            if (user.PasswordHash != passwordHash)
             {
                 throw new UserException("The wrong password was entered for this login");
+            }
+        }
+        public void PasswordHashVerification(long id, string passwordHash)
+        {
+            User user = _userRepository.GetById(id).Result;
+            if(user.PasswordHash != passwordHash)
+            {
+                throw new UserException("The entered password does not match the current one");
             }
         }
     }

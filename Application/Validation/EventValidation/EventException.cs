@@ -1,4 +1,4 @@
-﻿namespace WebCalendar.Domain.Validation.EventValidation
+﻿namespace Application.Validation.EventValidation
 {
     internal class EventException : Exception
     {

@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Domain.Validation.EventValidation
+namespace Application.Validation.EventValidation
 {
     public class EventValidation
     {

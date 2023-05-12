@@ -1,6 +1,6 @@
-﻿namespace WebCalendar.Application.Users.UserUpdating
+﻿namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserCommand
+    public class UpdateUserLoginCommand
     {
         public long Id { get; init; }
         public string Login { get; init; }

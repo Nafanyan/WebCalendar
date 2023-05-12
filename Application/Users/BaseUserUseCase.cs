@@ -1,14 +1,14 @@
-﻿using WebCalendar.Domain.Users;
-using WebCalendar.Domain.Validation.UserValidation;
+﻿using Application.Validation.UserValidation;
+using Domain.Repositories;
 
-namespace WebCalendar.Application.Users
+namespace Application.Users
 {
-    public class BaseUserUsCase
+    public class BaseUserUseCase
     {
         protected readonly IUserRepository _userRepository;
         protected readonly UserValidation _validationUser;
 
-        public BaseUserUsCase(IUserRepository userRepository)
+        public BaseUserUseCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _validationUser = new UserValidation(_userRepository);

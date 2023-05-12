@@ -1,8 +1,7 @@
-﻿using Application.Events.EventsDeleting;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace WebCalendar.Application.Events.EventsDeleting
+namespace Application.Events.Commands.DeleteEvent
 {
     public interface IDeleteEventCommandHandler
     {

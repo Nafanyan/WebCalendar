@@ -21,7 +21,7 @@ namespace WebCalendar.Application.Events.EventsReciever
 
         private void ValidationCheck(long id)
         {
-            _validationEvent.CheckingContentInRepository(id);
+            _validationEvent.ValueNotFound(id);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WebCalendar.Application.Users.UserDeleting
         }
         private void ValidationCheck(long id, string passwordHash)
         {
-            _validationUser.CheckingContentInRepository(id);
+            _validationUser.ValueNotFound(id);
             _validationUser.CheckingUser(_userRepository.GetById(id).Login, passwordHash);
         }
     }

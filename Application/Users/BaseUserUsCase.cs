@@ -6,12 +6,12 @@ namespace WebCalendar.Application.Users
     public class BaseUserUsCase
     {
         protected readonly IUserRepository _userRepository;
-        protected readonly ValidationUser _validationUser;
+        protected readonly UserValidation _validationUser;
 
         public BaseUserUsCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _validationUser = new ValidationUser(_userRepository);
+            _validationUser = new UserValidation(_userRepository);
         }
     }
 }

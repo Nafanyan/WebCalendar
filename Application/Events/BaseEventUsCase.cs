@@ -6,7 +6,7 @@ namespace WebCalendar.Application.Events
     public abstract class BaseEventUsCase
     {
         protected readonly IEventRepository _eventRepository;
-        protected readonly ValidationEvent _validationEvent;
+        protected readonly EventValidation _validationEvent;
 
         public BaseEventUsCase(IEventRepository eventRepository)
         {

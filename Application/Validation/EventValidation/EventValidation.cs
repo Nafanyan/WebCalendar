@@ -1,40 +1,39 @@
-﻿using WebCalendar.Domain.Events;
+﻿using Domain.Entities;
+using Domain.Repositories;
 
 namespace WebCalendar.Domain.Validation.EventValidation
 {
-    public class ValidationEvent
+    internal class EventValidation
     {
-        private IEventRepository _eventRepository;
-        public ValidationEvent(IEventRepository eventRepository)
+        private readonly IEventRepository _eventRepository;
+
+        public EventValidation(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }
 
-        public void CheckingContentInRepository(long id)
+        public void ValueNotFound(long userId, EventPeriod eventPeriod)
         {
-            if (_eventRepository.GetById(id) == null)
+            if (_eventRepository.GetEvent(userId, eventPeriod) == null)
             {
-                throw new EventException("There is no record with this id");
+                throw new EventException("An event with such a time does not exist");
             }
         }
-
-        public void CheckingTheDate(DateTime startEvent, DateTime endEvent)
+        public void DateСorrectness(DateTime startEvent, DateTime endEvent)
         {
             if (startEvent > endEvent)
             {
                 throw new EventException("The start date cannot be later than the end date");
             }
         }
-
-        public void CheckingTheRecord(string record)
+        public void NameNull(string name)
         {
-            if (record == null)
+            if (name == null)
             {
-                throw new EventException("The record cannot be empty/cannot be null");
+                throw new EventException("The name of event cannot be empty/cannot be null");
             }
         }
-
-        public void CheckingDateForNull(DateTime startEvent, DateTime endEvent)
+        public void DateNull(DateTime startEvent, DateTime endEvent)
         {
             if (startEvent == null)
             {

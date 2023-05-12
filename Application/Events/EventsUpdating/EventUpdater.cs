@@ -26,10 +26,10 @@ namespace WebCalendar.Application.Events.EventsUpdating
 
         private void ValidationCheck(UpdateEventCommand updateEventCommand)
         {
-            _validationEvent.CheckingContentInRepository(updateEventCommand.Id);
-            _validationEvent.CheckingTheRecord(updateEventCommand.Record);
-            _validationEvent.CheckingDateForNull(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-            _validationEvent.CheckingTheDate(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
+            _validationEvent.ValueNotFound(updateEventCommand.Id);
+            _validationEvent.NameNull(updateEventCommand.Record);
+            _validationEvent.DateNull(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
+            _validationEvent.DateСorrectness(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
         }
     }
 }

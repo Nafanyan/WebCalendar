@@ -20,7 +20,7 @@ namespace WebCalendar.Application.Events.EventsDeleting
 
         private void ValidationCheck(long id)
         {
-            _validationEvent.CheckingContentInRepository(id);
+            _validationEvent.ValueNotFound(id);
         }
     }
 }

@@ -1,0 +1,60 @@
+[33m9625689[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/Backend/DomainLayer[m[33m, [m[1;32mBackend/DomainLayer[m[33m)[m HEAD@{0}: checkout: moving from Backend/DomainLayer to 9625
+[33m9625689[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/Backend/DomainLayer[m[33m, [m[1;32mBackend/DomainLayer[m[33m)[m HEAD@{1}: commit: throw
+[33m1dd7b85[m HEAD@{2}: commit: ошибка с using/ами
+[33mdfb5f1c[m HEAD@{3}: commit: небольшие правки
+[33m6c04360[m HEAD@{4}: commit: Правки с названиями
+[33m70ad92e[m HEAD@{5}: commit: 1. Поменял Id в Event на UserId
+[33m18846f1[m HEAD@{6}: commit: что?
+[33m898541f[m HEAD@{7}: commit: перевел имплементацию интерфесов в одну строку
+[33m92fe890[m HEAD@{8}: commit: Удалил IUpdateRepository
+[33me102f59[m HEAD@{9}: commit: .
+[33m835d7ec[m HEAD@{10}: commit: убрал лишние отступы
+[33m5221f78[m HEAD@{11}: commit: почему то не закоммитилось
+[33mfdbee7a[m HEAD@{12}: commit: Исправил последние замечания
+[33m375f135[m HEAD@{13}: commit: SetRecord => SetName
+[33mbb97625[m HEAD@{14}: commit: record => name в методах
+[33m93484b8[m HEAD@{15}: commit: ()
+[33mdf34717[m HEAD@{16}: commit: EventRecord => Name
+[33m8561789[m HEAD@{17}: commit: Record => EventRecord
+[33m03574da[m HEAD@{18}: commit: Добавил асинхронность в UnitOfWork и в методы, которые 'лезут в базу' :)
+[33md91990e[m HEAD@{19}: commit: 1. Подправил имена методов 2. Создал UnitOfWork 3. Сделал разделение интерфейсов (классы KeysEvent и KeysUser нужны для поиска на случай, если будет поиск не только по id, а также если id будет задаваться не только типом long)
+[33m48ffb00[m HEAD@{20}: checkout: moving from Frontend/Maket to Backend/DomainLayer
+[33m125585c[m[33m ([m[1;31morigin/Frontend/Maket[m[33m, [m[1;32mFrontend/Maket[m[33m)[m HEAD@{21}: commit: Добавил верстку первой страницы сайта
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{22}: checkout: moving from main to Frontend/Maket
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{23}: checkout: moving from Backend/DomainLayer to main
+[33m48ffb00[m HEAD@{24}: commit: убрал лишние пробелы 1.2
+[33me65916a[m HEAD@{25}: commit: убрал лишние пробелы 1.1
+[33mb9ca77d[m HEAD@{26}: commit: убрал лишние пробелы
+[33m01d3529[m HEAD@{27}: commit: Добавил базовый интерфейс репозитория для хранения в нём базового поведения от которого будут наследоваться более специфичные репозитории сущностей
+[33mfe7c9ae[m HEAD@{28}: commit: Изменил структуру: Создал директорию Entitys для хранения сущностей и директорию Repositories для хранения интерфейсов репозиториев для каждой сущности
+[33m3a467e5[m HEAD@{29}: checkout: moving from Backend/ApplicationLayer to Backend/DomainLayer
+[33m2a3e2f4[m[33m ([m[1;31morigin/Backend/ApplicationLayer[m[33m, [m[1;32mBackend/ApplicationLayer[m[33m)[m HEAD@{30}: cherry-pick: delete Validation in Domain Layer
+[33m15f189c[m HEAD@{31}: checkout: moving from Backend/DomainLayer to Backend/ApplicationLayer
+[33m3a467e5[m HEAD@{32}: commit: delete Validation in Domain Layer
+[33mbc53385[m HEAD@{33}: checkout: moving from Backend/ApplicationLayer to Backend/DomainLayer
+[33m15f189c[m HEAD@{34}: commit: Validation To Application from Domain
+[33mbc53385[m HEAD@{35}: checkout: moving from Backend/DomainLayer to Backend/ApplicationLayer
+[33mbc53385[m HEAD@{36}: checkout: moving from Backend/ApplicationLayer to Backend/DomainLayer
+[33mbc53385[m HEAD@{37}: checkout: moving from Backend/DomainLayer to Backend/ApplicationLayer
+[33mbc53385[m HEAD@{38}: commit: create Domain layer
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{39}: checkout: moving from main to Backend/DomainLayer
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{40}: checkout: moving from Backend/DomainLayer to main
+[33m1beb6ac[m HEAD@{41}: commit: create Domain layer
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{42}: checkout: moving from main to Backend/DomainLayer
+[33m5164e5a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{43}: commit: Переделал всю структуру
+[33maac398f[m HEAD@{44}: checkout: moving from Backend/DomainLayer to main
+[33m8f58ea0[m HEAD@{45}: checkout: moving from main to Backend/DomainLayer
+[33maac398f[m HEAD@{46}: checkout: moving from Backend/DomainLayer to main
+[33m8f58ea0[m HEAD@{47}: commit: fix
+[33m601a5dd[m HEAD@{48}: commit: create Domain Layer
+[33m639df41[m HEAD@{49}: checkout: moving from 639df4130c27142729977304b91e660f00323d5d to Backend/DomainLayer
+[33m639df41[m HEAD@{50}: commit: refresh
+[33m1ba9cca[m HEAD@{51}: checkout: moving from a87098c698a11d2ddb395c4780de889988c70fc9 to 1ba9ccad9cc05bcf7fa1096b181a6de4bd52150a
+[33ma87098c[m HEAD@{52}: checkout: moving from 1ba9ccad9cc05bcf7fa1096b181a6de4bd52150a to HEAD^
+[33m1ba9cca[m HEAD@{53}: checkout: moving from main to 1ba9ccad9cc05bcf7fa1096b181a6de4bd52150a
+[33maac398f[m HEAD@{54}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33m1ba9cca[m HEAD@{55}: commit: rename dir
+[33ma87098c[m HEAD@{56}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Merge made by the 'ort' strategy.
+[33med5266e[m HEAD@{57}: commit: upgrade Domain And Applocation Layer
+[33mcee29a8[m HEAD@{58}: commit: init
+[33mef4f993[m HEAD@{59}: commit (initial): init

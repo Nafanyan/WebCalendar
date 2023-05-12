@@ -31,9 +31,9 @@ namespace WebCalendar.Application.Users.UserUpdating
 
         private void ValidationCheck(UpdateUserCommand updateUserCommand)
         {
-            _validationUser.CheckingContentInRepository(updateUserCommand.Id);
-            _validationUser.CheckingLogin(updateUserCommand.Login);
-            _validationUser.CheckingUser(updateUserCommand.Login, updateUserCommand.PasswordHash);
+            _validationUser.ValueNotFound(updateUserCommand.Id);
+            _validationUser.LoginСorrectness(updateUserCommand.Login);
+            _validationUser.UserVerification(updateUserCommand.Login, updateUserCommand.PasswordHash);
         }
     }
 }

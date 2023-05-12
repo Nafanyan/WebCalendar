@@ -22,7 +22,7 @@ namespace WebCalendar.Application.Users.UsersRecieving
 
         private void ValidationCheck(long id)
         {
-            _validationUser.CheckingContentInRepository(id);
+            _validationUser.ValueNotFound(id);
         }
     }
 }

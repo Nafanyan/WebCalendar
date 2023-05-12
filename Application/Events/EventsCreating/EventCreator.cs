@@ -24,9 +24,9 @@ namespace WebCalendar.Application.Events.EventsCreating
 
         private void ValidationCheck(AddEventCommand addEventCommand)
         {
-            _validationEvent.CheckingTheRecord(addEventCommand.Record);
-            _validationEvent.CheckingDateForNull(addEventCommand.StartEvent, addEventCommand.EndEvent);
-            _validationEvent.CheckingTheDate(addEventCommand.StartEvent, addEventCommand.EndEvent);
+            _validationEvent.NameNull(addEventCommand.Record);
+            _validationEvent.DateNull(addEventCommand.StartEvent, addEventCommand.EndEvent);
+            _validationEvent.DateСorrectness(addEventCommand.StartEvent, addEventCommand.EndEvent);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace WebCalendar.Application.Users.UsersCreating
 
         private void ValidationCheck(AddUserCommand addUserCommand)
         {
-            _validationUser.CheckingLogin(addUserCommand.Login);
+            _validationUser.LoginСorrectness(addUserCommand.Login);
         }
     }
 }

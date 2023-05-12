@@ -5,6 +5,7 @@ namespace Domain.Repositories
 {
     public interface IUserRepository : IAddedRepository<User>, IRemovableRepository<User>
     {
+        Task<IReadOnlyList<User>> GetAll();
         Task<User> GetById(long id);
         Task<IReadOnlyList<Event>> GetEvents(long id);
     }

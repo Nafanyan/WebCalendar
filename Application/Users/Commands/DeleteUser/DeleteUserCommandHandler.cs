@@ -1,29 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public interface IDeleteUserCommandHandler
+    public class DeleteUserCommandHandler : BaseUserUseCase, IUserCommandHandler<DeleteUserCommand>
     {
-        void Execute(DeleteUserCommand deleteUserCommand);
-    }
-    public class DeleteUserCommandHandler : BaseUserUseCase, IDeleteUserCommandHandler
-    {
+        private readonly DeleteUserCommandValidation _deleteUserCommandValidation;
+
         public DeleteUserCommandHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _deleteUserCommandValidation = new DeleteUserCommandValidation(userRepository);
         }
 
-        public void Execute(DeleteUserCommand deleteUserCommand)
+        public async Task<ResultCommand> Handle(DeleteUserCommand deleteUserCommand)
         {
-            CommandValidation(deleteUserCommand);
-
-            User user = _userRepository.GetById(deleteUserCommand.Id).Result;
-            _userRepository.Delete(user);
-        }
-        private void CommandValidation(DeleteUserCommand deleteUserCommand)
-        {
-            _validationUser.ValueNotFound(deleteUserCommand.Id);
-            _validationUser.PasswordHashVerification(deleteUserCommand.Id, deleteUserCommand.PasswordHash);
+            string msg = _deleteUserCommandValidation.Validation(deleteUserCommand);
+            if (msg == "Ok")
+            {
+                User user = _userRepository.GetById(deleteUserCommand.Id).Result;
+                await _userRepository.Delete(user);
+            }
+            return new ResultCommand(msg);
         }
     }
 }

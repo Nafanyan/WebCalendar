@@ -1,30 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public interface IUpdateUserLoginCommandHandler
+    public class UpdateUserLoginCommandHandler : BaseUserUseCase, IUserCommandHandler<UpdateUserLoginCommand>
     {
-        void Execute(UpdateUserLoginCommand updateUserLoginCommand);
-    }
-    public class UpdateUserLoginCommandHandler : BaseUserUseCase, IUpdateUserLoginCommandHandler
-    {
+        UpdateUserLoginCommandValidation _updateUserLoginCommandValidation;
+
         public UpdateUserLoginCommandHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _updateUserLoginCommandValidation = new UpdateUserLoginCommandValidation(userRepository);
         }
 
-        public void Execute(UpdateUserLoginCommand updateUserLoginCommand)
+        public async Task<ResultCommand> Handle(UpdateUserLoginCommand updateUserLoginCommand)
         {
-            CommandValidation(updateUserLoginCommand);
-
-            User user = _userRepository.GetById(updateUserLoginCommand.Id).Result;
-            user.SetLogin(updateUserLoginCommand.Login);
-        }
-        private void CommandValidation(UpdateUserLoginCommand updateUserLoginCommand)
-        {
-            _validationUser.ValueNotFound(updateUserLoginCommand.Id);
-            _validationUser.LoginСorrectness(updateUserLoginCommand.Login);
-            _validationUser.PasswordHashVerification(updateUserLoginCommand.Id, updateUserLoginCommand.PasswordHash);
+            string msg = _updateUserLoginCommandValidation.Validation(updateUserLoginCommand);
+            if (msg == "Ok")
+            {
+                User user = await _userRepository.GetById(updateUserLoginCommand.Id);
+                user.SetLogin(updateUserLoginCommand.Login);
+            }
+            return new ResultCommand(msg);
         }
     }
 }

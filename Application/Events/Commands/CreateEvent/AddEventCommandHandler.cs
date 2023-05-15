@@ -7,12 +7,13 @@ namespace Application.Events.Commands.CreateEvent
     public class AddEventCommandHandler : BaseEventHandler, IEventCommandHandler<AddEventCommand>
     {
         private readonly AddEventCommandValidation _addEventCommandValidation;
+
         public AddEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
         {
             _addEventCommandValidation = new AddEventCommandValidation();
         }
 
-        public async Task<ResultCommand> Handler(AddEventCommand addEventCommand)
+        public async Task<ResultCommand> Handle(AddEventCommand addEventCommand)
         {
             string msg = _addEventCommandValidation.Validation(addEventCommand);
             if (msg == "Ok")

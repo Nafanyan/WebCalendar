@@ -1,27 +1,26 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public interface IGetEventsQueryHandler
+    public class GetEventsQueryHandler : BaseUserUseCase, IUserQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
     {
-        IReadOnlyList<Event> Execute(GetEventsQuery getEventsQuery);
-    }
+        private readonly GetEventsQueryValidation _getEventsQueryValidation;
 
-    public class GetEventsQueryHandler : BaseUserUseCase, IGetEventsQueryHandler
-    {
         public GetEventsQueryHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _getEventsQueryValidation = new GetEventsQueryValidation(userRepository);
         }
 
-        public IReadOnlyList<Event> Execute(GetEventsQuery getEventsQuery)
+        public async Task<ResultQuery<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)
         {
-            QueryValidation(getEventsQuery);
-            return _userRepository.GetEvents(getEventsQuery.UserId).Result;
-        }
-        private void QueryValidation(GetEventsQuery getEventsQuery)
-        {
-            _validationUser.ValueNotFound(getEventsQuery.UserId);
+            string msg = _getEventsQueryValidation.Validation(getEventsQuery);
+            if (msg == "Ok")
+            {
+                return new ResultQuery<IReadOnlyList<Event>>(await _userRepository.GetEvents(getEventsQuery.UserId), msg);
+            }
+            return new ResultQuery<IReadOnlyList<Event>>(msg);
         }
     }
 }

@@ -1,29 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public interface IUpdateUserPasswordCommandHandler
+    public class UpdateUserPasswordCommandHandler : BaseUserUseCase, IUserCommandHandler<UpdateUserPasswordCommand>
     {
-        public void Execute(UpdateUserPasswordCommand updateUserPasswordCommand);
-    }
-    public class UpdateUserPasswordCommandHandler : BaseUserUseCase, IUpdateUserPasswordCommandHandler
-    {
+        private readonly UpdateUserPasswordCommandValidation _updateUserPasswordCommandValidation;
+
         public UpdateUserPasswordCommandHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _updateUserPasswordCommandValidation = new UpdateUserPasswordCommandValidation(userRepository);
         }
 
-        public void Execute(UpdateUserPasswordCommand updateUserPasswordCommand)
+        public async Task<ResultCommand> Handle(UpdateUserPasswordCommand updateUserPasswordCommand)
         {
-            CommandValidation(updateUserPasswordCommand);
-
-            User user = _userRepository.GetById(updateUserPasswordCommand.Id).Result;
-            user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
-        }
-        public void CommandValidation(UpdateUserPasswordCommand updateUserPasswordCommand)
-        {
-            _validationUser.ValueNotFound(updateUserPasswordCommand.Id);
-            _validationUser.PasswordHashVerification(updateUserPasswordCommand.Id, updateUserPasswordCommand.OldPasswordHash);
+            string msg = _updateUserPasswordCommandValidation.Validation(updateUserPasswordCommand);
+            if (msg == "Ok")
+            {
+                User user = await _userRepository.GetById(updateUserPasswordCommand.Id);
+                user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
+            }
+            return new ResultCommand(msg);
         }
     }
 }

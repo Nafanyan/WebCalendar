@@ -1,22 +1,18 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUsers
 {
-    public interface IGetUsersQueryHandler
-    {
-        IReadOnlyList<User> GetUser();
-    }
-
-    public class GetUsersQueryHandler : BaseUserUseCase, IGetUsersQueryHandler
+    public class GetUsersQueryHandler : BaseUserUseCase, IUserQueryHandler<IReadOnlyList<User>, GetUsersQuery>
     {
         public GetUsersQueryHandler(IUserRepository userRepository) : base(userRepository)
         {
         }
 
-        public IReadOnlyList<User> GetUser()
+        public async Task<ResultQuery<IReadOnlyList<User>>> Handle(GetUsersQuery query)
         {
-            return _userRepository.GetAll().Result;
+            return new ResultQuery<IReadOnlyList<User>>(await _userRepository.GetAll(), "Ok");
         }
     }
 }

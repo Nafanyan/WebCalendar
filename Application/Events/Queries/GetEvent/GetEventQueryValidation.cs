@@ -6,6 +6,7 @@ namespace Application.Events.Queries.GetEvent
     public class GetEventQueryValidation : IValidation<GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
+
         public GetEventQueryValidation(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;

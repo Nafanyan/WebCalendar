@@ -5,24 +5,24 @@ namespace Application.Events.Commands.CreateEvent
 {
     class AddEventCommandValidation : IValidation<AddEventCommand>
     {
-        public string Validation(AddEventCommand addEventCommand)
+        public string Validation(AddEventCommand command)
         {
-            if (addEventCommand.Name == null)
+            if (command.Name == null)
             {
                 return "The name of event cannot be empty/cannot be null";
             }
 
-            if (addEventCommand.StartEvent == null)
+            if (command.StartEvent == null)
             {
                 return "The start date cannot be empty/cannot be null";
             }
 
-            if (addEventCommand.StartEvent == null)
+            if (command.StartEvent == null)
             {
                 return "The end date cannot be empty/cannot be null";
             }
 
-            if (addEventCommand.StartEvent > addEventCommand.EndEvent)
+            if (command.StartEvent > command.EndEvent)
             {
                 return "The start date cannot be later than the end date";
             }

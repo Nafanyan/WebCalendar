@@ -1,27 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public interface IGetUserByIdQueryHandler
+    public class GetUserByIdQueryHandler : BaseUserUseCase, IUserQueryHandler<User, GetUserByIdQuery>
     {
-        User Execute(GetUserByIdQuery getUserByIdQuery);
-    }
+        private readonly GetUserByIdQueryValidation _getUserByIdQueryValidation;
 
-    public class GetUserByIdQueryHandler : BaseUserUseCase, IGetUserByIdQueryHandler
-    {
         public GetUserByIdQueryHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _getUserByIdQueryValidation = new GetUserByIdQueryValidation(userRepository);
         }
 
-        public User Execute(GetUserByIdQuery getUserByIdQuery)
+        public async Task<ResultQuery<User>> Handle(GetUserByIdQuery getUserByIdQuery)
         {
-            QueryValidation(getUserByIdQuery);
-            return _userRepository.GetById(getUserByIdQuery.Id).Result;
-        }
-        private void QueryValidation(GetUserByIdQuery getUserByIdQuery)
-        {
-            _validationUser.ValueNotFound(getUserByIdQuery.Id);
+            string msg = _getUserByIdQueryValidation.Validation(getUserByIdQuery);
+            if (msg == "Ok")
+            {
+                return new ResultQuery<User>(await _userRepository.GetById(getUserByIdQuery.Id), msg);
+
+            }
+            return new ResultQuery<User>(msg);
         }
     }
 }

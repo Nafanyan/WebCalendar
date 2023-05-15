@@ -1,29 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public interface IAddUserCommandHandler
+    public class AddUserCommandHandler : BaseUserUseCase, IUserCommandHandler<AddUserCommand>
     {
-        void Execute(AddUserCommand addUserCommand);
-    }
+        private readonly AddUserCommandValidation _addUserCommandValidation;
 
-    public class AddUserCommandHandler : BaseUserUseCase, IAddUserCommandHandler
-    {
         public AddUserCommandHandler(IUserRepository userRepository) : base(userRepository)
         {
+            _addUserCommandValidation = new AddUserCommandValidation(userRepository);
         }
 
-        public void Execute(AddUserCommand addUserCommand)
+        public async Task<ResultCommand> Handle(AddUserCommand addUserCommand)
         {
-            CommandValidation(addUserCommand);
-
-            User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);
-            _userRepository.Add(user);
-        }
-        private void CommandValidation(AddUserCommand addUserCommand)
-        {
-            _validationUser.LoginСorrectness(addUserCommand.Login);
+            string msg = _addUserCommandValidation.Validation(addUserCommand);
+            if (msg == "Ok")
+            {
+                User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);
+                await _userRepository.Add(user);
+            }
+            return new ResultCommand(msg);
         }
     }
 }

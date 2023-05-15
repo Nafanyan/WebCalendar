@@ -14,7 +14,7 @@ namespace Application.Events.Commands.UpdateEvent
             _updateEventCommandValidation = new UpdateEventCommandValidation(eventRepository);
         }
 
-        public async Task<ResultCommand> Handler(UpdateEventCommand updateEventCommand)
+        public async Task<ResultCommand> Handle(UpdateEventCommand updateEventCommand)
         {
             string msg = _updateEventCommandValidation.Validation(updateEventCommand);
             if (msg == "Ok")
@@ -26,13 +26,6 @@ namespace Application.Events.Commands.UpdateEvent
                 oldEvent.SetDateEvent(eventPeriod);
             }
             return new ResultCommand(msg);
-        }
-        private void CommandValidation(UpdateEventCommand updateEventCommand)
-        {
-            ValidationEvent.DateNull(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-            ValidationEvent.DateСorrectness(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-            _eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-            ValidationEvent.ValueNotFound(updateEventCommand.UserId, _eventPeriod);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Application.Users.Queries.GetEvents;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
+using Application.Result;
 
 namespace Application.Events.Queries.GetEvent
 {
@@ -13,10 +13,10 @@ namespace Application.Events.Queries.GetEvent
         {
             _eventQueryValidation = new GetEventQueryValidation(eventRepository);
         }
-        
-        async Task<ResultQuery<Event>> IEventQueryHandler<Event, GetEventQuery>.Handle(GetEventQuery getEventQuery)
+
+        public async Task<ResultQuery<Event>> Handle(GetEventQuery getEventQuery)
         {
-            string msg = await _eventQueryValidation.Validation(getEventQuery);
+            string msg = _eventQueryValidation.Validation(getEventQuery);
             if (msg == "Ok")
             {
                 EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);

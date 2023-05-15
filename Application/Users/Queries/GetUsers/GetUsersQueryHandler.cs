@@ -4,10 +4,12 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUsers
 {
-    public class GetUsersQueryHandler : BaseUserUseCase, IUserQueryHandler<IReadOnlyList<User>, GetUsersQuery>
+    public class GetUsersQueryHandler : IUserQueryHandler<IReadOnlyList<User>, GetUsersQuery>
     {
-        public GetUsersQueryHandler(IUserRepository userRepository) : base(userRepository)
+        private readonly IUserRepository _userRepository;
+        public GetUsersQueryHandler(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
         }
 
         public async Task<ResultQuery<IReadOnlyList<User>>> Handle(GetUsersQuery query)

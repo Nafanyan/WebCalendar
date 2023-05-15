@@ -4,12 +4,14 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryHandler : BaseUserUseCase, IUserQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
+    public class GetEventsQueryHandler : IUserQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
     {
+        private readonly IUserRepository _userRepository;
         private readonly GetEventsQueryValidation _getEventsQueryValidation;
 
-        public GetEventsQueryHandler(IUserRepository userRepository) : base(userRepository)
+        public GetEventsQueryHandler(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _getEventsQueryValidation = new GetEventsQueryValidation(userRepository);
         }
 

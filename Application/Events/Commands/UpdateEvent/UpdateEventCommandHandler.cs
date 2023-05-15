@@ -5,12 +5,14 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandHandler : BaseEventHandler, IEventCommandHandler<UpdateEventCommand>
+    public class UpdateEventCommandHandler : IEventCommandHandler<UpdateEventCommand>
     {
+        private readonly IEventRepository _eventRepository;
         private readonly UpdateEventCommandValidation _updateEventCommandValidation;
 
-        public UpdateEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
+        public UpdateEventCommandHandler(IEventRepository eventRepository) 
         {
+            _eventRepository = eventRepository;
             _updateEventCommandValidation = new UpdateEventCommandValidation(eventRepository);
         }
 
@@ -20,7 +22,7 @@ namespace Application.Events.Commands.UpdateEvent
             if (msg == "Ok")
             {
                 EventPeriod eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-                Event oldEvent = await EventRepository.GetEvent(updateEventCommand.UserId, eventPeriod);
+                Event oldEvent = await _eventRepository.GetEvent(updateEventCommand.UserId, eventPeriod);
                 oldEvent.SetName(updateEventCommand.Name);
                 oldEvent.SetDescription(updateEventCommand.Description);
                 oldEvent.SetDateEvent(eventPeriod);

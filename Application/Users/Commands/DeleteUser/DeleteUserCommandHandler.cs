@@ -4,12 +4,14 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandHandler : BaseUserUseCase, IUserCommandHandler<DeleteUserCommand>
+    public class DeleteUserCommandHandler : IUserCommandHandler<DeleteUserCommand>
     {
+        private readonly IUserRepository _userRepository;
         private readonly DeleteUserCommandValidation _deleteUserCommandValidation;
 
-        public DeleteUserCommandHandler(IUserRepository userRepository) : base(userRepository)
+        public DeleteUserCommandHandler(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _deleteUserCommandValidation = new DeleteUserCommandValidation(userRepository);
         }
 

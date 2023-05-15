@@ -4,12 +4,14 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public class AddUserCommandHandler : BaseUserUseCase, IUserCommandHandler<AddUserCommand>
+    public class AddUserCommandHandler : IUserCommandHandler<AddUserCommand>
     {
+        private readonly IUserRepository _userRepository;
         private readonly AddUserCommandValidation _addUserCommandValidation;
 
-        public AddUserCommandHandler(IUserRepository userRepository) : base(userRepository)
+        public AddUserCommandHandler(IUserRepository userRepository) 
         {
+            _userRepository = userRepository;
             _addUserCommandValidation = new AddUserCommandValidation(userRepository);
         }
 

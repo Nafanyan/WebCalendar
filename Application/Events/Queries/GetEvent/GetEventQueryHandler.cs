@@ -5,12 +5,14 @@ using Application.Result;
 namespace Application.Events.Queries.GetEvent
 {
 
-    public class GetEventQueryHandler : BaseEventHandler, IEventQueryHandler<Event, GetEventQuery>
+    public class GetEventQueryHandler : IEventQueryHandler<Event, GetEventQuery>
     {
+        private readonly IEventRepository _eventRepository;
         private GetEventQueryValidation _eventQueryValidation;
 
-        public GetEventQueryHandler(IEventRepository eventRepository) : base(eventRepository)
+        public GetEventQueryHandler(IEventRepository eventRepository)
         {
+            _eventRepository = eventRepository;
             _eventQueryValidation = new GetEventQueryValidation(eventRepository);
         }
 
@@ -20,7 +22,7 @@ namespace Application.Events.Queries.GetEvent
             if (msg == "Ok")
             {
                 EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
-                return new ResultQuery<Event>(await EventRepository.GetEvent(getEventQuery.UserId, eventPeriod), msg);
+                return new ResultQuery<Event>(await _eventRepository.GetEvent(getEventQuery.UserId, eventPeriod), msg);
             }
             return new ResultQuery<Event>(msg);
         }

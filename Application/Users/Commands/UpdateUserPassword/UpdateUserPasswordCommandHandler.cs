@@ -4,12 +4,14 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UpdateUserPasswordCommandHandler : BaseUserUseCase, IUserCommandHandler<UpdateUserPasswordCommand>
+    public class UpdateUserPasswordCommandHandler : IUserCommandHandler<UpdateUserPasswordCommand>
     {
+        private readonly IUserRepository _userRepository;
         private readonly UpdateUserPasswordCommandValidation _updateUserPasswordCommandValidation;
 
-        public UpdateUserPasswordCommandHandler(IUserRepository userRepository) : base(userRepository)
+        public UpdateUserPasswordCommandHandler(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _updateUserPasswordCommandValidation = new UpdateUserPasswordCommandValidation(userRepository);
         }
 

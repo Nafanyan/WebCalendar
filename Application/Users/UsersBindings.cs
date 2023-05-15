@@ -10,7 +10,6 @@ using Application.Users.Queries.GetUsers;
 using Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace WebCalendar.Application.Users
 {
     public static class UsersBindings

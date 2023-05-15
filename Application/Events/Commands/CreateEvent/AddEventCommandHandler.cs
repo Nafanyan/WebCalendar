@@ -26,6 +26,5 @@ namespace Application.Events.Commands.CreateEvent
             }
             return new ResultCommand(msg);
         }
-
     }
 }

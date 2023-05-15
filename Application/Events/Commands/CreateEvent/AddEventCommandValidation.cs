@@ -1,7 +1,4 @@
-﻿using Domain.Repositories;
-using System.Xml.Linq;
-
-namespace Application.Events.Commands.CreateEvent
+﻿namespace Application.Events.Commands.CreateEvent
 {
     class AddEventCommandValidation : IValidation<AddEventCommand>
     {

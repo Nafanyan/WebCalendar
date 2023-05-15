@@ -1,31 +1,28 @@
-﻿using Domain.Entities;
+﻿using Application.Users.Queries.GetEvents;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Queries.GetEvent
 {
-    public interface IGetEventQueryHandler
+
+    public class GetEventQueryHandler : BaseEventHandler, IEventQueryHandler<Event, GetEventQuery>
     {
-        public Event Execute(GetEventQuery getEventQuery);
-    }
-    public class GetEventQueryHandler : BaseEventUseCase, IGetEventQueryHandler
-    {
-        private EventPeriod _eventPeriod;
+        private GetEventQueryValidation _eventQueryValidation;
 
         public GetEventQueryHandler(IEventRepository eventRepository) : base(eventRepository)
         {
+            _eventQueryValidation = new GetEventQueryValidation(eventRepository);
         }
         
-        public Event Execute(GetEventQuery getEventQuery)
+        async Task<ResultQuery<Event>> IEventQueryHandler<Event, GetEventQuery>.Handle(GetEventQuery getEventQuery)
         {
-            QueryValidation(getEventQuery);
-            return _eventRepository.GetEvent(getEventQuery.UserId, _eventPeriod).Result;
-        }
-        private void QueryValidation(GetEventQuery getEventQuery)
-        {
-            _validationEvent.DateNull(getEventQuery.StartEvent, getEventQuery.EndEvent);
-            _validationEvent.DateСorrectness(getEventQuery.StartEvent, getEventQuery.EndEvent);
-            _eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
-            _validationEvent.ValueNotFound(getEventQuery.UserId, _eventPeriod);
+            string msg = await _eventQueryValidation.Validation(getEventQuery);
+            if (msg == "Ok")
+            {
+                EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
+                return new ResultQuery<Event>(await EventRepository.GetEvent(getEventQuery.UserId, eventPeriod), msg);
+            }
+            return new ResultQuery<Event>(msg);
         }
     }
 }

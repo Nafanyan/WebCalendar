@@ -1,33 +1,27 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public interface IDeleteEventCommandHandler
+    public class DeleteEventCommandHandler : BaseEventHandler, IEventCommandHandler<DeleteEventCommand>
     {
-        public void Execute(DeleteEventCommand deleteEventCommand);
-    }
-
-    public class DeleteEventCommandHandler : BaseEventUseCase, IDeleteEventCommandHandler
-    {
-        private EventPeriod _eventPeriod;
+        private readonly DeleteEventCommandValidation _deleteEventCommandValidation;
         public DeleteEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
         {
+            _deleteEventCommandValidation = new DeleteEventCommandValidation(eventRepository);
         }
 
-        public void Execute(DeleteEventCommand deleteEventCommand)
+        public async Task<ResultCommand> Handler(DeleteEventCommand deleteEventCommand)
         {
-            CommandValidation(deleteEventCommand);
-
-            Event e = _eventRepository.GetEvent(deleteEventCommand.UserId, _eventPeriod).Result;
-            _eventRepository.Delete(e);
-        }
-        private void CommandValidation(DeleteEventCommand deleteEventCommand)
-        {
-            _validationEvent.DateNull(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
-            _validationEvent.DateСorrectness(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
-            _eventPeriod = new EventPeriod(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
-            _validationEvent.ValueNotFound(deleteEventCommand.UserId, _eventPeriod);
+            string msg = _deleteEventCommandValidation.Validation(deleteEventCommand);
+            if (msg == "Ok")
+            {
+                EventPeriod eventPeriod = new EventPeriod(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
+                Event foundEvent = await EventRepository.GetEvent(deleteEventCommand.UserId, eventPeriod);
+                await EventRepository.Delete(foundEvent);
+            }
+            return new ResultCommand(msg);
         }
     }
 }

@@ -1,32 +1,28 @@
-﻿using Domain.Entities;
+﻿using Application.Result;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.CreateEvent
 {
-    public interface IAddEventCommandHandler
+    public class AddEventCommandHandler : BaseEventHandler, IEventCommandHandler<AddEventCommand>
     {
-        void Execute(AddEventCommand addEventCommand);
-    }
-
-    public class AddEventCommandHandler : BaseEventUseCase, IAddEventCommandHandler
-    {
+        private readonly AddEventCommandValidation _addEventCommandValidation;
         public AddEventCommandHandler(IEventRepository eventRepository) : base(eventRepository)
         {
+            _addEventCommandValidation = new AddEventCommandValidation();
         }
 
-        public void Execute(AddEventCommand addEventCommand)
+        public async Task<ResultCommand> Handler(AddEventCommand addEventCommand)
         {
-            CommandValidation(addEventCommand);
+            string msg = _addEventCommandValidation.Validation(addEventCommand);
+            if (msg == "Ok")
+            {
+                EventPeriod eventPeriod = new EventPeriod(addEventCommand.StartEvent, addEventCommand.EndEvent);
+                Event newEvent = new Event(addEventCommand.Name, addEventCommand.Description, eventPeriod);
+                await EventRepository.Add(newEvent);
+            }
+            return new ResultCommand(msg);
+        }
 
-            EventPeriod eventPeriod = new EventPeriod(addEventCommand.StartEvent, addEventCommand.EndEvent);
-            Event e = new Event(addEventCommand.Name, addEventCommand.Description, eventPeriod);
-            _eventRepository.Add(e);
-        }
-        private void CommandValidation(AddEventCommand addEventCommand)
-        {
-            _validationEvent.NameNull(addEventCommand.Name);
-            _validationEvent.DateNull(addEventCommand.StartEvent, addEventCommand.EndEvent);
-            _validationEvent.DateСorrectness(addEventCommand.StartEvent, addEventCommand.EndEvent);
-        }
     }
 }

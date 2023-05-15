@@ -1,5 +1,4 @@
 ﻿using Application.Result;
-using Domain.Entities;
 
 namespace Application.Events.Queries
 {

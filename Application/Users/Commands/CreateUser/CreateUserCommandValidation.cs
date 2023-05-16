@@ -1,9 +1,10 @@
 ﻿using Application.Validation;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    class CreateUserCommandValidation : IValidator<CreateUserCommand>
+    class CreateUserCommandValidation : IValidator<CreateUserCommand>, IAsyncValidator<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
 
@@ -15,19 +16,33 @@ namespace Application.Users.Commands.CreateUser
         public ValidationResult Validation(CreateUserCommand command)
         {
             string error = "No errors";
+            ValidationResult validationResult = new ValidationResult(false, error);
+
             if (command.Login == null)
             {
                 error = "The login cannot be empty/cannot be null";
-                return new ValidationResult(true, error);
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
             }
 
-            if (_userRepository.GetAll().Result.Where(u => u.Login == command.Login).
-                FirstOrDefault() != null)
+            validationResult = AsyncValidation(command).Result;
+            if (validationResult.IsFail)
+            {
+                return validationResult;
+            }
+
+            return validationResult;
+        }
+        public async Task<ValidationResult> AsyncValidation(CreateUserCommand command)
+        {
+            string error = "No errors";
+            IReadOnlyList<User> users = await _userRepository.GetAll();
+
+            if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
             {
                 error = "A user with this login already exists";
                 return new ValidationResult(true, error);
             }
-
             return new ValidationResult(false, error);
         }
     }

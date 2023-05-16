@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserLoginCommandValidation : IValidator<UpdateUserLoginCommand>
+    public class UpdateUserLoginCommandValidation : IValidator<UpdateUserLoginCommand>, IAsyncValidator<UpdateUserLoginCommand>
     {
         private readonly IUserRepository _userRepository;
 
@@ -16,33 +16,52 @@ namespace Application.Users.Commands.UpdateUserLogin
         public ValidationResult Validation(UpdateUserLoginCommand command)
         {
             string error = "No errors";
-            if (_userRepository.GetById(command.Id) == null)
-            {
-                error = "There is no user with this id";
-                return new ValidationResult(true, error);
-            }
+            ValidationResult validationResult = new ValidationResult(false, error);
 
             if (command.Login == null)
             {
                 error = "The login cannot be empty/cannot be null";
-                return new ValidationResult(true, error);
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
             }
 
-            if (_userRepository.GetAll().Result.Where(u => u.Login == command.Login)
-                .FirstOrDefault() != null)
+            validationResult = AsyncValidation(command).Result;
+            if (validationResult.IsFail)
+            {
+                return validationResult;
+            }
+
+            return validationResult;
+        }
+        public async Task<ValidationResult> AsyncValidation(UpdateUserLoginCommand command)
+        {
+            string error = "No errors";
+            ValidationResult validationResult = new ValidationResult(false, error);
+
+            User user = await _userRepository.GetById(command.Id);
+            if (user == null)
+            {
+                error = "There is no user with this id";
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
+            }
+
+            IReadOnlyList<User> users = await _userRepository.GetAll();
+            if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
             {
                 error = "A user with this login already exists";
-                return new ValidationResult(true, error);
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
             }
 
-            User user = _userRepository.GetById(command.Id).Result;
             if (user.PasswordHash != command.PasswordHash)
             {
                 error = "The entered password does not match the current one";
-                return new ValidationResult(true, error);
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
             }
 
-            return new ValidationResult(false, error);
+            return validationResult;
         }
     }
 }

@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryValidation : IValidator<GetUserByIdQuery>
+    public class GetUserByIdQueryValidation : IValidator<GetUserByIdQuery>, IAsyncValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 
@@ -15,13 +15,29 @@ namespace Application.Users.Queries.GetUserById
         public ValidationResult Validation(GetUserByIdQuery query)
         {
             string error = "No errors";
-            if (_userRepository.GetById(query.Id) == null)
+            ValidationResult validationResult = new ValidationResult(false, error);
+
+            validationResult = AsyncValidation(query).Result;
+            if (validationResult.IsFail)
             {
-                error = "There is no user with this id";
-                return new ValidationResult(true, error);
+                return validationResult;
             }
 
-            return new ValidationResult(false, error);
+            return validationResult;
+        }
+        public async Task<ValidationResult> AsyncValidation(GetUserByIdQuery query)
+        {
+            string error = "No errors";
+            ValidationResult validationResult = new ValidationResult(false, error);
+
+            if (await _userRepository.GetById(query.Id) == null)
+            {
+                error = "There is no user with this id";
+                validationResult = new ValidationResult(true, error);
+                return validationResult;
+            }
+
+            return validationResult;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Application.Users.Queries.GetUserById
             _getUserByIdQueryValidation = new GetUserByIdQueryValidation(userRepository);
         }
 
-        public async Task<ResultQuery<User>> Handle(GetUserByIdQuery getUserByIdQuery)
+        public async Task<QueryResult<User>> Handle(GetUserByIdQuery getUserByIdQuery)
         {
             string msg = _getUserByIdQueryValidation.Validation(getUserByIdQuery);
             if (msg == "Ok")

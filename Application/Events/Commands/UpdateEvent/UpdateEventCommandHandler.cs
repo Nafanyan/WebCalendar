@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Result;
+using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -16,10 +17,10 @@ namespace Application.Events.Commands.UpdateEvent
             _updateEventCommandValidation = new UpdateEventCommandValidation(eventRepository);
         }
 
-        public async Task<ResultCommand> Handle(UpdateEventCommand updateEventCommand)
+        public async Task<CommandResult> Handle(UpdateEventCommand updateEventCommand)
         {
-            string msg = _updateEventCommandValidation.Validation(updateEventCommand);
-            if (msg == "Ok")
+            ValidationResult validationResult = _updateEventCommandValidation.Validation(updateEventCommand);
+            if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
                 Event oldEvent = await _eventRepository.GetEvent(updateEventCommand.UserId, eventPeriod);
@@ -27,7 +28,7 @@ namespace Application.Events.Commands.UpdateEvent
                 oldEvent.SetDescription(updateEventCommand.Description);
                 oldEvent.SetDateEvent(eventPeriod);
             }
-            return new ResultCommand(msg);
+            return new CommandResult(validationResult);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Validation;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
@@ -12,20 +13,23 @@ namespace Application.Users.Commands.DeleteUser
             _userRepository = userRepository;
         }
 
-        public string Validation(DeleteUserCommand command)
+        public ValidationResult Validation(DeleteUserCommand command)
         {
+            string error = "No errors";
             if (_userRepository.GetById(command.Id) == null)
             {
-                return "There is no user with this id";
+                error = "There is no user with this id";
+                return new ValidationResult(true, error);
             }
 
             User user = _userRepository.GetById(command.Id).Result;
             if (user.PasswordHash != command.PasswordHash)
             {
-                return "The entered password does not match the current one";
+                error = "The entered password does not match the current one";
+                return new ValidationResult(true, error);
             }
 
-            return "Ok";
+            return new ValidationResult(false, error);
         }
     }
 }

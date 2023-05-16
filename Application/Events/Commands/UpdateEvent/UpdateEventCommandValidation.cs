@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Validation;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
@@ -12,30 +13,36 @@ namespace Application.Events.Commands.UpdateEvent
             _eventRepository = eventRepository;
         }
 
-        public string Validation(UpdateEventCommand command)
+        public ValidationResult Validation(UpdateEventCommand command)
         {
+            string error = "No errors";
             if (command.StartEvent == null)
             {
-                return "The start date cannot be empty/cannot be null";
+                error = "The start date cannot be empty/cannot be null";
+                return new ValidationResult(true, error);
             }
 
             if (command.EndEvent == null)
             {
-                return "The end date cannot be empty/cannot be null";
+                error = "The end date cannot be empty/cannot be null";
+                return new ValidationResult(true, error);
             }
 
             if (command.StartEvent > command.EndEvent)
             {
-                return "The start date cannot be later than the end date";
+                error = "The start date cannot be later than the end date";
+                return new ValidationResult(true, error);
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
             if (_eventRepository.GetEvent(command.UserId, eventPeriod).Result == null)
             {
-                return "An event with such a time does not exist";
+                error = "An event with such a time does not exist";
+                return new ValidationResult(true, error);
             }
 
-            return "Ok";
+            return new ValidationResult(false, error);
+
         }
     }
 }

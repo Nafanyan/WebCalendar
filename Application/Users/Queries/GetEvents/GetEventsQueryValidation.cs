@@ -1,4 +1,5 @@
 ﻿using Application.Events.Queries.GetEvent;
+using Application.Validation;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
@@ -12,14 +13,16 @@ namespace Application.Users.Queries.GetEvents
             _userRepository = userRepository;
         }
 
-        public string Validation(GetEventsQuery query)
+        public ValidationResult Validation(GetEventsQuery query)
         {
+            string error = "No errors";
             if (_userRepository.GetById(query.UserId) == null)
             {
-                return "There is no user with this id";
+                error = "There is no user with this id";
+                return new ValidationResult(true, error);
             }
 
-            return "Ok";
+            return new ValidationResult(false, error);
         }
     }
 }

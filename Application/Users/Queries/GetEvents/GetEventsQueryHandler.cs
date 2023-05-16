@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Result;
+using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -16,14 +17,14 @@ namespace Application.Users.Queries.GetEvents
             _getEventsQueryValidation = new GetEventsQueryValidation(userRepository);
         }
 
-        public async Task<ResultQuery<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)
+        public async Task<QueryResult<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)
         {
-            string msg = _getEventsQueryValidation.Validation(getEventsQuery);
-            if (msg == "Ok")
+            ValidationResult validationResult = _getEventsQueryValidation.Validation(getEventsQuery);
+            if (!validationResult.IsFail)
             {
-                return new ResultQuery<IReadOnlyList<Event>>(await _userRepository.GetEvents(getEventsQuery.UserId), msg);
+                return new QueryResult<IReadOnlyList<Event>>(validationResult, await _userRepository.GetEvents(getEventsQuery.UserId));
             }
-            return new ResultQuery<IReadOnlyList<Event>>(msg);
+            return new QueryResult<IReadOnlyList<Event>>(validationResult);
         }
     }
 }

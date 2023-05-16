@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface ICommandHandler<T> where T : class
     {
-        Task<ResultCommand> Handle(T command);
+        Task<CommandResult> Handle(T command);
     }
 }

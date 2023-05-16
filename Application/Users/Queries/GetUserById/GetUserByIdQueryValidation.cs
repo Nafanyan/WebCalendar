@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Application.Validation;
+using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
@@ -11,14 +12,16 @@ namespace Application.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public string Validation(GetUserByIdQuery query)
+        public ValidationResult Validation(GetUserByIdQuery query)
         {
+            string error = "No errors";
             if (_userRepository.GetById(query.Id) == null)
             {
-                return "There is no user with this id";
+                error = "There is no user with this id";
+                return new ValidationResult(true, error);
             }
 
-            return "Ok";
+            return new ValidationResult(false, error);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using Application.Result;
 using Application.Interfaces;
+using Application.Validation;
 
 namespace Application.Events.Queries.GetEvent
 {
@@ -17,15 +18,15 @@ namespace Application.Events.Queries.GetEvent
             _eventQueryValidation = new GetEventQueryValidation(eventRepository);
         }
 
-        public async Task<ResultQuery<Event>> Handle(GetEventQuery getEventQuery)
+        public async Task<QueryResult<Event>> Handle(GetEventQuery getEventQuery)
         {
-            string msg = _eventQueryValidation.Validation(getEventQuery);
-            if (msg == "Ok")
+            ValidationResult validationResult = _eventQueryValidation.Validation(getEventQuery);
+            if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
-                return new ResultQuery<Event>(await _eventRepository.GetEvent(getEventQuery.UserId, eventPeriod), msg);
+                return new QueryResult<Event>(validationResult, await _eventRepository.GetEvent(getEventQuery.UserId, eventPeriod));
             }
-            return new ResultQuery<Event>(msg);
+            return new QueryResult<Event>(validationResult);
         }
     }
 }

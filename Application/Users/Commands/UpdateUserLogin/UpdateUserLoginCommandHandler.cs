@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Result;
+using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -16,15 +17,15 @@ namespace Application.Users.Commands.UpdateUserLogin
             _updateUserLoginCommandValidation = new UpdateUserLoginCommandValidation(userRepository);
         }
 
-        public async Task<ResultCommand> Handle(UpdateUserLoginCommand updateUserLoginCommand)
+        public async Task<CommandResult> Handle(UpdateUserLoginCommand updateUserLoginCommand)
         {
-            string msg = _updateUserLoginCommandValidation.Validation(updateUserLoginCommand);
-            if (msg == "Ok")
+            ValidationResult validationResult= _updateUserLoginCommandValidation.Validation(updateUserLoginCommand);
+            if (!validationResult.IsFail)
             {
                 User user = await _userRepository.GetById(updateUserLoginCommand.Id);
                 user.SetLogin(updateUserLoginCommand.Login);
             }
-            return new ResultCommand(msg);
+            return new CommandResult(validationResult);
         }
     }
 }

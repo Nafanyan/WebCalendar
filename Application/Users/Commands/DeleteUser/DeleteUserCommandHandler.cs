@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Result;
+using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -16,15 +17,15 @@ namespace Application.Users.Commands.DeleteUser
             _deleteUserCommandValidation = new DeleteUserCommandValidation(userRepository);
         }
 
-        public async Task<ResultCommand> Handle(DeleteUserCommand deleteUserCommand)
+        public async Task<CommandResult> Handle(DeleteUserCommand deleteUserCommand)
         {
-            string msg = _deleteUserCommandValidation.Validation(deleteUserCommand);
-            if (msg == "Ok")
+            ValidationResult validationResult = _deleteUserCommandValidation.Validation(deleteUserCommand);
+            if (!validationResult.IsFail)
             {
                 User user = _userRepository.GetById(deleteUserCommand.Id).Result;
                 await _userRepository.Delete(user);
             }
-            return new ResultCommand(msg);
+            return new CommandResult(validationResult);
         }
     }
 }

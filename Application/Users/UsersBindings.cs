@@ -16,7 +16,7 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<AddUserCommand>, AddUserCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();

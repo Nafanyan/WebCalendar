@@ -6,6 +6,6 @@ namespace Application.Interfaces
         where T : class
         where Q : class
     {
-        Task<ResultQuery<T>> Handle(Q query);
+        Task<QueryResult<T>> Handle(Q query);
     }
 }

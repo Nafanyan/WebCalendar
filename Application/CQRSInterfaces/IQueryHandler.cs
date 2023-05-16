@@ -2,10 +2,10 @@
 
 namespace Application.Interfaces
 {
-    public interface IQueryHandler<T, Q>
-        where T : class
-        where Q : class
+    public interface IQueryHandler<TResult, TQuery>
+        where TResult : class
+        where TQuery : class
     {
-        Task<QueryResult<T>> Handle(Q query);
+        Task<QueryResult<TResult>> Handle(TQuery query);
     }
 }

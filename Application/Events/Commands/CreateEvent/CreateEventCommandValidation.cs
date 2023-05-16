@@ -2,7 +2,7 @@
 
 namespace Application.Events.Commands.CreateEvent
 {
-    class CreateEventCommandValidation : IValidation<CreateEventCommand>
+    public class CreateEventCommandValidation : IValidator<CreateEventCommand>
     {
         public ValidationResult Validation(CreateEventCommand command)
         {

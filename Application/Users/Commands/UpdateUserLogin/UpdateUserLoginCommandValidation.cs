@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserLoginCommandValidation : IValidation<UpdateUserLoginCommand>
+    public class UpdateUserLoginCommandValidation : IValidator<UpdateUserLoginCommand>
     {
         private readonly IUserRepository _userRepository;
 

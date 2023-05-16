@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryValidation : IValidation<GetEventsQuery>
+    public class GetEventsQueryValidation : IValidator<GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
 

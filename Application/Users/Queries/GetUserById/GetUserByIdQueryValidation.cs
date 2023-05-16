@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryValidation : IValidation<GetUserByIdQuery>
+    public class GetUserByIdQueryValidation : IValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 

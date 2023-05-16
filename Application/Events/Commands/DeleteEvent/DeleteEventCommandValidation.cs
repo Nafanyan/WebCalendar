@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandValidation : IValidation<DeleteEventCommand>
+    public class DeleteEventCommandValidation : IValidator<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 

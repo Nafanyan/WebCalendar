@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    class CreateUserCommandValidation : IValidation<CreateUserCommand>
+    class CreateUserCommandValidation : IValidator<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
 

@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandValidation : IValidation<DeleteUserCommand>
+    public class DeleteUserCommandValidation : IValidator<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
 

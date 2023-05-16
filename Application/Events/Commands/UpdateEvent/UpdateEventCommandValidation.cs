@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandValidation : IValidation<UpdateEventCommand>
+    public class UpdateEventCommandValidation : IValidator<UpdateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 

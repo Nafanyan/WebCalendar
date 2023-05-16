@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Result;
+using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -18,13 +19,13 @@ namespace Application.Users.Queries.GetUserById
 
         public async Task<QueryResult<User>> Handle(GetUserByIdQuery getUserByIdQuery)
         {
-            string msg = _getUserByIdQueryValidation.Validation(getUserByIdQuery);
-            if (msg == "Ok")
+            ValidationResult validationResult = _getUserByIdQueryValidation.Validation(getUserByIdQuery);
+            if (!validationResult.IsFail)
             {
-                return new ResultQuery<User>(await _userRepository.GetById(getUserByIdQuery.Id), msg);
+                return new QueryResult<User>(validationResult, await _userRepository.GetById(getUserByIdQuery.Id));
 
             }
-            return new ResultQuery<User>(msg);
+            return new QueryResult<User>(validationResult);
         }
     }
 }

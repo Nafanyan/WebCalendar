@@ -9,12 +9,12 @@ namespace Application.Users.Queries.GetUserById
     public class GetUserByIdQueryHandler : IQueryHandler<User, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly GetUserByIdQueryValidation _getUserByIdQueryValidation;
+        private readonly IValidator<GetUserByIdQuery> _getUserByIdQueryValidation;
 
-        public GetUserByIdQueryHandler(IUserRepository userRepository)
+        public GetUserByIdQueryHandler(IUserRepository userRepository, IValidator<GetUserByIdQuery> validator)
         {
             _userRepository = userRepository;
-            _getUserByIdQueryValidation = new GetUserByIdQueryValidation(userRepository);
+            _getUserByIdQueryValidation = validator;
         }
 
         public async Task<QueryResult<User>> Handle(GetUserByIdQuery getUserByIdQuery)

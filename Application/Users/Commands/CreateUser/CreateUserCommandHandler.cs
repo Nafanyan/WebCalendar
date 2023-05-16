@@ -9,12 +9,12 @@ namespace Application.Users.Commands.CreateUser
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly CreateUserCommandValidation _addUserCommandValidation;
+        private readonly IValidator<CreateUserCommand> _addUserCommandValidation;
 
-        public CreateUserCommandHandler(IUserRepository userRepository) 
+        public CreateUserCommandHandler(IUserRepository userRepository, IValidator<CreateUserCommand> validator) 
         {
             _userRepository = userRepository;
-            _addUserCommandValidation = new CreateUserCommandValidation(userRepository);
+            _addUserCommandValidation = validator;
         }
 
         public async Task<CommandResult> Handle(CreateUserCommand addUserCommand)

@@ -9,12 +9,12 @@ namespace Application.Events.Commands.DeleteEvent
     public class DeleteEventCommandHandler : ICommandHandler<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly DeleteEventCommandValidation _deleteEventCommandValidation;
+        private readonly IValidator<DeleteEventCommand> _deleteEventCommandValidation;
 
-        public DeleteEventCommandHandler(IEventRepository eventRepository)
+        public DeleteEventCommandHandler(IEventRepository eventRepository, IValidator<DeleteEventCommand> validator)
         {
             _eventRepository = eventRepository;
-            _deleteEventCommandValidation = new DeleteEventCommandValidation(eventRepository);
+            _deleteEventCommandValidation = validator;
         }
 
         public async Task<CommandResult> Handle(DeleteEventCommand deleteEventCommand)

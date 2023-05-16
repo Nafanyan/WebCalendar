@@ -9,12 +9,12 @@ namespace Application.Users.Queries.GetEvents
     public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly GetEventsQueryValidation _getEventsQueryValidation;
+        private readonly IValidator<GetEventsQuery> _getEventsQueryValidation;
 
-        public GetEventsQueryHandler(IUserRepository userRepository)
+        public GetEventsQueryHandler(IUserRepository userRepository, IValidator<GetEventsQuery> validator)
         {
             _userRepository = userRepository;
-            _getEventsQueryValidation = new GetEventsQueryValidation(userRepository);
+            _getEventsQueryValidation = validator;
         }
 
         public async Task<QueryResult<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)

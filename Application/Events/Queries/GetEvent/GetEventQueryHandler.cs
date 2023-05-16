@@ -10,12 +10,12 @@ namespace Application.Events.Queries.GetEvent
     public class GetEventQueryHandler : IQueryHandler<Event, GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
-        private GetEventQueryValidation _eventQueryValidation;
+        private IValidator<GetEventQuery> _eventQueryValidation;
 
-        public GetEventQueryHandler(IEventRepository eventRepository)
+        public GetEventQueryHandler(IEventRepository eventRepository, IValidator<GetEventQuery> validator)
         {
             _eventRepository = eventRepository;
-            _eventQueryValidation = new GetEventQueryValidation(eventRepository);
+            _eventQueryValidation = validator;
         }
 
         public async Task<QueryResult<Event>> Handle(GetEventQuery getEventQuery)

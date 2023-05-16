@@ -9,12 +9,12 @@ namespace Application.Events.Commands.CreateEvent
     public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly CreateEventCommandValidation _createEventCommandValidation;
+        private readonly IValidator<CreateEventCommand> _createEventCommandValidation;
 
-        public CreateEventCommandHandler(IEventRepository eventRepository)
+        public CreateEventCommandHandler(IEventRepository eventRepository, IValidator<CreateEventCommand> validator)
         {
             _eventRepository = eventRepository;
-            _createEventCommandValidation = new CreateEventCommandValidation();
+            _createEventCommandValidation = validator;
         }
 
         public async Task<CommandResult> Handle(CreateEventCommand createEventCommand)

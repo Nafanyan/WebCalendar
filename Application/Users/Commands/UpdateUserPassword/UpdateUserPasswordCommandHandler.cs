@@ -9,12 +9,12 @@ namespace Application.Users.Commands.UpdateUserPassword
     public class UpdateUserPasswordCommandHandler : ICommandHandler<UpdateUserPasswordCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly UpdateUserPasswordCommandValidation _updateUserPasswordCommandValidation;
+        private readonly IValidator<UpdateUserPasswordCommand> _updateUserPasswordCommandValidation;
 
-        public UpdateUserPasswordCommandHandler(IUserRepository userRepository)
+        public UpdateUserPasswordCommandHandler(IUserRepository userRepository, IValidator<UpdateUserPasswordCommand> validator)
         {
             _userRepository = userRepository;
-            _updateUserPasswordCommandValidation = new UpdateUserPasswordCommandValidation(userRepository);
+            _updateUserPasswordCommandValidation = validator;
         }
 
         public async Task<CommandResult> Handle(UpdateUserPasswordCommand updateUserPasswordCommand)

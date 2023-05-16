@@ -1,5 +1,4 @@
-﻿using Application.Events.Commands;
-using Application.Events.Commands.CreateEvent;
+﻿using Application.Events.Commands.CreateEvent;
 using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
 using Application.Events.Queries.GetEvent;

@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserLoginCommandHandler : IUserCommandHandler<UpdateUserLoginCommand>
+    public class UpdateUserLoginCommandHandler : ICommandHandler<UpdateUserLoginCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly UpdateUserLoginCommandValidation _updateUserLoginCommandValidation;

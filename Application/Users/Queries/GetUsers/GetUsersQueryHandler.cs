@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUsers
 {
-    public class GetUsersQueryHandler : IUserQueryHandler<IReadOnlyList<User>, GetUsersQuery>
+    public class GetUsersQueryHandler : IQueryHandler<IReadOnlyList<User>, GetUsersQuery>
     {
         private readonly IUserRepository _userRepository;
         public GetUsersQueryHandler(IUserRepository userRepository)

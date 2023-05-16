@@ -16,14 +16,14 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
-            services.AddScoped<IUserCommandHandler<AddUserCommand>, AddUserCommandHandler>();
-            services.AddScoped<IUserCommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
-            services.AddScoped<IUserCommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
-            services.AddScoped<IUserCommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
+            services.AddScoped<ICommandHandler<AddUserCommand>, AddUserCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
 
-            services.AddScoped<IUserQueryHandler<IReadOnlyList<Event>, GetEventsQuery>, GetEventsQueryHandler>();
-            services.AddScoped<IUserQueryHandler<User, GetUserByIdQuery>, GetUserByIdQueryHandler>();
-            services.AddScoped<IUserQueryHandler<IReadOnlyList<User>, GetUsersQuery>, GetUsersQueryHandler>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<Event>, GetEventsQuery>, GetEventsQueryHandler>();
+            services.AddScoped<IQueryHandler<User, GetUserByIdQuery>, GetUserByIdQueryHandler>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<User>, GetUsersQuery>, GetUsersQueryHandler>();
             return services;
         }
     }

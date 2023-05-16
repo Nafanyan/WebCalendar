@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryHandler : IUserQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
+    public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
         private readonly GetEventsQueryValidation _getEventsQueryValidation;

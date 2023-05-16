@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandHandler : IUserCommandHandler<DeleteUserCommand>
+    public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly DeleteUserCommandValidation _deleteUserCommandValidation;

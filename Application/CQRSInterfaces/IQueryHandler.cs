@@ -1,9 +1,9 @@
 ﻿using Application.Result;
 
-namespace Application.Events.Queries
+namespace Application.Interfaces
 {
-    public interface IEventQueryHandler<T, Q> 
-        where T : class 
+    public interface IQueryHandler<T, Q>
+        where T : class
         where Q : class
     {
         Task<ResultQuery<T>> Handle(Q query);

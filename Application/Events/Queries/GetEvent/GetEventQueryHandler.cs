@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Application.Result;
+using Application.Interfaces;
 
 namespace Application.Events.Queries.GetEvent
 {
 
-    public class GetEventQueryHandler : IEventQueryHandler<Event, GetEventQuery>
+    public class GetEventQueryHandler : IQueryHandler<Event, GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
         private GetEventQueryValidation _eventQueryValidation;

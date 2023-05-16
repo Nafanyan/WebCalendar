@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandHandler : IEventCommandHandler<DeleteEventCommand>
+    public class DeleteEventCommandHandler : ICommandHandler<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
         private readonly DeleteEventCommandValidation _deleteEventCommandValidation;

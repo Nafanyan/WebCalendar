@@ -1,10 +1,12 @@
 ﻿using Application.Result;
+using Application.Interfaces;
 using Domain.Entities;
 using Domain.Repositories;
 
+
 namespace Application.Events.Commands.CreateEvent
 {
-    public class AddEventCommandHandler : IEventCommandHandler<AddEventCommand>
+    public class AddEventCommandHandler : ICommandHandler<AddEventCommand>
     {
         private readonly IEventRepository _eventRepository;
         private readonly AddEventCommandValidation _addEventCommandValidation;

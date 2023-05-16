@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public class AddUserCommandHandler : IUserCommandHandler<AddUserCommand>
+    public class AddUserCommandHandler : ICommandHandler<AddUserCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly AddUserCommandValidation _addUserCommandValidation;

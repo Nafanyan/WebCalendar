@@ -1,10 +1,11 @@
-﻿using Application.Result;
+﻿using Application.Interfaces;
+using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryHandler : IUserQueryHandler<User, GetUserByIdQuery>
+    public class GetUserByIdQueryHandler : IQueryHandler<User, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
         private readonly GetUserByIdQueryValidation _getUserByIdQueryValidation;

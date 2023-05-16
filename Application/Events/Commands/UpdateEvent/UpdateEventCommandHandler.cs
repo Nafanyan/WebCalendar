@@ -1,11 +1,11 @@
-﻿using Application.Events.Commands.DeleteEvent;
+﻿using Application.Interfaces;
 using Application.Result;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandHandler : IEventCommandHandler<UpdateEventCommand>
+    public class UpdateEventCommandHandler : ICommandHandler<UpdateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
         private readonly UpdateEventCommandValidation _updateEventCommandValidation;

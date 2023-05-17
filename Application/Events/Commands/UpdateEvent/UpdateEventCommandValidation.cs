@@ -15,30 +15,25 @@ namespace Application.Events.Commands.UpdateEvent
 
         public async Task<ValidationResult> Validation(UpdateEventCommand command)
         {
-            string error;
             if (command.StartEvent == null)
             {
-                error = "The start date cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The start date cannot be empty/cannot be null");
             }
 
             if (command.EndEvent == null)
             {
-                error = "The end date cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The end date cannot be empty/cannot be null");
             }
 
             if (command.StartEvent > command.EndEvent)
             {
-                error = "The start date cannot be later than the end date";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
             if (!await _eventRepository.Contains(command.UserId, eventPeriod))
             {
-                error = "An event with such a time does not exist";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("An event with such a time does not exist");
             }
 
             return ValidationResult.Ok();

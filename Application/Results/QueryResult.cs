@@ -7,9 +7,8 @@ namespace Application.Result
         public ValidationResult ValidationResult { get; private set; }
         public TQueryResultData ObjResult { get; private set; }
 
-        public QueryResult(ValidationResult validationResult, TQueryResultData objResult)
+        public QueryResult(TQueryResultData objResult)
         {
-            ValidationResult = validationResult;
             ObjResult = objResult;
         }
 

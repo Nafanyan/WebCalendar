@@ -6,29 +6,24 @@ namespace Application.Events.Commands.CreateEvent
     {
         public async Task<ValidationResult> Validation(CreateEventCommand command)
         {
-            string error;
             if (command.Name == null)
             {
-                error = "The name of event cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The name of event cannot be empty/cannot be null");
             }
 
             if (command.StartEvent == null)
             {
-                error = "The start date cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The start date cannot be empty/cannot be null");
             }
 
             if (command.StartEvent == null)
             {
-                error = "The end date cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The end date cannot be empty/cannot be null");
             }
 
             if (command.StartEvent > command.EndEvent)
             {
-                error = "The start date cannot be later than the end date";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
             return ValidationResult.Ok();

@@ -24,7 +24,7 @@ namespace Application.Users.Queries.GetEvents
             if (!validationResult.IsFail)
             {
                 IReadOnlyList<Event> events = await _userRepository.GetEvents(getEventsQuery.UserId);
-                return new QueryResult<IReadOnlyList<Event>>(validationResult, events);
+                return new QueryResult<IReadOnlyList<Event>>(events);
             }
             return new QueryResult<IReadOnlyList<Event>>(validationResult);
         }

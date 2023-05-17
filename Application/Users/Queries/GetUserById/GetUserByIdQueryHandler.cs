@@ -23,7 +23,7 @@ namespace Application.Users.Queries.GetUserById
             if (!validationResult.IsFail)
             {
                 User user = await _userRepository.GetById(getUserByIdQuery.Id);
-                return new QueryResult<User>(validationResult, user);
+                return new QueryResult<User>(user);
             }
             return new QueryResult<User>(validationResult);
         }

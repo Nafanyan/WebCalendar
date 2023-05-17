@@ -24,7 +24,7 @@ namespace Application.Events.Queries.GetEvent
             {
                 EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
                 Event foundEvent = await _eventRepository.GetEvent(getEventQuery.UserId, eventPeriod);
-                return new QueryResult<Event>(validationResult, foundEvent);
+                return new QueryResult<Event>( foundEvent);
             }
             return new QueryResult<Event>(validationResult);
         }

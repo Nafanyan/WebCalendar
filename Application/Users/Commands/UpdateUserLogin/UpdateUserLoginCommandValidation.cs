@@ -15,31 +15,26 @@ namespace Application.Users.Commands.UpdateUserLogin
 
         public async Task<ValidationResult> Validation(UpdateUserLoginCommand command)
         {
-            string error;
             if (command.Login == null)
             {
-                error = "The login cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
             if (!await _userRepository.Contains(command.Id))
             {
-                error = "There is no user with this id";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("There is no user with this id");
             }
 
             IReadOnlyList<User> users = await _userRepository.GetAll();
             if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
             {
-                error = "A user with this login already exists";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("A user with this login already exists");
             }
 
             User user = await _userRepository.GetById(command.Id);
             if (user.PasswordHash != command.PasswordHash)
             {
-                error = "The entered password does not match the current one";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The entered password does not match the current one");
             }
 
             return ValidationResult.Ok();

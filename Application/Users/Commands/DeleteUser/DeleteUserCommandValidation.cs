@@ -15,24 +15,20 @@ namespace Application.Users.Commands.DeleteUser
 
         public async Task<ValidationResult> Validation(DeleteUserCommand command)
         {
-            string error;
             if (_userRepository.GetById(command.Id) == null)
             {
-                error = "There is no user with this id";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("There is no user with this id");
             }
 
             if (!await _userRepository.Contains(command.Id))
             {
-                error = "There is no user with this id";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("There is no user with this id");
             }
 
             User user = await _userRepository.GetById(command.Id);
             if (user.PasswordHash != command.PasswordHash)
             {
-                error = "The entered password does not match the current one";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The entered password does not match the current one");
             }
 
             return ValidationResult.Ok();

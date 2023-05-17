@@ -2,16 +2,12 @@
 {
     public class ValidationResult
     {
-        public bool IsFail { get; private set; } = false;
+        public bool IsFail => Error == null;
         public string Error { get; private set; }
 
         private ValidationResult(string error = null)
         {
             Error = error;
-            if (error != null)
-            {
-                IsFail = true;
-            }
         }
 
         public static ValidationResult Ok()

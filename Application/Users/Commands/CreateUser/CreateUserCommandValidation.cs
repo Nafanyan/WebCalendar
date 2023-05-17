@@ -15,19 +15,16 @@ namespace Application.Users.Commands.CreateUser
 
         public async Task<ValidationResult> Validation(CreateUserCommand command)
         {
-            string error;
             if (command.Login == null)
             {
-                error = "The login cannot be empty/cannot be null";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
             IReadOnlyList<User> users = await _userRepository.GetAll();
 
             if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
             {
-                error = "A user with this login already exists";
-                return ValidationResult.Fail(error);
+                return ValidationResult.Fail("A user with this login already exists");
             }
             return ValidationResult.Ok();
         }

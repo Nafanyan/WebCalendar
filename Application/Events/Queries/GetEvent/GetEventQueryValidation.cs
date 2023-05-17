@@ -30,6 +30,11 @@ namespace Application.Events.Queries.GetEvent
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
+            if (query.StartEvent.ToShortDateString != query.EndEvent.ToShortDateString)
+            {
+                return ValidationResult.Fail("The event must occur within one day");
+            }
+
             EventPeriod eventPeriod = new EventPeriod(query.StartEvent, query.EndEvent);
             if (!await _eventRepository.Contains(query.UserId, eventPeriod))
             {

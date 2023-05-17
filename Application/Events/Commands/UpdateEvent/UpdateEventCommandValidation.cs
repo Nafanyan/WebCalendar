@@ -30,6 +30,11 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
+            if (command.StartEvent.ToShortDateString != command.EndEvent.ToShortDateString)
+            {
+                return ValidationResult.Fail("The event must occur within one day");
+            }
+
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
             if (!await _eventRepository.Contains(command.UserId, eventPeriod))
             {

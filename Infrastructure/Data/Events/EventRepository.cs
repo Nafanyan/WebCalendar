@@ -23,8 +23,7 @@ namespace Infrastructure.Data.Events
 
         public async Task<bool> Contains(long userId, EventPeriod eventPeriod)
         {
-            Event foundEvent = await GetEvent(userId, eventPeriod);
-            return foundEvent != null;
+            return await GetEvent(userId, eventPeriod) != null;
         }
 
         public async Task Delete(Event entity)

@@ -15,11 +15,6 @@ namespace Application.Users.Commands.DeleteUser
 
         public async Task<ValidationResult> Validation(DeleteUserCommand command)
         {
-            if (_userRepository.GetById(command.Id) == null)
-            {
-                return ValidationResult.Fail("There is no user with this id");
-            }
-
             if (!await _userRepository.Contains(command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");

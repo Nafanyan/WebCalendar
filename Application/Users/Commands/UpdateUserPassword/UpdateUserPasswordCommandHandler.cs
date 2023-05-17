@@ -3,6 +3,7 @@ using Application.Result;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
+using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
@@ -10,11 +11,15 @@ namespace Application.Users.Commands.UpdateUserPassword
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<UpdateUserPasswordCommand> _updateUserPasswordCommandValidator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserPasswordCommandHandler(IUserRepository userRepository, IAsyncValidator<UpdateUserPasswordCommand> validator)
+        public UpdateUserPasswordCommandHandler(IUserRepository userRepository, 
+            IAsyncValidator<UpdateUserPasswordCommand> validator,
+            IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _updateUserPasswordCommandValidator = validator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CommandResult> Handle(UpdateUserPasswordCommand updateUserPasswordCommand)
@@ -24,6 +29,7 @@ namespace Application.Users.Commands.UpdateUserPassword
             {
                 User user = await _userRepository.GetById(updateUserPasswordCommand.Id);
                 user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
+                await _unitOfWork.Commit();
             }
             return new CommandResult(validationResult);
         }

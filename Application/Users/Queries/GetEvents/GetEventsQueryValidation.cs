@@ -15,7 +15,7 @@ namespace Application.Users.Queries.GetEvents
 
         public async Task<ValidationResult> Validation(GetEventsQuery query)
         {
-            if (await _userRepository.Contains(user => user.Id != query.UserId))
+            if (!await _userRepository.Contains(user => user.Id == query.UserId))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }

@@ -20,7 +20,7 @@ namespace Application.Users.Commands.UpdateUserLogin
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            if (await _userRepository.Contains(user => user.Id != command.Id))
+            if (!await _userRepository.Contains(user => user.Id == command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }

@@ -8,7 +8,8 @@ namespace Infrastructure.Data.Events
     public class EventRepository : IEventRepository
     {
         private readonly WebCalendareDbContext _dbContext;
-        private DbSet<Event> _dbSet => _dbContext.Set<Event>();
+        private DbSet<Event> _dbSetEvent => _dbContext.Set<Event>();
+        private DbSet<User> _dbSetUser => _dbContext.Set<User>();
 
         public EventRepository(WebCalendareDbContext dbContext)
         {
@@ -17,29 +18,26 @@ namespace Infrastructure.Data.Events
 
         public async Task Add(Event entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _dbSetEvent.AddAsync(entity);
         }
 
         public async Task<bool> Contains(long userId, EventPeriod eventPeriod)
         {
-            Event foundEvent = await _dbSet.Where(e => (e.UserId == userId) &&
-                 (e.EventPeriod.StartEvent == eventPeriod.StartEvent) &&
-                 (e.EventPeriod.EndEvent == eventPeriod.EndEvent)).FirstOrDefaultAsync();
+            Event foundEvent = await GetEvent(userId, eventPeriod);
             return foundEvent != null;
         }
 
         public async Task Delete(Event entity)
         {
             Event foundEvent = await GetEvent(entity.UserId, entity.EventPeriod);
-            _dbSet.Remove(foundEvent);
+            _dbSetEvent.Remove(foundEvent);
         }
 
         public async Task<Event> GetEvent(long userId, EventPeriod eventPeriod)
         {
-
-            return await _dbSet.Where(e => (e.UserId == userId) && 
-                 (e.EventPeriod.StartEvent == eventPeriod.StartEvent) &&
-                 (e.EventPeriod.EndEvent == eventPeriod.EndEvent)).FirstOrDefaultAsync();
+            return await _dbSetEvent.Where(e => e.UserId == userId)
+                .Where(e => (e.EventPeriod.StartEvent >= eventPeriod.StartEvent) &&
+                 (e.EventPeriod.EndEvent <= eventPeriod.EndEvent)).FirstOrDefaultAsync();
         }
     }
 }

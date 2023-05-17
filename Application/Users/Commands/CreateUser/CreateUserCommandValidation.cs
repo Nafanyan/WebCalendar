@@ -16,7 +16,6 @@ namespace Application.Users.Commands.CreateUser
         public async Task<ValidationResult> Validation(CreateUserCommand command)
         {
             string error;
-
             if (command.Login == null)
             {
                 error = "The login cannot be empty/cannot be null";

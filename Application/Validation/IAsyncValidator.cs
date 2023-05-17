@@ -1,7 +1,7 @@
 ﻿namespace Application.Validation
 {
-    public interface IAsyncValidator<T> where T : class
+    public interface IAsyncValidator<TData> where TData : class
     {
-        Task<ValidationResult> Validation(T inputData);
+        Task<ValidationResult> Validation(TData inputData);
     }
 }

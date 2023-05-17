@@ -34,6 +34,7 @@ namespace Application.Users.Commands.DeleteUser
                 error = "The entered password does not match the current one";
                 return ValidationResult.Fail(error);
             }
+
             return ValidationResult.Ok();
         }
     }

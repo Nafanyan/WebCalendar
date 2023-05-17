@@ -32,7 +32,6 @@ namespace Application.Events.Commands.DeleteEvent
             {
                 error = "The start date cannot be later than the end date";
                 return ValidationResult.Fail(error);
-
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);

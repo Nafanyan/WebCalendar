@@ -9,20 +9,21 @@ namespace Application.Users.Queries.GetUserById
     public class GetUserByIdQueryHandler : IQueryHandler<User, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<GetUserByIdQuery> _getUserByIdQueryValidation;
+        private readonly IAsyncValidator<GetUserByIdQuery> _getUserByIdQueryValidator;
 
-        public GetUserByIdQueryHandler(IUserRepository userRepository, IValidator<GetUserByIdQuery> validator)
+        public GetUserByIdQueryHandler(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
         {
             _userRepository = userRepository;
-            _getUserByIdQueryValidation = validator;
+            _getUserByIdQueryValidator = validator;
         }
 
         public async Task<QueryResult<User>> Handle(GetUserByIdQuery getUserByIdQuery)
         {
-            ValidationResult validationResult = _getUserByIdQueryValidation.Validation(getUserByIdQuery);
+            ValidationResult validationResult = await _getUserByIdQueryValidator.Validation(getUserByIdQuery);
             if (!validationResult.IsFail)
             {
-                return new QueryResult<User>(validationResult, await _userRepository.GetById(getUserByIdQuery.Id));
+                User user = await _userRepository.GetById(getUserByIdQuery.Id);
+                return new QueryResult<User>(validationResult, user);
             }
             return new QueryResult<User>(validationResult);
         }

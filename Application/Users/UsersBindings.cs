@@ -25,13 +25,13 @@ namespace WebCalendar.Application.Users
             services.AddScoped<IQueryHandler<IReadOnlyList<Event>, GetEventsQuery>, GetEventsQueryHandler>();
             services.AddScoped<IQueryHandler<User, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
-            services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidation>();
-            services.AddScoped<IValidator<DeleteUserCommand>, DeleteUserCommandValidation>();
-            services.AddScoped<IValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidation>();
-            services.AddScoped<IValidator<UpdateUserPasswordCommand>, UpdateUserPasswordCommandValidation>();
+            services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidation>();
+            services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidation>();
+            services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidation>();
+            services.AddScoped<IAsyncValidator<UpdateUserPasswordCommand>, UpdateUserPasswordCommandValidation>();
 
-            services.AddScoped<IValidator<GetEventsQuery>, GetEventsQueryValidation>();
-            services.AddScoped<IValidator<GetUserByIdQuery>, GetUserByIdQueryValidation>();
+            services.AddScoped<IAsyncValidator<GetEventsQuery>, GetEventsQueryValidation>();
+            services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidation>();
             return services;
         }
     }

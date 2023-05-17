@@ -9,17 +9,17 @@ namespace Application.Events.Commands.UpdateEvent
     public class UpdateEventCommandHandler : ICommandHandler<UpdateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IValidator<UpdateEventCommand> _updateEventCommandValidation;
+        private readonly IAsyncValidator<UpdateEventCommand> _updateEventCommandValidator;
 
-        public UpdateEventCommandHandler(IEventRepository eventRepository, IValidator<UpdateEventCommand> validator) 
+        public UpdateEventCommandHandler(IEventRepository eventRepository, IAsyncValidator<UpdateEventCommand> validator) 
         {
             _eventRepository = eventRepository;
-            _updateEventCommandValidation = validator;
+            _updateEventCommandValidator = validator;
         }
 
         public async Task<CommandResult> Handle(UpdateEventCommand updateEventCommand)
         {
-            ValidationResult validationResult = _updateEventCommandValidation.Validation(updateEventCommand);
+            ValidationResult validationResult = await _updateEventCommandValidator.Validation(updateEventCommand);
             if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);

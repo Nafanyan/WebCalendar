@@ -2,12 +2,12 @@
 
 namespace Application.Result
 {
-    public class QueryResult<T> where T : class
+    public class QueryResult<TQueryResultData> where TQueryResultData : class
     {
         public ValidationResult ValidationResult { get; private set; }
-        public T ObjResult { get; private set; }
+        public TQueryResultData ObjResult { get; private set; }
 
-        public QueryResult(ValidationResult validationResult, T objResult)
+        public QueryResult(ValidationResult validationResult, TQueryResultData objResult)
         {
             ValidationResult = validationResult;
             ObjResult = objResult;

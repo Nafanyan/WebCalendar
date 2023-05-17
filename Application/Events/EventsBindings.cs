@@ -19,11 +19,11 @@ namespace WebCalendar.Application.Events
 
             services.AddScoped<IQueryHandler<Event, GetEventQuery>, GetEventQueryHandler>();
 
-            services.AddScoped<IValidator<CreateEventCommand>, CreateEventCommandValidation>();
-            services.AddScoped<IValidator<DeleteEventCommand>, DeleteEventCommandValidation>();
-            services.AddScoped<IValidator<UpdateEventCommand>, UpdateEventCommandValidation>();
+            services.AddScoped<IAsyncValidator<CreateEventCommand>, CreateEventCommandValidation>();
+            services.AddScoped<IAsyncValidator<DeleteEventCommand>, DeleteEventCommandValidation>();
+            services.AddScoped<IAsyncValidator<UpdateEventCommand>, UpdateEventCommandValidation>();
 
-            services.AddScoped<IValidator<GetEventQuery>, GetEventQueryValidation>();
+            services.AddScoped<IAsyncValidator<GetEventQuery>, GetEventQueryValidation>();
             return services;
         }
     }

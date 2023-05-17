@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Events.Queries.GetEvent
 {
-    public class GetEventQueryValidation : IValidator<GetEventQuery>, IAsyncValidator<GetEventQuery>
+    public class GetEventQueryValidation : IAsyncValidator<GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
 
@@ -13,51 +13,35 @@ namespace Application.Events.Queries.GetEvent
             _eventRepository = eventRepository;
         }
 
-        public ValidationResult Validation(GetEventQuery query)
+        public async Task<ValidationResult> Validation(GetEventQuery query)
         {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
+            string error;
             if (query.StartEvent == null)
             {
                 error = "The start date cannot be empty/cannot be null";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
             if (query.EndEvent == null)
             {
                 error = "The end date cannot be empty/cannot be null";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
             if (query.StartEvent > query.EndEvent)
             {
                 error = "The start date cannot be later than the end date";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
-            validationResult = AsyncValidation(query).Result;
-            if (validationResult.IsFail)
-            {
-                return validationResult;
-            }
-
-            return new ValidationResult(false, error);
-        }
-        public async Task<ValidationResult> AsyncValidation(GetEventQuery query)
-        {
-            string error = "No errors";
             EventPeriod eventPeriod = new EventPeriod(query.StartEvent, query.EndEvent);
-
-            if (await _eventRepository.GetEvent(query.UserId, eventPeriod) == null)
+            if (!await _eventRepository.Contains(query.UserId, eventPeriod))
             {
                 error = "An event with such a time does not exist";
-                return new ValidationResult(true, error);
+                return ValidationResult.Fail(error);
             }
-            return new ValidationResult(false, error);
+
+            return ValidationResult.Ok();
         }
     }
 }

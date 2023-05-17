@@ -2,8 +2,8 @@
 
 namespace Application.Interfaces
 {
-    public interface ICommandHandler<T> where T : class
+    public interface ICommandHandler<TCommand> where TCommand : class
     {
-        Task<CommandResult> Handle(T command);
+        Task<CommandResult> Handle(TCommand command);
     }
 }

@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandValidation : IValidator<DeleteUserCommand>, IAsyncValidator<DeleteUserCommand>
+    public class DeleteUserCommandValidation : IAsyncValidator<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,37 +13,28 @@ namespace Application.Users.Commands.DeleteUser
             _userRepository = userRepository;
         }
 
-        public ValidationResult Validation(DeleteUserCommand command)
+        public async Task<ValidationResult> Validation(DeleteUserCommand command)
         {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
+            string error;
             if (_userRepository.GetById(command.Id) == null)
             {
                 error = "There is no user with this id";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
-            validationResult = AsyncValidation(command).Result;
-            if (validationResult.IsFail)
+            if (!await _userRepository.Contains(command.Id))
             {
-                return validationResult;
+                error = "There is no user with this id";
+                return ValidationResult.Fail(error);
             }
 
-            return new ValidationResult(false, error);
-        }
-        public async Task<ValidationResult> AsyncValidation(DeleteUserCommand command)
-        {
-            string error = "No errors";
             User user = await _userRepository.GetById(command.Id);
-
             if (user.PasswordHash != command.PasswordHash)
             {
                 error = "The entered password does not match the current one";
-                return new ValidationResult(true, error);
+                return ValidationResult.Fail(error);
             }
-            return new ValidationResult(false, error);
+            return ValidationResult.Ok();
         }
     }
 }

@@ -3,26 +3,28 @@ using Application.Result;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
+using System.Collections.Generic;
 
 namespace Application.Users.Queries.GetEvents
 {
     public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<Event>, GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<GetEventsQuery> _getEventsQueryValidation;
+        private readonly IAsyncValidator<GetEventsQuery> _getEventsQueryValidator;
 
-        public GetEventsQueryHandler(IUserRepository userRepository, IValidator<GetEventsQuery> validator)
+        public GetEventsQueryHandler(IUserRepository userRepository, IAsyncValidator<GetEventsQuery> validator)
         {
             _userRepository = userRepository;
-            _getEventsQueryValidation = validator;
+            _getEventsQueryValidator = validator;
         }
 
         public async Task<QueryResult<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)
         {
-            ValidationResult validationResult = _getEventsQueryValidation.Validation(getEventsQuery);
+            ValidationResult validationResult = await _getEventsQueryValidator.Validation(getEventsQuery);
             if (!validationResult.IsFail)
             {
-                return new QueryResult<IReadOnlyList<Event>>(validationResult, await _userRepository.GetEvents(getEventsQuery.UserId));
+                IReadOnlyList<Event> events = await _userRepository.GetEvents(getEventsQuery.UserId);
+                return new QueryResult<IReadOnlyList<Event>>(validationResult, events);
             }
             return new QueryResult<IReadOnlyList<Event>>(validationResult);
         }

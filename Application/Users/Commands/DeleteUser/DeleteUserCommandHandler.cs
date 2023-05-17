@@ -9,17 +9,17 @@ namespace Application.Users.Commands.DeleteUser
     public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<DeleteUserCommand> _deleteUserCommandValidation;
+        private readonly IAsyncValidator<DeleteUserCommand> _deleteUserCommandValidator;
 
-        public DeleteUserCommandHandler(IUserRepository userRepository, IValidator<DeleteUserCommand> validator)
+        public DeleteUserCommandHandler(IUserRepository userRepository, IAsyncValidator<DeleteUserCommand> validator)
         {
             _userRepository = userRepository;
-            _deleteUserCommandValidation = validator;
+            _deleteUserCommandValidator = validator;
         }
 
         public async Task<CommandResult> Handle(DeleteUserCommand deleteUserCommand)
         {
-            ValidationResult validationResult = _deleteUserCommandValidation.Validation(deleteUserCommand);
+            ValidationResult validationResult = await _deleteUserCommandValidator.Validation(deleteUserCommand);
             if (!validationResult.IsFail)
             {
                 User user = _userRepository.GetById(deleteUserCommand.Id).Result;

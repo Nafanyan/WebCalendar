@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryValidation : IValidator<GetEventsQuery>, IAsyncValidator<GetEventsQuery>
+    public class GetEventsQueryValidation : IAsyncValidator<GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,32 +13,16 @@ namespace Application.Users.Queries.GetEvents
             _userRepository = userRepository;
         }
 
-        public ValidationResult Validation(GetEventsQuery query)
+        public async Task<ValidationResult> Validation(GetEventsQuery query)
         {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
-            validationResult = AsyncValidation(query).Result;
-            if (validationResult.IsFail)
-            {
-                return validationResult;
-            }
-
-            return validationResult;
-        }
-        public async Task<ValidationResult> AsyncValidation(GetEventsQuery query)
-        {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
-            if (await _userRepository.GetById(query.UserId) == null)
+            string error;
+            if (!await _userRepository.Contains(query.UserId))
             {
                 error = "There is no user with this id";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
-            return validationResult;
+            return ValidationResult.Ok();
         }
     }
 }

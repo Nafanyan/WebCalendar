@@ -2,6 +2,6 @@
 {
     public interface IAsyncValidator<T> where T : class
     {
-        Task<ValidationResult> AsyncValidation(T inputData);
+        Task<ValidationResult> Validation(T inputData);
     }
 }

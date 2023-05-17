@@ -9,17 +9,17 @@ namespace Application.Users.Commands.CreateUser
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<CreateUserCommand> _addUserCommandValidation;
+        private readonly IAsyncValidator<CreateUserCommand> _addUserCommandValidator;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IValidator<CreateUserCommand> validator) 
+        public CreateUserCommandHandler(IUserRepository userRepository, IAsyncValidator<CreateUserCommand> validator) 
         {
             _userRepository = userRepository;
-            _addUserCommandValidation = validator;
+            _addUserCommandValidator = validator;
         }
 
         public async Task<CommandResult> Handle(CreateUserCommand addUserCommand)
         {
-            ValidationResult validationResult = _addUserCommandValidation.Validation(addUserCommand);
+            ValidationResult validationResult = await _addUserCommandValidator.Validation(addUserCommand);
             if (!validationResult.IsFail)
             {
                 User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);

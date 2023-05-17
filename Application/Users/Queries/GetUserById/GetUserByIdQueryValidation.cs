@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryValidation : IValidator<GetUserByIdQuery>, IAsyncValidator<GetUserByIdQuery>
+    public class GetUserByIdQueryValidation : IAsyncValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 
@@ -12,32 +12,16 @@ namespace Application.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public ValidationResult Validation(GetUserByIdQuery query)
+        public async Task<ValidationResult> Validation(GetUserByIdQuery query)
         {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
-            validationResult = AsyncValidation(query).Result;
-            if (validationResult.IsFail)
-            {
-                return validationResult;
-            }
-
-            return validationResult;
-        }
-        public async Task<ValidationResult> AsyncValidation(GetUserByIdQuery query)
-        {
-            string error = "No errors";
-            ValidationResult validationResult = new ValidationResult(false, error);
-
-            if (await _userRepository.GetById(query.Id) == null)
+            string error;
+            if (!await _userRepository.Contains(query.Id))
             {
                 error = "There is no user with this id";
-                validationResult = new ValidationResult(true, error);
-                return validationResult;
+                return ValidationResult.Fail(error);
             }
 
-            return validationResult;
+            return ValidationResult.Ok();
         }
     }
 }

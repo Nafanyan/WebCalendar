@@ -9,7 +9,6 @@ namespace Infrastructure.Data.Events
     {
         private readonly WebCalendareDbContext _dbContext;
         private DbSet<Event> _dbSetEvent => _dbContext.Set<Event>();
-        private DbSet<User> _dbSetUser => _dbContext.Set<User>();
 
         public EventRepository(WebCalendareDbContext dbContext)
         {

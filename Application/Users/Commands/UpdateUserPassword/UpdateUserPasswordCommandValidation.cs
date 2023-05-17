@@ -15,7 +15,7 @@ namespace Application.Users.Commands.UpdateUserPassword
 
         public async Task<ValidationResult> Validation(UpdateUserPasswordCommand command)
         {
-            if (!await _userRepository.Contains(command.Id))
+            if (await _userRepository.Contains(user => user.Id != command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }

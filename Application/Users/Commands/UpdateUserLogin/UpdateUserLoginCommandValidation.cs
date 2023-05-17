@@ -20,13 +20,12 @@ namespace Application.Users.Commands.UpdateUserLogin
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            if (!await _userRepository.Contains(command.Id))
+            if (await _userRepository.Contains(user => user.Id != command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }
 
-            IReadOnlyList<User> users = await _userRepository.GetAll();
-            if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
+            if (await _userRepository.Contains(user => user.Login == command.Login))
             {
                 return ValidationResult.Fail("A user with this login already exists");
             }

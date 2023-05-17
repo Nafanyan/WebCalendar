@@ -20,9 +20,7 @@ namespace Application.Users.Commands.CreateUser
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            IReadOnlyList<User> users = await _userRepository.GetAll();
-
-            if (users.Where(u => u.Login == command.Login).FirstOrDefault() != null)
+            if (await _userRepository.Contains(user => user.Login == command.Login))
             {
                 return ValidationResult.Fail("A user with this login already exists");
             }

@@ -1,7 +1,7 @@
 ﻿namespace Domain.Repositories.BasicRepositories
 {
-    public interface IAddedRepository<TEntety> where TEntety : class
+    public interface IAddedRepository<TEntity> where TEntity : class
     {
-        Task Add(TEntety entity);
+        Task Add(TEntity entity);
     }
 }

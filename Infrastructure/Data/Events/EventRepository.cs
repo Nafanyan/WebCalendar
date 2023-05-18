@@ -5,32 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Events
 {
-    public class EventRepository : IEventRepository
+    public class EventRepository : BaseRepository<Event>, IEventRepository
     {
-        private readonly WebCalendareDbContext _dbContext;
-        private DbSet<Event> _dbSetEvent => _dbContext.Set<Event>();
+        private DbSet<Event> _dbSetEvent => DBContext.Set<Event>();
 
-        public EventRepository(WebCalendareDbContext dbContext)
+        public EventRepository(WebCalendareDbContext dbContext): base(dbContext)
         {
-            _dbContext = dbContext;
         }
-
-        public async Task Add(Event entity)
-        {
-            await _dbSetEvent.AddAsync(entity);
-        }
-
         public async Task<bool> Contains(long userId, EventPeriod eventPeriod)
         {
             return await GetEvent(userId, eventPeriod) != null;
         }
-
-        public async Task Delete(Event entity)
-        {
-            Event foundEvent = await GetEvent(entity.UserId, entity.EventPeriod);
-            _dbSetEvent.Remove(foundEvent);
-        }
-
         public async Task<Event> GetEvent(long userId, EventPeriod eventPeriod)
         {
             return await _dbSetEvent.Where(e => e.UserId == userId)

@@ -17,13 +17,13 @@ namespace Application.Users.Commands.CreateUser
             _addUserCommandValidator = validator;
         }
 
-        public async Task<CommandResult> Handle(CreateUserCommand addUserCommand)
+        public async Task<CommandResult> HandleAsync(CreateUserCommand addUserCommand)
         {
-            ValidationResult validationResult = await _addUserCommandValidator.Validation(addUserCommand);
+            ValidationResult validationResult = await _addUserCommandValidator.ValidationAsync(addUserCommand);
             if (!validationResult.IsFail)
             {
                 User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);
-                await _userRepository.Add(user);
+                await _userRepository.AddAsync(user);
             }
             return new CommandResult(validationResult);
         }

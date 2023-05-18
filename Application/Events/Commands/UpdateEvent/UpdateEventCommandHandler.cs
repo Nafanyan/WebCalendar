@@ -22,17 +22,17 @@ namespace Application.Events.Commands.UpdateEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> Handle(UpdateEventCommand updateEventCommand)
+        public async Task<CommandResult> HandleAsync(UpdateEventCommand updateEventCommand)
         {
-            ValidationResult validationResult = await _updateEventCommandValidator.Validation(updateEventCommand);
+            ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-                Event oldEvent = await _eventRepository.GetEvent(updateEventCommand.UserId, eventPeriod);
+                Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId, eventPeriod);
                 oldEvent.SetName(updateEventCommand.Name);
                 oldEvent.SetDescription(updateEventCommand.Description);
                 oldEvent.SetDateEvent(eventPeriod);
-                await _unitOfWork.Commit();
+                await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);
         }

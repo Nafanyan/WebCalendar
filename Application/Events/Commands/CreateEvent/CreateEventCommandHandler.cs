@@ -17,14 +17,14 @@ namespace Application.Events.Commands.CreateEvent
             _createEventCommandValidator = validator;
         }
 
-        public async Task<CommandResult> Handle(CreateEventCommand createEventCommand)
+        public async Task<CommandResult> HandleAsync(CreateEventCommand createEventCommand)
         {
-            ValidationResult validationResult = await _createEventCommandValidator.Validation(createEventCommand);
+            ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync(createEventCommand);
             if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(createEventCommand.StartEvent, createEventCommand.EndEvent);
                 Event newEvent = new Event(createEventCommand.Name, createEventCommand.Description, eventPeriod);
-                await _eventRepository.Add(newEvent);
+                await _eventRepository.AddAsync(newEvent);
             }
             return new CommandResult(validationResult);
         }

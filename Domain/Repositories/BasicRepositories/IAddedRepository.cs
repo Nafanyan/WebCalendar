@@ -2,6 +2,6 @@
 {
     public interface IAddedRepository<TEntety> where TEntety : class
     {
-        Task Add(TEntety entety);
+        Task AddAsync(TEntety entety);
     }
 }

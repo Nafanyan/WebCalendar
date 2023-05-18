@@ -13,7 +13,7 @@ namespace Application.Events.Queries.GetEvent
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> Validation(GetEventQuery query)
+        public async Task<ValidationResult> ValidationAsync(GetEventQuery query)
         {
             if (query.StartEvent == null)
             {
@@ -36,7 +36,7 @@ namespace Application.Events.Queries.GetEvent
             }
 
             EventPeriod eventPeriod = new EventPeriod(query.StartEvent, query.EndEvent);
-            if (!await _eventRepository.Contains(query.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(query.UserId, eventPeriod))
             {
                 return ValidationResult.Fail("An event with such a time does not exist");
             }

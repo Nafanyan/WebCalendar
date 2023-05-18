@@ -18,12 +18,12 @@ namespace Application.Users.Queries.GetEvents
             _getEventsQueryValidator = validator;
         }
 
-        public async Task<QueryResult<IReadOnlyList<Event>>> Handle(GetEventsQuery getEventsQuery)
+        public async Task<QueryResult<IReadOnlyList<Event>>> HandleAsync(GetEventsQuery getEventsQuery)
         {
-            ValidationResult validationResult = await _getEventsQueryValidator.Validation(getEventsQuery);
+            ValidationResult validationResult = await _getEventsQueryValidator.ValidationAsync(getEventsQuery);
             if (!validationResult.IsFail)
             {
-                IReadOnlyList<Event> events = await _userRepository.GetEvents(getEventsQuery.UserId);
+                IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId);
                 return new QueryResult<IReadOnlyList<Event>>(events);
             }
             return new QueryResult<IReadOnlyList<Event>>(validationResult);

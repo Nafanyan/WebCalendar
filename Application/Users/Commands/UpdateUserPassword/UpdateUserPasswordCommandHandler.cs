@@ -22,14 +22,14 @@ namespace Application.Users.Commands.UpdateUserPassword
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> Handle(UpdateUserPasswordCommand updateUserPasswordCommand)
+        public async Task<CommandResult> HandleAsync(UpdateUserPasswordCommand updateUserPasswordCommand)
         {
-            ValidationResult validationResult = await _updateUserPasswordCommandValidator.Validation(updateUserPasswordCommand);
+            ValidationResult validationResult = await _updateUserPasswordCommandValidator.ValidationAsync(updateUserPasswordCommand);
             if (!validationResult.IsFail)
             {
-                User user = await _userRepository.GetById(updateUserPasswordCommand.Id);
+                User user = await _userRepository.GetByIdAsync(updateUserPasswordCommand.Id);
                 user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
-                await _unitOfWork.Commit();
+                await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);
         }

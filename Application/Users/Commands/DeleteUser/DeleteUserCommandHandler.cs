@@ -17,13 +17,13 @@ namespace Application.Users.Commands.DeleteUser
             _deleteUserCommandValidator = validator;
         }
 
-        public async Task<CommandResult> Handle(DeleteUserCommand deleteUserCommand)
+        public async Task<CommandResult> HandleAsync(DeleteUserCommand deleteUserCommand)
         {
-            ValidationResult validationResult = await _deleteUserCommandValidator.Validation(deleteUserCommand);
+            ValidationResult validationResult = await _deleteUserCommandValidator.ValidationAsync(deleteUserCommand);
             if (!validationResult.IsFail)
             {
-                User user = _userRepository.GetById(deleteUserCommand.Id).Result;
-                await _userRepository.Delete(user);
+                User user = _userRepository.GetByIdAsync(deleteUserCommand.Id).Result;
+                await _userRepository.DeleteAsync(user);
             }
             return new CommandResult(validationResult);
         }

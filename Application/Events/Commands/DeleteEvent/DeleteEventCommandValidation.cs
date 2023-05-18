@@ -13,7 +13,7 @@ namespace Application.Events.Commands.DeleteEvent
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> Validation(DeleteEventCommand command)
+        public async Task<ValidationResult> ValidationAsync(DeleteEventCommand command)
         {
             if (command.StartEvent == null)
             {
@@ -36,7 +36,7 @@ namespace Application.Events.Commands.DeleteEvent
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
-            if (!await _eventRepository.Contains(command.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(command.UserId, eventPeriod))
             {
                 return ValidationResult.Fail("An event with such a time does not exist");
             }

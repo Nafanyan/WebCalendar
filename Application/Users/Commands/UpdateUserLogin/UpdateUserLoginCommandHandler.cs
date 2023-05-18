@@ -22,14 +22,14 @@ namespace Application.Users.Commands.UpdateUserLogin
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> Handle(UpdateUserLoginCommand updateUserLoginCommand)
+        public async Task<CommandResult> HandleAsync(UpdateUserLoginCommand updateUserLoginCommand)
         {
-            ValidationResult validationResult= await _updateUserLoginCommandValidator.Validation(updateUserLoginCommand);
+            ValidationResult validationResult= await _updateUserLoginCommandValidator.ValidationAsync(updateUserLoginCommand);
             if (!validationResult.IsFail)
             {
-                User user = await _userRepository.GetById(updateUserLoginCommand.Id);
+                User user = await _userRepository.GetByIdAsync(updateUserLoginCommand.Id);
                 user.SetLogin(updateUserLoginCommand.Login);
-                await _unitOfWork.Commit();
+                await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);
         }

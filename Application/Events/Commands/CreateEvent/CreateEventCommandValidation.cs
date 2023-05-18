@@ -13,7 +13,7 @@ namespace Application.Events.Commands.CreateEvent
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> Validation(CreateEventCommand command)
+        public async Task<ValidationResult> ValidationAsync(CreateEventCommand command)
         {
             if (command.Name == null)
             {
@@ -41,7 +41,7 @@ namespace Application.Events.Commands.CreateEvent
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
-            if (!await _eventRepository.Contains(command.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(command.UserId, eventPeriod))
             {
                 return ValidationResult.Fail("This event is superimposed on the existing event in time");
             }

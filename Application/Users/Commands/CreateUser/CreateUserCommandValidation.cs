@@ -13,14 +13,14 @@ namespace Application.Users.Commands.CreateUser
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> Validation(CreateUserCommand command)
+        public async Task<ValidationResult> ValidationAsync(CreateUserCommand command)
         {
             if (command.Login == null)
             {
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            if (await _userRepository.Contains(user => user.Login == command.Login))
+            if (await _userRepository.ContainsAsync(user => user.Login == command.Login))
             {
                 return ValidationResult.Fail("A user with this login already exists");
             }

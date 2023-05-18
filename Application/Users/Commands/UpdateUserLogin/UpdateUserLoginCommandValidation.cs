@@ -13,24 +13,24 @@ namespace Application.Users.Commands.UpdateUserLogin
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> Validation(UpdateUserLoginCommand command)
+        public async Task<ValidationResult> ValidationAsync(UpdateUserLoginCommand command)
         {
             if (command.Login == null)
             {
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            if (!await _userRepository.Contains(user => user.Id == command.Id))
+            if (!await _userRepository.ContainsAsync(user => user.Id == command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }
 
-            if (await _userRepository.Contains(user => user.Login == command.Login))
+            if (await _userRepository.ContainsAsync(user => user.Login == command.Login))
             {
                 return ValidationResult.Fail("A user with this login already exists");
             }
 
-            User user = await _userRepository.GetById(command.Id);
+            User user = await _userRepository.GetByIdAsync(command.Id);
             if (user.PasswordHash != command.PasswordHash)
             {
                 return ValidationResult.Fail("The entered password does not match the current one");

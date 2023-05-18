@@ -17,14 +17,14 @@ namespace Application.Events.Commands.DeleteEvent
             _deleteEventCommandValidator = validator;
         }
 
-        public async Task<CommandResult> Handle(DeleteEventCommand deleteEventCommand)
+        public async Task<CommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
         {
-            ValidationResult validationResult = await _deleteEventCommandValidator.Validation(deleteEventCommand);
+            ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
-                Event foundEvent = await _eventRepository.GetEvent(deleteEventCommand.UserId, eventPeriod);
-                await _eventRepository.Delete(foundEvent);
+                Event foundEvent = await _eventRepository.GetEventAsync(deleteEventCommand.UserId, eventPeriod);
+                await _eventRepository.DeleteAsync(foundEvent);
             }
             return new CommandResult(validationResult);
         }

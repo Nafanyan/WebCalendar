@@ -12,9 +12,9 @@ namespace Application.Users.Queries.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> Validation(GetUserByIdQuery query)
+        public async Task<ValidationResult> ValidationAsync(GetUserByIdQuery query)
         {
-            if (!await _userRepository.Contains(user => user.Id == query.Id))
+            if (!await _userRepository.ContainsAsync(user => user.Id == query.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }

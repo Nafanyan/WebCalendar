@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Users
         }
         public async Task<User> GetByIdAsync(long id)
         {
-            return await _dbSetUser.Where(u => u.Id == id).FirstAsync();
+            return await _dbSetUser.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
         public async Task<IReadOnlyList<Event>> GetEventsAsync(long id)
         {

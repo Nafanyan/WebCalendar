@@ -8,7 +8,11 @@ namespace Infrastructure.Data.Events
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
-            throw new NotImplementedException();
+            builder.ToTable("Events");
+            builder.HasKey(e => e.EventPeriod);
+            builder.Property(e => e.Name).HasMaxLength(100);
+            builder.Property(e => e.Description).HasMaxLength(200);
+            builder.HasAlternateKey(e => e.UserId);
         }
     }
 }

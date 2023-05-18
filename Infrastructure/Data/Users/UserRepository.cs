@@ -16,19 +16,19 @@ namespace Infrastructure.Data.Users
         {
         }
 
-        public async Task<bool> Contains(Expression<Func<User, bool>> predicate)
+        public async Task<bool> ContainsAsync(Expression<Func<User, bool>> predicate)
         {
             return await _dbSetUser.Where(predicate).FirstOrDefaultAsync() != null;
         }
-        public async Task<IReadOnlyList<User>> GetAll()
+        public async Task<IReadOnlyList<User>> GetAllAsync()
         {
             return await _dbSetUser.ToListAsync();
         }
-        public async Task<User> GetById(long id)
+        public async Task<User> GetByIdAsync(long id)
         {
             return await _dbSetUser.Where(u => u.Id == id).FirstAsync();
         }
-        public async Task<IReadOnlyList<Event>> GetEvents(long id)
+        public async Task<IReadOnlyList<Event>> GetEventsAsync(long id)
         {
             return await _dbSetEvent.Where(e => e.UserId == id).ToListAsync();
         }

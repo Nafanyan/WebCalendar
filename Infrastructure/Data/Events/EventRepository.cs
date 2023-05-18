@@ -12,11 +12,11 @@ namespace Infrastructure.Data.Events
         public EventRepository(WebCalendareDbContext dbContext): base(dbContext)
         {
         }
-        public async Task<bool> Contains(long userId, EventPeriod eventPeriod)
+        public async Task<bool> ContainsAsync(long userId, EventPeriod eventPeriod)
         {
-            return await GetEvent(userId, eventPeriod) != null;
+            return await GetEventAsync(userId, eventPeriod) != null;
         }
-        public async Task<Event> GetEvent(long userId, EventPeriod eventPeriod)
+        public async Task<Event> GetEventAsync(long userId, EventPeriod eventPeriod)
         {
             return await _dbSetEvent.Where(e => e.UserId == userId)
                 .Where(e => (e.EventPeriod.StartEvent >= eventPeriod.StartEvent) &&

@@ -17,13 +17,13 @@ namespace Application.Events.Queries.GetEvent
             _eventQueryValidator = validator;
         }
 
-        public async Task<QueryResult<Event>> Handle(GetEventQuery getEventQuery)
+        public async Task<QueryResult<Event>> HandleAsync(GetEventQuery getEventQuery)
         {
-            ValidationResult validationResult = await _eventQueryValidator.Validation(getEventQuery);
+            ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
             if (!validationResult.IsFail)
             {
                 EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
-                Event foundEvent = await _eventRepository.GetEvent(getEventQuery.UserId, eventPeriod);
+                Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId, eventPeriod);
                 return new QueryResult<Event>( foundEvent);
             }
             return new QueryResult<Event>(validationResult);

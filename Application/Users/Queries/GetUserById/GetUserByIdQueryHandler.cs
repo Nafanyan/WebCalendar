@@ -17,12 +17,12 @@ namespace Application.Users.Queries.GetUserById
             _getUserByIdQueryValidator = validator;
         }
 
-        public async Task<QueryResult<User>> Handle(GetUserByIdQuery getUserByIdQuery)
+        public async Task<QueryResult<User>> HandleAsync(GetUserByIdQuery getUserByIdQuery)
         {
-            ValidationResult validationResult = await _getUserByIdQueryValidator.Validation(getUserByIdQuery);
+            ValidationResult validationResult = await _getUserByIdQueryValidator.ValidationAsync(getUserByIdQuery);
             if (!validationResult.IsFail)
             {
-                User user = await _userRepository.GetById(getUserByIdQuery.Id);
+                User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);
                 return new QueryResult<User>(user);
             }
             return new QueryResult<User>(validationResult);

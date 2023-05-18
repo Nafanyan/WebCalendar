@@ -13,7 +13,7 @@ namespace Application.Events.Commands.UpdateEvent
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> Validation(UpdateEventCommand command)
+        public async Task<ValidationResult> ValidationAsync(UpdateEventCommand command)
         {
             if (command.StartEvent == null)
             {
@@ -36,7 +36,7 @@ namespace Application.Events.Commands.UpdateEvent
             }
 
             EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
-            if (!await _eventRepository.Contains(command.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(command.UserId, eventPeriod))
             {
                 return ValidationResult.Fail("An event with such a time does not exist");
             }

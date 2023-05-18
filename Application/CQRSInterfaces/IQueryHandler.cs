@@ -6,6 +6,6 @@ namespace Application.Interfaces
         where TResult : class
         where TQuery : class
     {
-        Task<QueryResult<TResult>> Handle(TQuery query);
+        Task<QueryResult<TResult>> HandleAsync(TQuery query);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Repositories.BasicRepositories;
 using Infrastructure.Foundation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
@@ -7,6 +8,7 @@ namespace Infrastructure.Data
         IRemovableRepository<TEntity> where TEntity : class
     {
         protected readonly WebCalendareDbContext DBContext;
+        protected DbSet<TEntity> Entities { get; }
 
         public BaseRepository(WebCalendareDbContext dbContext)
         {
@@ -15,11 +17,11 @@ namespace Infrastructure.Data
 
         public async Task AddAsync(TEntity entity)
         {
-            await DBContext.Set<TEntity>().AddAsync(entity);
+            await Entities.AddAsync(entity);
         }
         public async Task DeleteAsync(TEntity entity)
         {
-            DBContext.Set<TEntity>().Remove(entity);
+            Entities.Remove(entity);
         }
     }
 }

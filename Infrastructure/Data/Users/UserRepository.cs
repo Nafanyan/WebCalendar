@@ -20,16 +20,6 @@ namespace Infrastructure.Data.Users
         {
             return await _dbSetUser.Where(predicate).FirstOrDefaultAsync() != null;
         }
-        public async Task<IReadOnlyList<User>> GetAllAsync()
-        {
-            return await _dbSetUser.ToListAsync();
-        }
-        // замена GetAllAsync
-        public async Task<IReadOnlyList<long>> GetAllUserIdAsync()
-        {
-            return await _dbSetUser.Select(u => u.Id).ToListAsync();
-        }
-        //
         public async Task<User> GetByIdAsync(long id)
         {
             return await _dbSetUser.Where(u => u.Id == id).FirstOrDefaultAsync();

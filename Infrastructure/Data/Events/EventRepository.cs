@@ -12,6 +12,7 @@ namespace Infrastructure.Data.Events
         public EventRepository(WebCalendareDbContext dbContext): base(dbContext)
         {
         }
+
         public async Task<bool> ContainsAsync(long userId, EventPeriod eventPeriod)
         {
             return await GetEventAsync(userId, eventPeriod) != null;

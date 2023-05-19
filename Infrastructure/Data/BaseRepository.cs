@@ -12,11 +12,11 @@ namespace Infrastructure.Data
         {
             DBContext = dbContext;
         }
+
         public async Task AddAsync(TEntity entity)
         {
             await DBContext.Set<TEntity>().AddAsync(entity);
         }
-
         public async Task DeleteAsync(TEntity entity)
         {
             DBContext.Set<TEntity>().Remove(entity);

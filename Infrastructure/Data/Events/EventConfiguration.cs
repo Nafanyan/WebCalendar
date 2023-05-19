@@ -9,7 +9,7 @@ namespace Infrastructure.Data.Events
         public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.ToTable("Events")
-                .HasKey(e => e.EventPeriod);
+                .HasKey(e => new { e.EventPeriod, e.UserId}); // типа составной ключ
 
             builder.Property(e => e.EventPeriod).IsRequired();
             builder.Property(e => e.UserId).IsRequired();

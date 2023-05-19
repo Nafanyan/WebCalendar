@@ -8,10 +8,14 @@ namespace Infrastructure.Data.Users
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Login).HasMaxLength(100);
-            builder.Property(u => u.PasswordHash).HasMaxLength(100);
+            builder.ToTable("Users")
+                .HasKey(u => u.Id);
+
+            builder.Property(u => u.Id).ValueGeneratedOnAdd();
+            builder.Property(u => u.Login).HasMaxLength(100).IsRequired();
+            builder.Property(u => u.PasswordHash).HasMaxLength(100).IsRequired();
+
+            builder.HasMany<Event>().WithOne().HasForeignKey(e => e.UserId).IsRequired();
         }
     }
 }

@@ -4,9 +4,9 @@ namespace Infrastructure.Foundation
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly WebCalendareDbContext _dbContext;
+        private readonly WebCalendarDbContext _dbContext;
 
-        public UnitOfWork(WebCalendareDbContext dbContext)
+        public UnitOfWork(WebCalendarDbContext dbContext)
         {
             _dbContext = dbContext;
         }

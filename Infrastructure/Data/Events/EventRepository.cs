@@ -9,7 +9,7 @@ namespace Infrastructure.Data.Events
     {
         private DbSet<Event> _dbSetEvent => DBContext.Set<Event>();
 
-        public EventRepository(WebCalendareDbContext dbContext): base(dbContext)
+        public EventRepository(WebCalendarDbContext dbContext): base(dbContext)
         {
         }
 

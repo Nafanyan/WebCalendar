@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Users
         private DbSet<User> _dbSetUser => DBContext.Set<User>();
         private DbSet<Event> _dbSetEvent => DBContext.Set<Event>();
 
-        public UserRepository(WebCalendareDbContext dbContext) : base(dbContext)
+        public UserRepository(WebCalendarDbContext dbContext) : base(dbContext)
         {
         }
 

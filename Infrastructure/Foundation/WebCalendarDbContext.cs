@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Foundation
 {
-    public class WebCalendareDbContext : DbContext
+    public class WebCalendarDbContext : DbContext
     {
-        public WebCalendareDbContext(DbContextOptions options) : base(options)
+        public WebCalendarDbContext(DbContextOptions options) : base(options)
         {
         }
 

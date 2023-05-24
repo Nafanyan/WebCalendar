@@ -12,7 +12,7 @@ namespace Presentation.Intranet.Api
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
-                db => db.MigrationsAssembly("Infrastructure.Migration")));
+                db => db.MigrationsAssembly("InfrastructureMigration")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

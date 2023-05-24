@@ -2,7 +2,7 @@
 using WebCalendar.Application.Events;
 using WebCalendar.Application.Users;
 
-namespace WebCalendar.Application
+namespace Application
 {
     public static class ApplicationBindings
     {

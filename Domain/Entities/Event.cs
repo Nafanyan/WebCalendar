@@ -5,13 +5,20 @@
         public long UserId { get; init; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public EventPeriod EventPeriod { get; private set; }
+        public DateTime StartEvent { get; set; }
+        public DateTime EndEvent { get; set; }
 
-        public Event(string name, string description, EventPeriod eventPeriod)
+        public Event(string name, string description, DateTime startEvent, DateTime endEvent)
         {
             Name = name;
             Description = description;
-            EventPeriod = eventPeriod;
+            StartEvent = startEvent;
+            EndEvent = endEvent;
+        }
+
+        public Event()
+        {
+
         }
 
         public void SetName(string name)
@@ -22,9 +29,10 @@
         {
             Description = description;
         }
-        public void SetDateEvent(EventPeriod eventPeriod)
+        public void SetDateEvent(DateTime startEvent, DateTime endEvent)
         {
-            EventPeriod = eventPeriod;
+            StartEvent = startEvent;
+            EndEvent = endEvent;
         }
     }
 }

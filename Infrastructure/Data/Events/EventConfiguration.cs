@@ -8,10 +8,15 @@ namespace Infrastructure.Data.Events
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
-            builder.ToTable("Events")
-                .HasKey(e => new { e.EventPeriod, e.UserId}); // типа составной ключ
 
-            builder.Property(e => e.EventPeriod).IsRequired();
+            builder.HasKey(e => new { e.UserId, e.EventPeriod});
+
+            builder.OwnsOne(e => e.EventPeriod, ep =>
+            {
+                ep.Property(se => se.StartEvent).IsRequired();
+                ep.Property(ee => ee.EndEvent).IsRequired();
+            });
+
             builder.Property(e => e.UserId).IsRequired();
             builder.Property(e => e.Name).HasMaxLength(100).IsRequired();
             builder.Property(e => e.Description).HasMaxLength(200).IsRequired();

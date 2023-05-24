@@ -11,7 +11,7 @@ namespace Infrastructure.Foundation
             _dbContext = dbContext;
         }
 
-        public async Task Commit()
+        public async Task CommitAsync()
         {
             await _dbContext.SaveChangesAsync();
         }

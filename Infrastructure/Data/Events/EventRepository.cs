@@ -13,15 +13,15 @@ namespace Infrastructure.Data.Events
         {
         }
 
-        public async Task<bool> ContainsAsync(long userId, EventPeriod eventPeriod)
+        public async Task<bool> ContainsAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
-            return await GetEventAsync(userId, eventPeriod) != null;
+            return await GetEventAsync(userId, startEvent, endEvent) != null;
         }
-        public async Task<Event> GetEventAsync(long userId, EventPeriod eventPeriod)
+        public async Task<Event> GetEventAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
             return await _dbSetEvent.Where(e => e.UserId == userId)
-                .Where(e => (e.EventPeriod.StartEvent >= eventPeriod.StartEvent) &&
-                 (e.EventPeriod.EndEvent <= eventPeriod.EndEvent)).FirstOrDefaultAsync();
+                .Where(e => (e.StartEvent >= startEvent) &&
+                 (e.EndEvent <= endEvent)).FirstOrDefaultAsync();
         }
     }
 }

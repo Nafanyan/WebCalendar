@@ -1,7 +1,7 @@
 using Infrastructure;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
-using WebCalendar.Application;
+using Application;
 
 namespace Presentation.Intranet.Api
 {
@@ -14,12 +14,11 @@ namespace Presentation.Intranet.Api
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("Infrastructure.Migration")));
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             builder.Services.AddApplicationBindings();
             builder.Services.AddInfrastructureBindings();
 

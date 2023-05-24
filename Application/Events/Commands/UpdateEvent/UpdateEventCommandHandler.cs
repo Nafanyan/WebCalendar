@@ -27,11 +27,11 @@ namespace Application.Events.Commands.UpdateEvent
             ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)
             {
-                EventPeriod eventPeriod = new EventPeriod(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
-                Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId, eventPeriod);
+                Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId,
+                    updateEventCommand.StartEvent, updateEventCommand.EndEvent);
                 oldEvent.SetName(updateEventCommand.Name);
                 oldEvent.SetDescription(updateEventCommand.Description);
-                oldEvent.SetDateEvent(eventPeriod);
+                oldEvent.SetDateEvent(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
                 await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);

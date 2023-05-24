@@ -35,8 +35,7 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail("The event must occur within one day");
             }
 
-            EventPeriod eventPeriod = new EventPeriod(command.StartEvent, command.EndEvent);
-            if (!await _eventRepository.ContainsAsync(command.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
             {
                 return ValidationResult.Fail("An event with such a time does not exist");
             }

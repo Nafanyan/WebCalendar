@@ -22,8 +22,8 @@ namespace Application.Events.Commands.CreateEvent
             ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync(createEventCommand);
             if (!validationResult.IsFail)
             {
-                EventPeriod eventPeriod = new EventPeriod(createEventCommand.StartEvent, createEventCommand.EndEvent);
-                Event newEvent = new Event(createEventCommand.Name, createEventCommand.Description, eventPeriod);
+                Event newEvent = new Event(createEventCommand.Name, createEventCommand.Description,
+                    createEventCommand.StartEvent, createEventCommand.EndEvent);
                 await _eventRepository.AddAsync(newEvent);
             }
             return new CommandResult(validationResult);

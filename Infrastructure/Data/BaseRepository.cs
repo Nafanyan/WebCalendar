@@ -7,10 +7,10 @@ namespace Infrastructure.Data
     public abstract class BaseRepository<TEntity> : IAddedRepository<TEntity>,
         IRemovableRepository<TEntity> where TEntity : class
     {
-        protected readonly WebCalendareDbContext DBContext;
+        protected readonly WebCalendarDbContext DBContext;
         protected DbSet<TEntity> Entities { get; }
 
-        public BaseRepository(WebCalendareDbContext dbContext)
+        public BaseRepository(WebCalendarDbContext dbContext)
         {
             DBContext = dbContext;
         }

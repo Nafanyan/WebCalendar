@@ -5,13 +5,15 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5CB1D12C-448F-466E-9B5A-530BB63BE761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Intranet.Api", "Web\Presentation.Intranet.Api\Presentation.Intranet.Api.csproj", "{E0B91506-0F37-49F4-8CEA-0D68AF891F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Intranet.Api", "Web\Presentation.Intranet.Api\Presentation.Intranet.Api.csproj", "{E0B91506-0F37-49F4-8CEA-0D68AF891F6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{A6ACC853-281D-4088-8DA3-A08592AC48F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{A6ACC853-281D-4088-8DA3-A08592AC48F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{594BDE93-C246-4490-9877-DDB3A8984EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{594BDE93-C246-4490-9877-DDB3A8984EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureMigration", "Infrastructure.Migration\InfrastructureMigration.csproj", "{9FD858D6-D001-4DDD-9D0B-7DE51E3A93B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD858D6-D001-4DDD-9D0B-7DE51E3A93B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD858D6-D001-4DDD-9D0B-7DE51E3A93B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD858D6-D001-4DDD-9D0B-7DE51E3A93B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD858D6-D001-4DDD-9D0B-7DE51E3A93B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -35,8 +35,7 @@ namespace Application.Events.Queries.GetEvent
                 return ValidationResult.Fail("The event must occur within one day");
             }
 
-            EventPeriod eventPeriod = new EventPeriod(query.StartEvent, query.EndEvent);
-            if (!await _eventRepository.ContainsAsync(query.UserId, eventPeriod))
+            if (!await _eventRepository.ContainsAsync(query.UserId, query.StartEvent, query.EndEvent))
             {
                 return ValidationResult.Fail("An event with such a time does not exist");
             }

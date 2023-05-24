@@ -22,8 +22,8 @@ namespace Application.Events.Queries.GetEvent
             ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
             if (!validationResult.IsFail)
             {
-                EventPeriod eventPeriod = new EventPeriod(getEventQuery.StartEvent, getEventQuery.EndEvent);
-                Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId, eventPeriod);
+                Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
+                    getEventQuery.StartEvent, getEventQuery.EndEvent);
                 return new QueryResult<Event>( foundEvent);
             }
             return new QueryResult<Event>(validationResult);

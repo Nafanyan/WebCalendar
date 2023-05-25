@@ -17,7 +17,7 @@ using Presentation.Intranet.Api.Mappers.UserMappers;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
@@ -26,13 +26,15 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
         private readonly IQueryHandler<IReadOnlyList<Event>, GetEventsQuery> _getEventQueryHandler;
         private readonly IQueryHandler<User, GetUserByIdQuery> _getUserByIdQueryHandler;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(ICommandHandler<CreateUserCommand> createUserCommandHandler,
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
             IQueryHandler<IReadOnlyList<Event>, GetEventsQuery> getEventQueryHandler,
-            IQueryHandler<User, GetUserByIdQuery> getUserByIdQueryHandler
+            IQueryHandler<User, GetUserByIdQuery> getUserByIdQueryHandler,
+            IUnitOfWork unitOfWork
             )
         {
             _createUserCommandHandler = createUserCommandHandler;
@@ -41,18 +43,58 @@ namespace Presentation.Intranet.Api.Controllers
             _updateUserPasswordCommandHandler = updateUserPasswordCommandHandler;
             _getEventQueryHandler = getEventQueryHandler;
             _getUserByIdQueryHandler = getUserByIdQueryHandler;
+            _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("[controller]/{idUser}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute]GetUserByIdDto getUserByIdDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id)
         {
+            GetUserByIdDto getUserByIdDto = new GetUserByIdDto
+            {
+                Id = id
+            };
             QueryResult<User> queryResult = await _getUserByIdQueryHandler.HandleAsync(getUserByIdDto.Map());
             return Ok(queryResult);
         }
-        [HttpPost("[controller]")]
-        public async Task<IActionResult> AddAsync(CreateUserDto createUserDto)
+
+        [HttpGet("{id}/events")]
+        public async Task<IActionResult> GetEvents([FromRoute] long id)
+        {
+            GetEventsDto getEventsDto = new GetEventsDto
+            {
+                UserId = id
+            };
+            QueryResult<IReadOnlyList<Event>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsDto.Map());
+            return Ok(queryResult);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> AddAsync([FromBody] CreateUserDto createUserDto)
         {
             CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
+            await _unitOfWork.CommitAsync();
+            return Ok(commandResult);
+        }
+
+        [HttpDelete()]
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteUserDto deleteUserDto)
+        {
+            CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserDto.Map());
+            await _unitOfWork.CommitAsync();
+            return Ok(commandResult);
+        }
+
+        [HttpPut("update-login")]
+        public async Task<IActionResult> PutLogin([FromBody] UpdateUserLoginDto updateUserLoginDto)
+        {
+            CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginDto.Map());
+            return Ok(commandResult);
+        }
+
+        [HttpPut("update-password")]
+        public async Task<IActionResult> PutPassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
+        {
+            CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());
             return Ok(commandResult);
         }
     }

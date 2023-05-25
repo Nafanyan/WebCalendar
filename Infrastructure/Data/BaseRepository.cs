@@ -8,7 +8,7 @@ namespace Infrastructure.Data
         IRemovableRepository<TEntity> where TEntity : class
     {
         protected readonly WebCalendarDbContext DBContext;
-        protected DbSet<TEntity> Entities { get; }
+        protected DbSet<TEntity> Entities => DBContext.Set<TEntity>();
 
         public BaseRepository(WebCalendarDbContext dbContext)
         {

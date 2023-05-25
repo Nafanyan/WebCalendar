@@ -116,7 +116,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("update-password")]
+        [HttpPut("Update-password")]
         public async Task<IActionResult> PutPassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
             CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());

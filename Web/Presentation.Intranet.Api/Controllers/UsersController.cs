@@ -49,23 +49,33 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id)
         {
-            GetUserByIdDto getUserByIdDto = new GetUserByIdDto
+            GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
             {
                 Id = id
             };
-            QueryResult<User> queryResult = await _getUserByIdQueryHandler.HandleAsync(getUserByIdDto.Map());
-            return Ok(queryResult);
+            QueryResult<User> queryResult = await _getUserByIdQueryHandler.HandleAsync(getUserByIdQuery);
+
+            if (queryResult.ValidationResult.IsFail)
+            {
+                return BadRequest(queryResult.ValidationResult.Error);
+            }
+            return Ok(queryResult.ObjResult);
         }
 
         [HttpGet("{id}/events")]
         public async Task<IActionResult> GetEvents([FromRoute] long id)
         {
-            GetEventsDto getEventsDto = new GetEventsDto
+            GetEventsQuery getEventsQuery = new GetEventsQuery
             {
                 UserId = id
             };
-            QueryResult<IReadOnlyList<Event>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsDto.Map());
-            return Ok(queryResult);
+            QueryResult<IReadOnlyList<Event>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
+            
+            if (queryResult.ValidationResult.IsFail)
+            {
+                return BadRequest(queryResult.ValidationResult.Error);
+            }
+            return Ok(queryResult.ObjResult);
         }
 
         [HttpPost()]
@@ -73,7 +83,12 @@ namespace Presentation.Intranet.Api.Controllers
         {
             CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
             await _unitOfWork.CommitAsync();
-            return Ok(commandResult);
+
+            if (commandResult.ValidationResult.IsFail)
+            {
+                return BadRequest(commandResult.ValidationResult.Error);
+            }
+            return Ok();
         }
 
         [HttpDelete()]
@@ -81,21 +96,36 @@ namespace Presentation.Intranet.Api.Controllers
         {
             CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserDto.Map());
             await _unitOfWork.CommitAsync();
-            return Ok(commandResult);
+
+            if (commandResult.ValidationResult.IsFail)
+            {
+                return BadRequest(commandResult.ValidationResult.Error);
+            }
+            return Ok();
         }
 
-        [HttpPut("update-login")]
+        [HttpPut("Update-login")]
         public async Task<IActionResult> PutLogin([FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
             CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginDto.Map());
-            return Ok(commandResult);
+
+            if (commandResult.ValidationResult.IsFail)
+            {
+                return BadRequest(commandResult.ValidationResult.Error);
+            }
+            return Ok();
         }
 
         [HttpPut("update-password")]
         public async Task<IActionResult> PutPassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
             CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());
-            return Ok(commandResult);
+            
+            if (commandResult.ValidationResult.IsFail)
+            {
+                return BadRequest(commandResult.ValidationResult.Error);
+            }
+            return Ok();
         }
     }
 }

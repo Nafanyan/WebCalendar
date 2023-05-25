@@ -57,7 +57,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (queryResult.ValidationResult.IsFail)
             {
-                return BadRequest(queryResult.ValidationResult.Error);
+                return BadRequest(queryResult.ValidationResult);
             }
             return Ok(queryResult.ObjResult);
         }
@@ -73,7 +73,7 @@ namespace Presentation.Intranet.Api.Controllers
             
             if (queryResult.ValidationResult.IsFail)
             {
-                return BadRequest(queryResult.ValidationResult.Error);
+                return BadRequest(queryResult.ValidationResult);
             }
             return Ok(queryResult.ObjResult);
         }
@@ -86,7 +86,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult.Error);
+                return BadRequest(commandResult.ValidationResult);
             }
             return Ok();
         }
@@ -99,31 +99,31 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult.Error);
+                return BadRequest(commandResult.ValidationResult);
             }
             return Ok();
         }
 
         [HttpPut("Update-login")]
-        public async Task<IActionResult> PutLogin([FromBody] UpdateUserLoginDto updateUserLoginDto)
+        public async Task<IActionResult> UpdateLogin([FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
             CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginDto.Map());
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult.Error);
+                return BadRequest(commandResult.ValidationResult);
             }
             return Ok();
         }
 
         [HttpPut("Update-password")]
-        public async Task<IActionResult> PutPassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
             CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());
             
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult.Error);
+                return BadRequest(commandResult.ValidationResult);
             }
             return Ok();
         }

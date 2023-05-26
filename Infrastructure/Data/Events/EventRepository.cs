@@ -19,9 +19,15 @@ namespace Infrastructure.Data.Events
         }
         public async Task<Event> GetEventAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
-            return await _dbSetEvent.Where(e => e.UserId == userId)
+            IReadOnlyList<Event> events = await _dbSetEvent.Where(e => e.UserId == userId).ToListAsync();
+            if (events.Count > 0)
+            {
+                return await _dbSetEvent.Where(e => e.UserId == userId)
                 .Where(e => (e.StartEvent >= startEvent) &&
                  (e.EndEvent <= endEvent)).FirstOrDefaultAsync();
+            }
+
+            return null;
         }
     }
 }

@@ -1,19 +1,19 @@
 ﻿using Application.Events.Commands.CreateEvent;
-using Presentation.Intranet.Api.Dtos.EventDtos;
+using Presentation.Intranet.Api.Dtos.EventRequest;
 
 namespace Presentation.Intranet.Api.Mappers.EventMappers
 {
     public static class CreateEventCommandMapper
     {
-        public static CreateEventCommand Map(this CreateEventDto createEventDto, long userId)
+        public static CreateEventCommand Map(this CreateEventRequest createEventRequest, long userId)
         {
             return new CreateEventCommand
             {
                 UserId = userId,
-                Name = createEventDto.Name,
-                Description = createEventDto.Description,
-                StartEvent = createEventDto.StartEvent.MapStringToDate(),
-                EndEvent = createEventDto.EndEvent.MapStringToDate()
+                Name = createEventRequest.Name,
+                Description = createEventRequest.Description,
+                StartEvent = createEventRequest.StartEvent.MapStringToDate(),
+                EndEvent = createEventRequest.EndEvent.MapStringToDate()
             };
         }
     }

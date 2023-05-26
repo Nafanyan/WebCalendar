@@ -7,7 +7,7 @@ using Application.Result;
 using Domain.Entities;
 using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Intranet.Api.Dtos.EventDtos;
+using Presentation.Intranet.Api.Dtos.EventRequest;
 using Presentation.Intranet.Api.Mappers.EventMappers;
 
 namespace Presentation.Intranet.Api.Controllers
@@ -64,19 +64,18 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost("{userId:long}/[controller]")]
-        public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventDto)
+        public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventRequest createEventRequest)
         {
-            if (createEventDto.StartEvent.StringValidationToDate().IsFail)
+            if (createEventRequest.StartEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(createEventDto.StartEvent.StringValidationToDate().Error);
+                return BadRequest(createEventRequest.StartEvent.StringValidationToDate().Error);
             }
-            if (createEventDto.EndEvent.StringValidationToDate().IsFail)
+            if (createEventRequest.EndEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(createEventDto.EndEvent.StringValidationToDate().Error);
+                return BadRequest(createEventRequest.EndEvent.StringValidationToDate().Error);
             }
 
-            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventDto.Map(userId));
-
+            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);
@@ -87,19 +86,18 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpDelete("{userId:long}/[controller]")]
-        public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventDto deleteEventDto)
+        public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventRequest deleteEventRequest)
         {
-            if (deleteEventDto.StartEvent.StringValidationToDate().IsFail)
+            if (deleteEventRequest.StartEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(deleteEventDto.StartEvent.StringValidationToDate().Error);
+                return BadRequest(deleteEventRequest.StartEvent.StringValidationToDate().Error);
             }
-            if (deleteEventDto.EndEvent.StringValidationToDate().IsFail)
+            if (deleteEventRequest.EndEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(deleteEventDto.EndEvent.StringValidationToDate().Error);
+                return BadRequest(deleteEventRequest.EndEvent.StringValidationToDate().Error);
             }
 
-            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventDto.Map(userId));
-
+            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);
@@ -110,19 +108,18 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPut("{userId:long}/[controller]")]
-        public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventDto)
+        public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventRequest updateEventRequest)
         {
-            if (updateEventDto.StartEvent.StringValidationToDate().IsFail)
+            if (updateEventRequest.StartEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(updateEventDto.StartEvent.StringValidationToDate().Error);
+                return BadRequest(updateEventRequest.StartEvent.StringValidationToDate().Error);
             }
-            if (updateEventDto.EndEvent.StringValidationToDate().IsFail)
+            if (updateEventRequest.EndEvent.StringValidationToDate().IsFail)
             {
-                return BadRequest(updateEventDto.EndEvent.StringValidationToDate().Error);
+                return BadRequest(updateEventRequest.EndEvent.StringValidationToDate().Error);
             }
 
-            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventDto.Map(userId));
-
+            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);

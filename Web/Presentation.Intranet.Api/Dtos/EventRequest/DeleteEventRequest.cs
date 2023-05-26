@@ -1,6 +1,6 @@
-﻿namespace Presentation.Intranet.Api.Dtos.EventDtos
+﻿namespace Presentation.Intranet.Api.Dtos.EventRequest
 {
-    public class DeleteEventDto
+    public class DeleteEventRequest
     {
         public string StartEvent { get; init; }
         public string EndEvent { get; init; }

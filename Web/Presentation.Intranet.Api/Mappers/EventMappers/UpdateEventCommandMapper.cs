@@ -1,19 +1,19 @@
 ﻿using Application.Events.Commands.UpdateEvent;
-using Presentation.Intranet.Api.Dtos.EventDtos;
+using Presentation.Intranet.Api.Dtos.EventRequest;
 
 namespace Presentation.Intranet.Api.Mappers.EventMappers
 {
     public static class UpdateEventCommandMapper
     {
-        public static UpdateEventCommand Map(this UpdateEventDto updateEventDto, long userId)
+        public static UpdateEventCommand Map(this UpdateEventRequest updateEventRequest, long userId)
         {
             return new UpdateEventCommand
             {
                 UserId = userId,
-                Name = updateEventDto.Name,
-                Description = updateEventDto.Description,
-                StartEvent = updateEventDto.StartEvent.MapStringToDate(),
-                EndEvent = updateEventDto.EndEvent.MapStringToDate()
+                Name = updateEventRequest.Name,
+                Description = updateEventRequest.Description,
+                StartEvent = updateEventRequest.StartEvent.MapStringToDate(),
+                EndEvent = updateEventRequest.EndEvent.MapStringToDate()
             };
         }
     }

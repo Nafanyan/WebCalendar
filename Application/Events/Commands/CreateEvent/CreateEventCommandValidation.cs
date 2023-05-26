@@ -39,7 +39,6 @@ namespace Application.Events.Commands.CreateEvent
             {
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
-
             if (!await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
             {
                 return ValidationResult.Fail("This event is superimposed on the existing event in time");

@@ -7,7 +7,6 @@ namespace Infrastructure.Data.Events
 {
     public class EventRepository : BaseRepository<Event>, IEventRepository
     {
-        private DbSet<Event> _dbSetEvent => DBContext.Set<Event>();
 
         public EventRepository(WebCalendarDbContext dbContext): base(dbContext)
         {
@@ -19,10 +18,10 @@ namespace Infrastructure.Data.Events
         }
         public async Task<Event> GetEventAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
-            IReadOnlyList<Event> events = await _dbSetEvent.Where(e => e.UserId == userId).ToListAsync();
+            IReadOnlyList<Event> events = await Entities.Where(e => e.UserId == userId).ToListAsync();
             if (events.Count > 0)
             {
-                return await _dbSetEvent.Where(e => e.UserId == userId)
+                return await Entities.Where(e => e.UserId == userId)
                 .Where(e => (e.StartEvent >= startEvent) &&
                  (e.EndEvent <= endEvent)).FirstOrDefaultAsync();
             }

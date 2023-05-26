@@ -11,8 +11,8 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
             return new DeleteEventCommand
             {
                 UserId = userId,
-                StartEvent = deleteEventRequest.StartEvent.MapStringToDate(),
-                EndEvent = deleteEventRequest.EndEvent.MapStringToDate()
+                StartEvent = deleteEventRequest.StartEvent,
+                EndEvent = deleteEventRequest.EndEvent
             };
         }
     }

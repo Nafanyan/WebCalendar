@@ -12,8 +12,8 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
                 UserId = userId,
                 Name = createEventRequest.Name,
                 Description = createEventRequest.Description,
-                StartEvent = createEventRequest.StartEvent.MapStringToDate(),
-                EndEvent = createEventRequest.EndEvent.MapStringToDate()
+                StartEvent = createEventRequest.StartEvent,
+                EndEvent = createEventRequest.EndEvent
             };
         }
     }

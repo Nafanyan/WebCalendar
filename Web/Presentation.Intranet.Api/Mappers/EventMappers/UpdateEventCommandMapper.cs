@@ -12,8 +12,8 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
                 UserId = userId,
                 Name = updateEventRequest.Name,
                 Description = updateEventRequest.Description,
-                StartEvent = updateEventRequest.StartEvent.MapStringToDate(),
-                EndEvent = updateEventRequest.EndEvent.MapStringToDate()
+                StartEvent = updateEventRequest.StartEvent,
+                EndEvent = updateEventRequest.EndEvent
             };
         }
     }

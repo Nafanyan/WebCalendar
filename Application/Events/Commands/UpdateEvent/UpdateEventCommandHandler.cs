@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Events.Commands.DeleteEvent;
+using Application.Interfaces;
 using Application.Result;
 using Application.Validation;
 using Domain.Entities;
@@ -27,11 +28,17 @@ namespace Application.Events.Commands.UpdateEvent
             ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)
             {
+                DateTime startEvent;
+                DateTime.TryParse(updateEventCommand.StartEvent, out startEvent);
+
+                DateTime endEvent;
+                DateTime.TryParse(updateEventCommand.EndEvent, out endEvent);
+
                 Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId,
-                    updateEventCommand.StartEvent, updateEventCommand.EndEvent);
+                    startEvent, endEvent);
                 oldEvent.SetName(updateEventCommand.Name);
                 oldEvent.SetDescription(updateEventCommand.Description);
-                oldEvent.SetDateEvent(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
+                oldEvent.SetDateEvent(startEvent, endEvent);
                 await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);

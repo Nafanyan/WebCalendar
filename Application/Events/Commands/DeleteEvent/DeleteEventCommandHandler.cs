@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Events.Commands.CreateEvent;
+using Application.Interfaces;
 using Application.Result;
 using Application.Validation;
 using Domain.Entities;
@@ -22,8 +23,14 @@ namespace Application.Events.Commands.DeleteEvent
             ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)
             {
+                DateTime startEvent;
+                DateTime.TryParse(deleteEventCommand.StartEvent, out startEvent);
+
+                DateTime endEvent;
+                DateTime.TryParse(deleteEventCommand.EndEvent, out endEvent);
+
                 Event foundEvent = await _eventRepository.GetEventAsync(deleteEventCommand.UserId,
-                    deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
+                    startEvent, endEvent);
                 await _eventRepository.DeleteAsync(foundEvent);
             }
             return new CommandResult(validationResult);

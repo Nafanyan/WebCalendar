@@ -8,7 +8,6 @@ using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.Queries.GetEvents;
 using Application.Users.Queries.GetUserById;
 using Domain.Entities;
-using Domain.Repositories;
 using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.UserDtos;

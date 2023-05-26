@@ -7,7 +7,6 @@ namespace Infrastructure.Data.Events
 {
     public class EventRepository : BaseRepository<Event>, IEventRepository
     {
-
         public EventRepository(WebCalendarDbContext dbContext): base(dbContext)
         {
         }
@@ -22,10 +21,9 @@ namespace Infrastructure.Data.Events
             if (events.Count > 0)
             {
                 return await Entities.Where(e => e.UserId == userId)
-                .Where(e => (e.StartEvent >= startEvent) &&
-                 (e.EndEvent <= endEvent)).FirstOrDefaultAsync();
+                .Where(e => (e.StartEvent <= startEvent) &&
+                 (e.EndEvent >= endEvent)).FirstOrDefaultAsync();
             }
-
             return null;
         }
     }

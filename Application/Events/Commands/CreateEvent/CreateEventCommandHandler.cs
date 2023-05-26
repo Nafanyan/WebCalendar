@@ -28,7 +28,7 @@ namespace Application.Events.Commands.CreateEvent
                 DateTime endEvent;
                 DateTime.TryParse(createEventCommand.EndEvent, out endEvent);
 
-                Event newEvent = new Event(createEventCommand.Name, createEventCommand.Description,
+                Event newEvent = new Event(createEventCommand.UserId, createEventCommand.Name, createEventCommand.Description,
                     startEvent, endEvent);
                 await _eventRepository.AddAsync(newEvent);
             }

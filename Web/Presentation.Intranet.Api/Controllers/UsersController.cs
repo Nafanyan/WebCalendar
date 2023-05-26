@@ -61,7 +61,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok(queryResult);
         }
 
-        [HttpGet("{id}/events")]
+        [HttpGet("{id}/Event")]
         public async Task<IActionResult> GetEvents([FromRoute] long id)
         {
             GetEventsQuery getEventsQuery = new GetEventsQuery

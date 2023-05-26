@@ -31,18 +31,17 @@ namespace Application.Events.Commands.CreateEvent
             }
 
             DateTime startEvent;
-            if (DateTime.TryParse(command.StartEvent, out startEvent))
+            if (!DateTime.TryParse(command.StartEvent, out startEvent))
             {
                 return ValidationResult.Fail("Error in writing the start date of the event");
             }
 
             DateTime endEvent;
-            if (DateTime.TryParse(command.StartEvent, out endEvent))
+            if (!DateTime.TryParse(command.EndEvent, out endEvent))
             {
                 return ValidationResult.Fail("Error in writing the end date of the event");
             }
-
-            if (startEvent.ToShortDateString != endEvent.ToShortDateString)
+            if (startEvent.ToShortDateString() != endEvent.ToShortDateString())
             {
                 return ValidationResult.Fail("The event must occur within one day");
             }
@@ -51,7 +50,7 @@ namespace Application.Events.Commands.CreateEvent
             {
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
-            if (!await _eventRepository.ContainsAsync(command.UserId, startEvent, endEvent))
+            if (await _eventRepository.ContainsAsync(command.UserId, startEvent, endEvent))
             {
                 return ValidationResult.Fail("This event is superimposed on the existing event in time");
             }

@@ -26,13 +26,13 @@ namespace Application.Events.Queries.GetEvent
             }
 
             DateTime startEvent;
-            if (DateTime.TryParse(query.StartEvent, out startEvent))
+            if (!DateTime.TryParse(query.StartEvent, out startEvent))
             {
                 return ValidationResult.Fail("Error in writing the start date of the event");
             }
 
             DateTime endEvent;
-            if (DateTime.TryParse(query.StartEvent, out endEvent))
+            if (!DateTime.TryParse(query.EndEvent, out endEvent))
             {
                 return ValidationResult.Fail("Error in writing the end date of the event");
             }

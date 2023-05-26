@@ -2,7 +2,6 @@
 using Domain.Repositories;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Data.Users

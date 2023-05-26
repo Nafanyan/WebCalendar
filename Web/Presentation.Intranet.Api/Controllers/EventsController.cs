@@ -48,10 +48,9 @@ namespace Presentation.Intranet.Api.Controllers
             QueryResult<Event> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
             if (queryResult.ValidationResult.IsFail)
             {
-                return BadRequest(queryResult.ValidationResult);
+                return BadRequest(queryResult);
             }
-
-            return Ok(queryResult.ObjResult);
+            return Ok(queryResult);
         }
 
         [HttpPost("{userId:long}/[controller]")]
@@ -60,9 +59,8 @@ namespace Presentation.Intranet.Api.Controllers
             CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
-
             await _unitOfWork.CommitAsync();
             return Ok();
         }
@@ -73,9 +71,8 @@ namespace Presentation.Intranet.Api.Controllers
             CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
-
             await _unitOfWork.CommitAsync();
             return Ok();
         }

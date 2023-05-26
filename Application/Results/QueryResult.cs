@@ -10,6 +10,7 @@ namespace Application.Result
         public QueryResult(TQueryResultData objResult)
         {
             ObjResult = objResult;
+            ValidationResult = ValidationResult.Ok();
         }
 
         public QueryResult(ValidationResult validationResult)

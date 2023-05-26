@@ -31,15 +31,13 @@ namespace Application.Events.Commands.CreateEvent
             }
 
             DateTime startEvent;
-            DateTime.TryParse(command.StartEvent, out startEvent);
-            if (startEvent == DateTime.MinValue)
+            if (DateTime.TryParse(command.StartEvent, out startEvent))
             {
                 return ValidationResult.Fail("Error in writing the start date of the event");
             }
 
             DateTime endEvent;
-            DateTime.TryParse(command.StartEvent, out endEvent);
-            if (endEvent == DateTime.MinValue)
+            if (DateTime.TryParse(command.StartEvent, out endEvent))
             {
                 return ValidationResult.Fail("Error in writing the end date of the event");
             }

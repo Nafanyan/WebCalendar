@@ -56,9 +56,9 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (queryResult.ValidationResult.IsFail)
             {
-                return BadRequest(queryResult.ValidationResult);
+                return BadRequest(queryResult);
             }
-            return Ok(queryResult.ObjResult);
+            return Ok(queryResult);
         }
 
         [HttpGet("{id}/events")]
@@ -72,7 +72,7 @@ namespace Presentation.Intranet.Api.Controllers
             
             if (queryResult.ValidationResult.IsFail)
             {
-                return BadRequest(queryResult.ValidationResult);
+                return BadRequest(queryResult);
             }
             return Ok(queryResult.ObjResult);
         }
@@ -85,7 +85,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
             return Ok();
         }
@@ -98,7 +98,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
             return Ok();
         }
@@ -110,7 +110,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
             return Ok();
         }
@@ -122,7 +122,7 @@ namespace Presentation.Intranet.Api.Controllers
             
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
             return Ok();
         }

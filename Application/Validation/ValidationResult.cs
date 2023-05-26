@@ -2,7 +2,7 @@
 {
     public class ValidationResult
     {
-        public bool IsFail => Error == null;
+        public bool IsFail => Error != null;
         public string Error { get; private set; }
 
         private ValidationResult(string error = null)

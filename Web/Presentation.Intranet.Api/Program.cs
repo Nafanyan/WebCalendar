@@ -13,6 +13,7 @@ namespace Presentation.Intranet.Api
             var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("InfrastructureMigration")));
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,7 +33,6 @@ namespace Presentation.Intranet.Api
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

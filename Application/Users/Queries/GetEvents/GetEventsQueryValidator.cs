@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryValidation : IAsyncValidator<GetEventsQuery>
+    public class GetEventsQueryValidator : IAsyncValidator<GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetEventsQueryValidation(IUserRepository userRepository)
+        public GetEventsQueryValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

@@ -1,14 +1,13 @@
 ﻿using Application.Validation;
-using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandValidation :  IAsyncValidator<DeleteEventCommand>
+    public class DeleteEventCommandValidator :  IAsyncValidator<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public DeleteEventCommandValidation(IEventRepository eventRepository)
+        public DeleteEventCommandValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

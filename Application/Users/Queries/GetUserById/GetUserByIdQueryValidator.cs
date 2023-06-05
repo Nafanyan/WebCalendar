@@ -3,11 +3,11 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryValidation : IAsyncValidator<GetUserByIdQuery>
+    public class GetUserByIdQueryValidator : IAsyncValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserByIdQueryValidation(IUserRepository userRepository)
+        public GetUserByIdQueryValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

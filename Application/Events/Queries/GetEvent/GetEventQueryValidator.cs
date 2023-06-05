@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Events.Queries.GetEvent
 {
-    public class GetEventQueryValidation : IAsyncValidator<GetEventQuery>
+    public class GetEventQueryValidator : IAsyncValidator<GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
 
-        public GetEventQueryValidation(IEventRepository eventRepository)
+        public GetEventQueryValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

@@ -2,32 +2,22 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Users.Commands.UpdateUserLogin
+namespace Application.Users.Commands.DeleteUser
 {
-    public class UpdateUserLoginCommandValidation : IAsyncValidator<UpdateUserLoginCommand>
+    public class DeleteUserCommandValidator : IAsyncValidator<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserLoginCommandValidation(IUserRepository userRepository)
+        public DeleteUserCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UpdateUserLoginCommand command)
+        public async Task<ValidationResult> ValidationAsync(DeleteUserCommand command)
         {
-            if (command.Login == null)
-            {
-                return ValidationResult.Fail("The login cannot be empty/cannot be null");
-            }
-
             if (!await _userRepository.ContainsAsync(user => user.Id == command.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
-            }
-
-            if (await _userRepository.ContainsAsync(user => user.Login == command.Login))
-            {
-                return ValidationResult.Fail("A user with this login already exists");
             }
 
             User user = await _userRepository.GetByIdAsync(command.Id);

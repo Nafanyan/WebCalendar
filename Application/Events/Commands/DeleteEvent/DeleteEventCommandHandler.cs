@@ -28,14 +28,9 @@ namespace Application.Events.Commands.DeleteEvent
             ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)
             {
-                DateTime startEvent;
-                DateTime.TryParse(deleteEventCommand.StartEvent, out startEvent);
-
-                DateTime endEvent;
-                DateTime.TryParse(deleteEventCommand.EndEvent, out endEvent);
 
                 Event foundEvent = await _eventRepository.GetEventAsync(deleteEventCommand.UserId,
-                    startEvent, endEvent);
+                    deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
                 await _eventRepository.DeleteAsync(foundEvent);
                 await _unitOfWork.CommitAsync();
             }

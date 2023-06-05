@@ -5,7 +5,6 @@ using Application.Events.Queries.GetEvent;
 using Application.Interfaces;
 using Application.Result;
 using Domain.Entities;
-using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.EventRequest;
 using Presentation.Intranet.Api.Mappers.EventMappers;

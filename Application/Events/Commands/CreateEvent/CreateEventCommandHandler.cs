@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Domain.Entities;
 using Domain.Repositories;
 using Application.Validation;
+using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {
@@ -10,11 +11,15 @@ namespace Application.Events.Commands.CreateEvent
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<CreateEventCommand> _createEventCommandValidator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateEventCommandHandler(IEventRepository eventRepository, IAsyncValidator<CreateEventCommand> validator)
+        public CreateEventCommandHandler(IEventRepository eventRepository, 
+            IAsyncValidator<CreateEventCommand> validator,
+            IUnitOfWork unitOfWork)
         {
             _eventRepository = eventRepository;
             _createEventCommandValidator = validator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CommandResult> HandleAsync(CreateEventCommand createEventCommand)
@@ -31,6 +36,7 @@ namespace Application.Events.Commands.CreateEvent
                 Event newEvent = new Event(createEventCommand.UserId, createEventCommand.Name, createEventCommand.Description,
                     startEvent, endEvent);
                 await _eventRepository.AddAsync(newEvent);
+                await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);
         }

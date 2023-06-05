@@ -25,16 +25,13 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
         private readonly IQueryHandler<IReadOnlyList<Event>, GetEventsQuery> _getEventQueryHandler;
         private readonly IQueryHandler<User, GetUserByIdQuery> _getUserByIdQueryHandler;
-        private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(ICommandHandler<CreateUserCommand> createUserCommandHandler,
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
             IQueryHandler<IReadOnlyList<Event>, GetEventsQuery> getEventQueryHandler,
-            IQueryHandler<User, GetUserByIdQuery> getUserByIdQueryHandler,
-            IUnitOfWork unitOfWork
-            )
+            IQueryHandler<User, GetUserByIdQuery> getUserByIdQueryHandler)
         {
             _createUserCommandHandler = createUserCommandHandler;
             _deleteUserCommandHandler = deleteUserCommandHandler;
@@ -42,7 +39,6 @@ namespace Presentation.Intranet.Api.Controllers
             _updateUserPasswordCommandHandler = updateUserPasswordCommandHandler;
             _getEventQueryHandler = getEventQueryHandler;
             _getUserByIdQueryHandler = getUserByIdQueryHandler;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
@@ -81,7 +77,6 @@ namespace Presentation.Intranet.Api.Controllers
         public async Task<IActionResult> AddAsync([FromBody] CreateUserDto createUserDto)
         {
             CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
-            await _unitOfWork.CommitAsync();
 
             if (commandResult.ValidationResult.IsFail)
             {
@@ -94,7 +89,6 @@ namespace Presentation.Intranet.Api.Controllers
         public async Task<IActionResult> DeleteAsync([FromBody] DeleteUserDto deleteUserDto)
         {
             CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserDto.Map());
-            await _unitOfWork.CommitAsync();
 
             if (commandResult.ValidationResult.IsFail)
             {

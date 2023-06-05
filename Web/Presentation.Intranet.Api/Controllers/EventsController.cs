@@ -20,19 +20,16 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
         private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
         private readonly IQueryHandler<Event, GetEventQuery> _getEventQueryHandler;
-        private readonly IUnitOfWork _unitOfWork;
 
         public EventsController(ICommandHandler<CreateEventCommand> createEventCommandHandler,
             ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
             ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
-            IQueryHandler<Event, GetEventQuery> getEventQueryHandler,
-            IUnitOfWork unitOfWork)
+            IQueryHandler<Event, GetEventQuery> getEventQueryHandler)
         {
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
             _updateEventCommandHandler = updateEventCommandHandler;
             _getEventQueryHandler = getEventQueryHandler;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{userId:long}/[controller]")]
@@ -61,7 +58,6 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest(commandResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
 
@@ -73,7 +69,6 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest(commandResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
 
@@ -85,7 +80,6 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest(commandResult.ValidationResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Application.Events.Commands.CreateEvent;
 using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
+using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
 using Application.Interfaces;
 using Application.Validation;
@@ -17,7 +18,7 @@ namespace WebCalendar.Application.Events
             services.AddScoped<ICommandHandler<UpdateEventCommand>, UpdateEventCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteEventCommand>, DeleteEventCommandHandler>();
 
-            services.AddScoped<IQueryHandler<Event, GetEventQuery>, GetEventQueryHandler>();
+            services.AddScoped<IQueryHandler<GetEventQueryDto, GetEventQuery>, GetEventQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateEventCommand>, CreateEventCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteEventCommand>, DeleteEventCommandValidator>();

@@ -2,7 +2,7 @@
 {
     public class DeleteEventRequest
     {
-        public string StartEvent { get; init; }
-        public string EndEvent { get; init; }
+        public DateTime StartEvent { get; init; }
+        public DateTime EndEvent { get; init; }
     }
 }

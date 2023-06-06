@@ -26,7 +26,7 @@ namespace Application.Users.Queries.GetEvents
                 IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId);
                 GetEventsQueryDto getEventsQueryDto = new GetEventsQueryDto
                 {
-                    events = events
+                    events = events.ToList()
                 };
                 return new QueryResult<GetEventsQueryDto>(getEventsQueryDto);
             }

@@ -1,6 +1,7 @@
 ﻿using Application.Events.Commands.CreateEvent;
 using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
+using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
 using Application.Interfaces;
 using Application.Result;
@@ -18,12 +19,12 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
         private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
         private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
-        private readonly IQueryHandler<Event, GetEventQuery> _getEventQueryHandler;
+        private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _getEventQueryHandler;
 
         public EventsController(ICommandHandler<CreateEventCommand> createEventCommandHandler,
             ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
             ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
-            IQueryHandler<Event, GetEventQuery> getEventQueryHandler)
+            IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler)
         {
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
@@ -32,7 +33,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpGet("{userId:long}/[controller]")]
-        public async Task<IActionResult> GetEvent([FromRoute] long userId, string startEvent, string endEvent)
+        public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
             GetEventQuery getEventQuery = new GetEventQuery
             {
@@ -41,7 +42,7 @@ namespace Presentation.Intranet.Api.Controllers
                 EndEvent = endEvent
             };
 
-            QueryResult<Event> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
+            QueryResult<GetEventQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
             if (queryResult.ValidationResult.IsFail)
             {
                 return BadRequest(queryResult);

@@ -1,5 +1,4 @@
 ﻿using Application.Validation;
-using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Queries.GetEvent
@@ -25,20 +24,19 @@ namespace Application.Events.Queries.GetEvent
                 return ValidationResult.Fail("The end date cannot be empty/cannot be null");
             }
 
+            if (query.StartEvent > query.EndEvent)
+            {
+                return ValidationResult.Fail("The start date cannot be later than the end date");
+            }
 
             if (query.StartEvent.ToShortDateString() != query.EndEvent.ToShortDateString())
             {
                 return ValidationResult.Fail("The event must occur within one day");
             }
 
-            if (query.StartEvent > query.EndEvent)
+            if (!await _eventRepository.ContainsAsync(query.UserId, query.StartEvent, query.EndEvent))
             {
-                return ValidationResult.Fail("The start date cannot be later than the end date");
-            }
-
-            if (await _eventRepository.ContainsAsync(query.UserId, query.StartEvent, query.EndEvent))
-            {
-                return ValidationResult.Fail("This event is superimposed on the existing event in time");
+                return ValidationResult.Fail("There is no event with this time for the current user");
             }
 
             return ValidationResult.Ok();

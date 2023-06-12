@@ -1,22 +1,92 @@
-import { FunctionComponent} from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, Table } from 'react-bootstrap';
-import "../../css/MonthCalendar.css"
+import "../../css/month-calendar.css"
+import { IEvent } from '../../models/IEvent';
+import { UserService } from '../../services/UserService';
+import { IEventArray } from '../../models/IEventArray';
+import { TimeToString, TimeToStringRequest } from '../../CustomFunctions/TimeToString';
 
 export interface MonthCalendarProps {
-    days: number
+    userId: number
+    month: number
+    year: number
 }
 
-export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ days }) => {
+export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, month, year }) => {
+    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
     let daysWeek: string[] = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
-    let daysMounth = [[1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13, 14], [15, 16, 17, 18, 19, 20, 21], [22, 23, 24, 25, 26, 27, 28], [29, 30, 31]]
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            let monthForCreateDate: number = month - 1;
+            let monthDaysCount: number = new Date(year, month, 0).getDate();
+
+            const service: UserService = new UserService();
+            let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
+            let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
+            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr)
+
+            let daysOfMonth: IEventArray[] = [];
+            for (let i = 1; i <= monthDaysCount; i++) {
+                let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);
+                let emptyEvent: IEvent = {
+                    id: userId,
+                    name: "",
+                    description: "",
+                    startEvent: emptyDate,
+                    endEvent: emptyDate
+                }
+                daysOfMonth.push({ arrayEvents: [emptyEvent] });
+            }
+
+            let currentEvent: IEvent;
+
+            for (let i = 0; i < events.length; i++) {
+                currentEvent = events[i];
+                let nowDate: Date = new Date(currentEvent.startEvent.toString());
+                let nowDayWeek = (nowDate.getDate() - 1);
+                if (daysOfMonth[nowDayWeek].arrayEvents[0].name == "") {
+                    daysOfMonth[nowDayWeek].arrayEvents.pop();
+                }
+                daysOfMonth[nowDayWeek].arrayEvents.push(currentEvent);
+            }
+
+            let dayWeekBeginMonth: number = new Date(year, monthForCreateDate, 1).getDay() - 1;
+            if (dayWeekBeginMonth == -1) {
+                dayWeekBeginMonth = 6;
+            };
+            let daysOfPrevMonth: IEventArray[] = [];
+            for (let i = 1; i <= dayWeekBeginMonth; i++) {
+                let emptyDate: Date = new Date(year, monthForCreateDate - 1, i, 0, 0, 0);
+                let emptyEvent: IEvent = {
+                    id: userId,
+                    name: "",
+                    description: "",
+                    startEvent: emptyDate,
+                    endEvent: emptyDate
+                }
+                daysOfPrevMonth.push({ arrayEvents: [emptyEvent] });
+            }
+            daysOfMonth = [...daysOfPrevMonth, ...daysOfMonth];
+
+            let daysOfMonth2D: IEventArray[][] = [];
+            for (let i = 0; i < monthDaysCount + dayWeekBeginMonth - 1; i += 7) {
+                daysOfMonth2D.push(daysOfMonth.slice(i, i + 7));
+            }
+            setDay2DArray(daysOfMonth2D);
+        };
+
+        fetchEvents();
+
+    }, [])
 
     return (<div>
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    {daysWeek.map((day) =>
+                    {daysWeek.map((day, keyWeekDay) =>
                     (
-                        <th className='day-of-week'>
+                        <th className='day-of-week' key={keyWeekDay}>
                             {day}
                         </th>
                     )
@@ -25,28 +95,30 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ days }) =
             </thead>
 
             <tbody>
-                {daysMounth.map(
-                    (week, key) => (
-                        <tr key={key}>
+                {day2DArray.map(
+                    (week, keyWeek) => (
+                        <tr key={keyWeek}>
                             {week.map(
-                                (day) => (
-                                    <th>
-                                        <Card className='day-of-months'>
-                                            <Card.Header className='card-day-header'>
-                                                {day}
-                                                <button className='add-event-button'>+</button>
-                                            </Card.Header>
-                                            <Card.Body className='card-day-text'>
-                                                <Card.Text >
-                                                    <Button variant="light">8:00-16:00</Button>{' '}
-                                                    Работа
-                                                </Card.Text>
-                                                <Card.Text  >
-                                                    <Button variant="light">17:00-20:00</Button>{' '}
-                                                    Репетиция
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
+                                (day, keyDay) => (
+                                    <th key={keyDay}>
+                                        {day.arrayEvents.map((eventsDay, keyEventDay) => (
+                                            new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
+                                            <Card className='day-of-months' key={keyEventDay}>
+                                                <Card.Header className='card-day-header'>
+                                                    {new Date(eventsDay.startEvent.toString()).getDate()}
+                                                    <button className='add-event-button'>+</button>
+                                                </Card.Header>
+                                                <Card.Body className='card-day-text'>
+                                                    {eventsDay.name != "" &&
+                                                        <Card.Text >
+                                                            <Button variant="light">
+                                                                {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
+                                                            </Button>
+                                                            {" " + eventsDay.name}
+                                                        </Card.Text>}
+                                                </Card.Body>
+                                            </Card>
+                                        ))}
                                     </th>
                                 )
                             )
@@ -54,81 +126,6 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ days }) =
                         </tr>
                     )
                 )}
-                {/* <tr>
-                    {Array.from({ length: 7 }).map((_, index) => (
-                        <th key={index}>
-                            <Card border="primary" style={{ width: '9rem' }} className='day-of-months'>
-                                <Card.Header>{index + 1}</Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Time Events
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br />
-                        </th>
-                    ))}
-                </tr> */}
-                {/* <tr>
-                    {Array.from({ length: 7 }).map((_, index) => (
-                        <th key={index}>
-                            <Card border="primary" style={{ width: '9rem' }}>
-                                <Card.Header>{index + 8}</Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Time Events
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br />
-                        </th>
-                    ))}
-                </tr>
-                <tr>
-                    {Array.from({ length: 7 }).map((_, index) => (
-                        <th key={index}>
-                            <Card border="primary" style={{ width: '9rem' }}>
-                                <Card.Header>{index + 15}</Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Time Events
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br />
-                        </th>
-                    ))}
-                </tr>
-                <tr>
-                    {Array.from({ length: 7 }).map((_, index) => (
-                        <th key={index}>
-                            <Card border="primary" style={{ width: '9rem' }}>
-                                <Card.Header>{index + 22}</Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Time Events
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br />
-                        </th>
-                    ))}
-                </tr>
-                <tr>
-                    {Array.from({ length: 3 }).map((_, index) => (
-                        <th key={index}>
-                            <Card border="primary" style={{ width: '9rem' }}>
-                                <Card.Header>{index + 29}</Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Time Events
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br />
-                        </th>
-                    ))}
-                </tr> */}
             </tbody>
         </Table>
     </div>)

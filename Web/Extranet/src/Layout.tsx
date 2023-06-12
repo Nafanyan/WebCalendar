@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
-import './css/Layout.css';
+import './css/layout.css';
 
 const Layout: FunctionComponent = () => {
     return (
         <>
             <header>
                 <nav>
-                    <a href="/" className="home-link">Web-Calendare</a>
+                    <a href="/" className="home-link">Web-Calendar</a>
                 </nav>
             </header>
             <Outlet />

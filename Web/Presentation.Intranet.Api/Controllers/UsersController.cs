@@ -58,11 +58,13 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpGet("{id}/Event")]
-        public async Task<IActionResult> GetEvents([FromRoute] long id)
+        public async Task<IActionResult> GetEvents([FromRoute] long id, DateTime startEvent, DateTime endEvent)
         {
             GetEventsQuery getEventsQuery = new GetEventsQuery
             {
-                UserId = id
+                UserId = id,
+                StartEvent = startEvent,
+                EndEvent = endEvent
             };
             QueryResult<GetEventsQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
             

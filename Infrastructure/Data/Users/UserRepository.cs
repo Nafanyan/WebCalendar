@@ -22,9 +22,12 @@ namespace Infrastructure.Data.Users
         {
             return await Entities.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
-        public async Task<IReadOnlyList<Event>> GetEventsAsync(long id)
+        public async Task<IReadOnlyList<Event>> GetEventsAsync(long id, DateTime startPeriod, DateTime endPeriod)
         {
-            return await _dbSetEvent.Where(e => e.UserId == id).ToListAsync();
+            return await _dbSetEvent.Where(e => e.UserId == id)
+                .Where(e => e.StartEvent >= startPeriod)
+                .Where(e => e.EndEvent <= endPeriod)
+                .ToListAsync();
         }
 
     }

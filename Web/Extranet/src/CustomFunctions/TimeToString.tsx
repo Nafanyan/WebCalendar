@@ -17,4 +17,3 @@ export function TimeToStringRequest(date: Date): string {
     result += minute < 10 ? "0" + minute.toString() : minute.toString();
     return result;
 }
-// "2023-06-12T11:24:44.270Z"

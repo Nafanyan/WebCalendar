@@ -23,7 +23,8 @@ namespace Application.Users.Queries.GetEvents
             ValidationResult validationResult = await _getEventsQueryValidator.ValidationAsync(getEventsQuery);
             if (!validationResult.IsFail)
             {
-                IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId);
+                IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId, 
+                    getEventsQuery.StartEvent, getEventsQuery.EndEvent);
                 GetEventsQueryDto getEventsQueryDto = new GetEventsQueryDto
                 {
                     events = events.ToList()

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, Table } from 'react-bootstrap';
 import "../../css/week-calendar.css"
@@ -118,12 +117,3 @@ export const WeekCalendar: FunctionComponent<WeekCalendarProps> = ({ userId, day
 }
 
 export default WeekCalendar;
-=======
-import React, { FunctionComponent } from 'react';
-
-export const WeekCalendare : FunctionComponent = () => {
-    return (<div></div>)
-}
-
-export default WeekCalendare;
->>>>>>> 125585c430fe776b09da1b081f306bfe240cf94f

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IEvent } from '../../models/IEvent';
 import { IEventArray } from '../../models/IEventArray';
@@ -62,12 +61,6 @@ export const DayCalendare: FunctionComponent<DayCalendarProps> = ({ userId, day,
             </Card>
         ))}
     </div>)
-=======
-import React, { FunctionComponent } from 'react';
-
-export const DayCalendare : FunctionComponent = () => {
-    return (<div></div>)
->>>>>>> 125585c430fe776b09da1b081f306bfe240cf94f
 }
 
 export default DayCalendare;

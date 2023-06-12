@@ -14,7 +14,8 @@ namespace Application.Events.Commands.DeleteEvent
         private readonly IAsyncValidator<DeleteEventCommand> _deleteEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteEventCommandHandler(IEventRepository eventRepository, 
+        public DeleteEventCommandHandler(
+            IEventRepository eventRepository, 
             IAsyncValidator<DeleteEventCommand> validator,
             IUnitOfWork unitOfWork)
         {

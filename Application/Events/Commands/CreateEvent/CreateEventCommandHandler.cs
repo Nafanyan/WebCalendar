@@ -13,7 +13,8 @@ namespace Application.Events.Commands.CreateEvent
         private readonly IAsyncValidator<CreateEventCommand> _createEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateEventCommandHandler(IEventRepository eventRepository, 
+        public CreateEventCommandHandler(
+            IEventRepository eventRepository, 
             IAsyncValidator<CreateEventCommand> validator,
             IUnitOfWork unitOfWork)
         {

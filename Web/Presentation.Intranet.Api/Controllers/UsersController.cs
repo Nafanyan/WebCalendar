@@ -8,8 +8,6 @@ using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.DTOs;
 using Application.Users.Queries.GetEvents;
 using Application.Users.Queries.GetUserById;
-using Domain.Entities;
-using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.UserDtos;
 using Presentation.Intranet.Api.Mappers.UserMappers;
@@ -27,7 +25,8 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly IQueryHandler<GetEventsQueryDto, GetEventsQuery> _getEventQueryHandler;
         private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _getUserByIdQueryHandler;
 
-        public UsersController(ICommandHandler<CreateUserCommand> createUserCommandHandler,
+        public UsersController(
+            ICommandHandler<CreateUserCommand> createUserCommandHandler,
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,

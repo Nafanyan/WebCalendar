@@ -13,7 +13,8 @@ namespace Application.Users.Commands.CreateUser
         private readonly IAsyncValidator<CreateUserCommand> _addUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, 
+        public CreateUserCommandHandler(
+            IUserRepository userRepository, 
             IAsyncValidator<CreateUserCommand> validator,
             IUnitOfWork unitOfWork) 
         {

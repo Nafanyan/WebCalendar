@@ -1,6 +1,6 @@
 ﻿namespace Presentation.Intranet.Api.Dtos.EventRequest
 {
-    public class CreateEventRequest
+    public class UpdateEventDto
     {
         public string Name { get; init; }
         public string Description { get; init; }

@@ -13,7 +13,8 @@ namespace Application.Users.Commands.DeleteUser
         private readonly IAsyncValidator<DeleteUserCommand> _deleteUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteUserCommandHandler(IUserRepository userRepository, 
+        public DeleteUserCommandHandler(
+            IUserRepository userRepository, 
             IAsyncValidator<DeleteUserCommand> validator,
             IUnitOfWork unitOfWork)
         {

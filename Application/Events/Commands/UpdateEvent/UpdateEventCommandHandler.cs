@@ -14,7 +14,8 @@ namespace Application.Events.Commands.UpdateEvent
         private readonly IAsyncValidator<UpdateEventCommand> _updateEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateEventCommandHandler(IEventRepository eventRepository, 
+        public UpdateEventCommandHandler(
+            IEventRepository eventRepository, 
             IAsyncValidator<UpdateEventCommand> validator,
             IUnitOfWork unitOfWork) 
         {

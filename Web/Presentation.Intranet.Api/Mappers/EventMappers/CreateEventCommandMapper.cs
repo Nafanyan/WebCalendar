@@ -5,7 +5,7 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
 {
     public static class CreateEventCommandMapper
     {
-        public static CreateEventCommand Map(this CreateEventRequest createEventRequest, long userId)
+        public static CreateEventCommand Map(this CreateEventDto createEventRequest, long userId)
         {
             return new CreateEventCommand
             {

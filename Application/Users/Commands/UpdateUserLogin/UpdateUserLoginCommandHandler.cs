@@ -13,7 +13,8 @@ namespace Application.Users.Commands.UpdateUserLogin
         private readonly IAsyncValidator<UpdateUserLoginCommand> _updateUserLoginCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserLoginCommandHandler(IUserRepository userRepository, 
+        public UpdateUserLoginCommandHandler(
+            IUserRepository userRepository, 
             IAsyncValidator<UpdateUserLoginCommand> validator,
             IUnitOfWork unitOfWork)
         {

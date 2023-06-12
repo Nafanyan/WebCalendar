@@ -4,6 +4,7 @@ using Application.Result;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
+using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.DeleteEvent
 {
@@ -11,11 +12,16 @@ namespace Application.Events.Commands.DeleteEvent
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<DeleteEventCommand> _deleteEventCommandValidator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteEventCommandHandler(IEventRepository eventRepository, IAsyncValidator<DeleteEventCommand> validator)
+        public DeleteEventCommandHandler(
+            IEventRepository eventRepository, 
+            IAsyncValidator<DeleteEventCommand> validator,
+            IUnitOfWork unitOfWork)
         {
             _eventRepository = eventRepository;
             _deleteEventCommandValidator = validator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
@@ -23,15 +29,11 @@ namespace Application.Events.Commands.DeleteEvent
             ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)
             {
-                DateTime startEvent;
-                DateTime.TryParse(deleteEventCommand.StartEvent, out startEvent);
-
-                DateTime endEvent;
-                DateTime.TryParse(deleteEventCommand.EndEvent, out endEvent);
 
                 Event foundEvent = await _eventRepository.GetEventAsync(deleteEventCommand.UserId,
-                    startEvent, endEvent);
+                    deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
                 await _eventRepository.DeleteAsync(foundEvent);
+                await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);
         }

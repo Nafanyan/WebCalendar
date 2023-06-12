@@ -14,7 +14,8 @@ namespace Application.Events.Commands.UpdateEvent
         private readonly IAsyncValidator<UpdateEventCommand> _updateEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateEventCommandHandler(IEventRepository eventRepository, 
+        public UpdateEventCommandHandler(
+            IEventRepository eventRepository, 
             IAsyncValidator<UpdateEventCommand> validator,
             IUnitOfWork unitOfWork) 
         {
@@ -28,17 +29,11 @@ namespace Application.Events.Commands.UpdateEvent
             ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)
             {
-                DateTime startEvent;
-                DateTime.TryParse(updateEventCommand.StartEvent, out startEvent);
-
-                DateTime endEvent;
-                DateTime.TryParse(updateEventCommand.EndEvent, out endEvent);
-
                 Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId,
-                    startEvent, endEvent);
+                    updateEventCommand.StartEvent, updateEventCommand.StartEvent);
                 oldEvent.SetName(updateEventCommand.Name);
                 oldEvent.SetDescription(updateEventCommand.Description);
-                oldEvent.SetDateEvent(startEvent, endEvent);
+                oldEvent.SetDateEvent(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
                 await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);

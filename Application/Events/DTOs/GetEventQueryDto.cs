@@ -1,6 +1,6 @@
-﻿namespace Application.Events.Commands.UpdateEvent
+﻿namespace Application.Events.DTOs
 {
-    public class UpdateEventCommand
+    public class GetEventQueryDto
     {
         public long UserId { get; init; }
         public string Name { get; init; }

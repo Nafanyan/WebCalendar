@@ -3,11 +3,11 @@ using Domain.Repositories;
 using Application.Result;
 using Application.Interfaces;
 using Application.Validation;
-using Application.Events.Commands.UpdateEvent;
+using Application.Events.DTOs;
 
 namespace Application.Events.Queries.GetEvent
 {
-    public class GetEventQueryHandler : IQueryHandler<Event, GetEventQuery>
+    public class GetEventQueryHandler : IQueryHandler<GetEventQueryDto, GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<GetEventQuery> _eventQueryValidator;
@@ -18,22 +18,24 @@ namespace Application.Events.Queries.GetEvent
             _eventQueryValidator = validator;
         }
 
-        public async Task<QueryResult<Event>> HandleAsync(GetEventQuery getEventQuery)
+        public async Task<QueryResult<GetEventQueryDto>> HandleAsync(GetEventQuery getEventQuery)
         {
             ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
             if (!validationResult.IsFail)
             {
-                DateTime startEvent;
-                DateTime.TryParse(getEventQuery.StartEvent, out startEvent);
-
-                DateTime endEvent;
-                DateTime.TryParse(getEventQuery.EndEvent, out endEvent);
-
                 Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
-                    startEvent, endEvent);
-                return new QueryResult<Event>( foundEvent);
+                    getEventQuery.StartEvent, getEventQuery.EndEvent);
+                GetEventQueryDto getEventQueryDto = new GetEventQueryDto
+                {
+                    UserId = foundEvent.UserId,
+                    Name = foundEvent.Name,
+                    Description = foundEvent.Description,
+                    StartEvent = foundEvent.StartEvent,
+                    EndEvent = foundEvent.EndEvent
+                };
+                return new QueryResult<GetEventQueryDto>(getEventQueryDto);
             }
-            return new QueryResult<Event>(validationResult);
+            return new QueryResult<GetEventQueryDto>(validationResult);
         }
     }
 }

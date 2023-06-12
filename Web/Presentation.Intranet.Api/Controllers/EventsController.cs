@@ -1,11 +1,11 @@
 ﻿using Application.Events.Commands.CreateEvent;
 using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
+using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
 using Application.Interfaces;
 using Application.Result;
 using Domain.Entities;
-using Domain.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.EventRequest;
 using Presentation.Intranet.Api.Mappers.EventMappers;
@@ -19,24 +19,22 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
         private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
         private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
-        private readonly IQueryHandler<Event, GetEventQuery> _getEventQueryHandler;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _getEventQueryHandler;
 
-        public EventsController(ICommandHandler<CreateEventCommand> createEventCommandHandler,
+        public EventsController(
+            ICommandHandler<CreateEventCommand> createEventCommandHandler,
             ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
             ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
-            IQueryHandler<Event, GetEventQuery> getEventQueryHandler,
-            IUnitOfWork unitOfWork)
+            IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler)
         {
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
             _updateEventCommandHandler = updateEventCommandHandler;
             _getEventQueryHandler = getEventQueryHandler;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{userId:long}/[controller]")]
-        public async Task<IActionResult> GetEvent([FromRoute] long userId, string startEvent, string endEvent)
+        public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
             GetEventQuery getEventQuery = new GetEventQuery
             {
@@ -45,7 +43,7 @@ namespace Presentation.Intranet.Api.Controllers
                 EndEvent = endEvent
             };
 
-            QueryResult<Event> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
+            QueryResult<GetEventQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
             if (queryResult.ValidationResult.IsFail)
             {
                 return BadRequest(queryResult);
@@ -54,38 +52,35 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost("{userId:long}/[controller]")]
-        public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventRequest createEventRequest)
+        public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventRequest)
         {
             CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
 
         [HttpDelete("{userId:long}/[controller]")]
-        public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventRequest deleteEventRequest)
+        public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventDto deleteEventRequest)
         {
             CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
 
         [HttpPut("{userId:long}/[controller]")]
-        public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventRequest updateEventRequest)
+        public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest)
         {
             CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);
             }
-            await _unitOfWork.CommitAsync();
             return Ok();
         }
     }

@@ -5,7 +5,7 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
 {
     public static class DeleteEventCommandMapper
     {
-        public static DeleteEventCommand Map(this DeleteEventRequest deleteEventRequest, long userId)
+        public static DeleteEventCommand Map(this DeleteEventDto deleteEventRequest, long userId)
         {
             return new DeleteEventCommand
             {

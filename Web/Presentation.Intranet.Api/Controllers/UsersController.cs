@@ -22,7 +22,7 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<DeleteUserCommand> _deleteUserCommandHandler;
         private readonly ICommandHandler<UpdateUserLoginCommand> _updateUserLoginCommandHandler;
         private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
-        private readonly IQueryHandler<GetEventsQueryDto, GetEventsQuery> _getEventQueryHandler;
+        private readonly IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> _getEventQueryHandler;
         private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _getUserByIdQueryHandler;
 
         public UsersController(
@@ -30,7 +30,7 @@ namespace Presentation.Intranet.Api.Controllers
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
-            IQueryHandler<GetEventsQueryDto, GetEventsQuery> getEventQueryHandler,
+            IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> getEventQueryHandler,
             IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler)
         {
             _createUserCommandHandler = createUserCommandHandler;
@@ -66,7 +66,7 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = startEvent,
                 EndEvent = endEvent
             };
-            QueryResult<GetEventsQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
+            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
             
             if (queryResult.ValidationResult.IsFail)
             {

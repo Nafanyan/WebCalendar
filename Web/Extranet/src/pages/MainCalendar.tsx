@@ -13,7 +13,6 @@ export interface MainCalendarProps {
 }
 
 const SwitchModeContain: FunctionComponent<SettingDateForUser> = (settingDate) => {
-    console.log(settingDate);
     const location = useLocation()
     if (location.pathname === "/weeks") {
         return <WeekCalendar userId={settingDate.userId} day={settingDate.day} month={settingDate.month} year={settingDate.year} />;
@@ -52,9 +51,6 @@ export const MainCalendar: FunctionComponent<MainCalendarProps> = ({ mode, setti
         setEndWeekDay(
             new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek + 6));
     }, [nowDate])
-
-    console.log(startWeekDay);
-    console.log(endWeekDay);
 
     return (
         <div>

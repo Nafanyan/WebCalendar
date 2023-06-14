@@ -2,8 +2,10 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IEvent } from '../../models/IEvent';
 import { IEventArray } from '../../models/IEventArray';
 import { UserService } from '../../services/UserService';
-import { TimeToString, TimeToStringRequest } from '../../CustomFunctions/TimeToString';
+import "../../css/day-calendar.css"
 import { Button, Card } from 'react-bootstrap';
+import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
+import { fullDaysWeek } from '../../constants/DayOfWeek';
 
 export interface DayCalendarProps {
     userId: number
@@ -13,19 +15,16 @@ export interface DayCalendarProps {
 }
 
 export const DayCalendare: FunctionComponent<DayCalendarProps> = ({ userId, day, month, year }) => {
-    const [events, setEvents] = useState<IEventArray>({
-        arrayEvents: new Array<IEvent>()
-    });
+    const [dayEvents, setDayEvents] = useState<IEventArray>({arrayEvents: new Array<IEvent>()});
 
     useEffect(() => {
-
-        const fetchEvents = async () => {
+        const createEvents = async () => {
             const service: UserService = new UserService();
-            let startEventStr: string = TimeToStringRequest(new Date(year, month, day, 0, 0));
-            let endEventStr: string = TimeToStringRequest(new Date(year, month, day, 23, 59));
-            setEvents({ arrayEvents: await service.getEvent(userId, startEventStr, endEventStr) });
+            let startEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 0, 0));
+            let endEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 23, 59));
+            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr);
 
-            if (events.arrayEvents.length == 0) {
+            if (events.length == 0) {
                 let emptyEvents: IEvent[] = [];
                 let emptyEvent: IEvent;
                 emptyEvent = {
@@ -36,30 +35,38 @@ export const DayCalendare: FunctionComponent<DayCalendarProps> = ({ userId, day,
                     endEvent: new Date(year, month - 1, day, 0, 0, 0)
                 }
                 emptyEvents.push(emptyEvent);
-                setEvents({ arrayEvents: emptyEvents });
+                setDayEvents({ arrayEvents: emptyEvents });
             }
-            console.log(events);
+            else {
+                setDayEvents({ arrayEvents: events });
+            }
         };
-        fetchEvents();
-    }, [])
+
+        createEvents();
+    }, [userId, day, month, year])
 
     return (<div>
-        {events.arrayEvents.map((eventsDay, keyEvent) => (
-            <Card className='day-of-months' key={keyEvent}>
-                <Card.Header className='card-day-header'>
-                    {new Date(eventsDay.startEvent.toString()).getDate()}
-                    <button className='add-event-button'>+</button>
-                </Card.Header>
-                <Card.Body className='card-day-text'>
-                    {eventsDay.name != "" &&
-                        <Card.Text >
+        <Card className='events-of-day'>
+            <Card.Header className='card-day-header-day-mode'>
+                {fullDaysWeek[new Date(year, month - 1, day).getDay()]}
+                <button className='add-event-button'>+</button>
+            </Card.Header>
+
+            <Card.Body className='card-day'>
+                {dayEvents.arrayEvents.map((eventsDay, keyEvent) => (
+                    eventsDay.name != "" &&
+                    <Button variant="outline-success" id={'event-info'} key={keyEvent}>
+                        <Card.Text className='event-name-time'>
                             {eventsDay.name + " "}
                             {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
+                        </Card.Text>
+                        <Card.Text className='event-description'>
                             {eventsDay.description != "" ? "\n" + eventsDay.description : ""}
-                        </Card.Text>}
-                </Card.Body>
-            </Card>
-        ))}
+                        </Card.Text>
+                    </Button>
+                ))}
+            </Card.Body>
+        </Card>
     </div>)
 }
 

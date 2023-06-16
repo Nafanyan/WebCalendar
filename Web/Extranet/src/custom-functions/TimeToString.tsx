@@ -17,3 +17,14 @@ export function TimeToStringRequest(date: Date): string {
     result += minute < 10 ? "0" + minute.toString() : minute.toString();
     return result;
 }
+
+export function TimeToStringCommand(date: Date, time: string): string {
+    let result: string = "";
+    result += date.getFullYear().toString() + "-";
+    let month: number = date.getMonth() + 1;
+    result += (month < 10 ? "0" + month.toString() : month.toString()) + "-";
+    let day: number = date.getDate();
+    result += (day < 10 ? "0" + day.toString() : day.toString()) + "T";
+    result += time;
+    return result;
+}

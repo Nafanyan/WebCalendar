@@ -1,4 +1,4 @@
-import{IEvent} from "../models/IEvent";
+import{IEvent} from "../models/query/IEvent";
 import AxiosDefault from "./AxiosDefault";
 
 export class EventService{

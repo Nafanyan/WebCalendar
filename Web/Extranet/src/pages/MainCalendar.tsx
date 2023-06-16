@@ -1,11 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Card, Dropdown, DropdownButton, Nav, } from 'react-bootstrap';
-import '../css/main-calendar.css'
 import { SettingDateForUser } from '../models/SettingDateForUser';
 import { useLocation } from 'react-router-dom';
 import WeekCalendar from './Calendar/WeekCalendar';
 import DayCalendar from './Calendar/DayCalendar';
 import MonthCalendar from './Calendar/MonthCalendar';
+import { months } from '../constants/Months';
+import '../css/main-calendar.css'
+
 
 export interface MainCalendarProps {
     mode: string,
@@ -138,8 +140,8 @@ export const MainCalendar: FunctionComponent<MainCalendarProps> = ({ mode, setti
                                         as={ButtonGroup}
                                         key={'month'}
                                         id={'dropdown-month-button'}
-                                        title={settingDate.months[nowMonth]}>
-                                        {settingDate.months.map(
+                                        title={months[nowMonth]}>
+                                        {months.map(
                                             (month, keyMonth) => (
                                                 <Dropdown.Item key={keyMonth} onClick={() => setNowDate(new Date(nowYear, keyMonth - 1, nowDay))} >
                                                     {month}
@@ -158,8 +160,7 @@ export const MainCalendar: FunctionComponent<MainCalendarProps> = ({ mode, setti
                         userId={settingDate.userId}
                         year={nowYear}
                         month={nowMonth}
-                        day={nowDay}
-                        months={settingDate.months} />
+                        day={nowDay} />
                 </Card.Body>
             </Card>
         </div>

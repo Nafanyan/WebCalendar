@@ -1,4 +1,4 @@
-import { IEvent } from "./IEvent";
+import { IEvent } from "./query/IEvent";
 
 export interface IEventArray {
     arrayEvents: IEvent[]

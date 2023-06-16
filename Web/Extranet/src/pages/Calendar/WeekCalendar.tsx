@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, Table } from 'react-bootstrap';
-import "../../css/week-calendar.css"
-import { IEvent } from '../../models/IEvent';
+import { IEvent } from '../../models/query/IEvent';
 import { UserService } from '../../services/UserService';
 import { IEventArray } from '../../models/IEventArray';
 import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
 import { shortDaysWeek } from '../../constants/DayOfWeek';
+import AddEvent from '../AddEvent';
+import "../../css/week-calendar.css"
 
 export interface WeekCalendarProps {
     userId: number
@@ -85,24 +86,27 @@ export const WeekCalendar: FunctionComponent<WeekCalendarProps> = ({ userId, day
                             {week.map(
                                 (day, keyDay) => (
                                     <th key={keyDay}>
-                                        {day.arrayEvents.map((eventsDay, keyEventDay) => (
-                                            <Card className='day-of-weeks' key={keyEventDay}>
-                                                <Card.Header className='card-day-header'>
-                                                    {new Date(eventsDay.startEvent.toString()).getDate()}
-                                                    <button className='add-event-button'>+</button>
-                                                </Card.Header>
+                                        <Card className='day-of-weeks' >
+                                            <Card.Header className='card-day-header'>
+                                                {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
+                                                <AddEvent userId={userId} day={day.arrayEvents[0].startEvent} />
+                                            </Card.Header>
 
-                                                <Card.Body className='card-day-text'>
-                                                    {eventsDay.name != "" &&
-                                                        <Card.Text >
-                                                            <Button variant="light">
-                                                                {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                            </Button>
-                                                            {" " + eventsDay.name}
-                                                        </Card.Text>}
-                                                </Card.Body>
-                                            </Card>
-                                        ))}
+                                            <div className="scrollbar scrollbar-success">
+                                                {day.arrayEvents.map((eventsDay, keyEventDay) => (
+
+                                                    <Card.Body className='card-day-text' key={keyEventDay}>
+                                                        {eventsDay.name != "" &&
+                                                            <Card.Text >
+                                                                <Button variant="light">
+                                                                    {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
+                                                                </Button>
+                                                                {" " + eventsDay.name}
+                                                            </Card.Text>}
+                                                    </Card.Body>
+                                                ))}
+                                            </div>
+                                        </Card>
                                     </th>
                                 )
                             )

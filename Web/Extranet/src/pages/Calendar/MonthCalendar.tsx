@@ -1,12 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, Form, Modal, Table } from 'react-bootstrap';
-import "../../css/month-calendar.css"
-import { IEvent } from '../../models/IEvent';
+import { Button, Card, Table } from 'react-bootstrap';
+import { IEvent } from '../../models/query/IEvent';
 import { UserService } from '../../services/UserService';
 import { IEventArray } from '../../models/IEventArray';
 import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
-import { IAddEvent } from '../../models/IAddEvent';
 import { fullDaysWeek, shortDaysWeek } from '../../constants/DayOfWeek';
+import { AddEvent } from '../AddEvent';
+import "../../css/month-calendar.css"
+
 
 export interface MonthCalendarProps {
     userId: number
@@ -16,9 +17,6 @@ export interface MonthCalendarProps {
 
 export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, month, year }) => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-
-    const [showAddEvent, setShowAddEvent] = useState<IAddEvent>({ showModal: false, dateEvent: new Date() });
-    const handleClose = () => setShowAddEvent({ showModal: false, dateEvent: new Date() });
 
     useEffect(() => {
         const create2DArray = async () => {
@@ -104,28 +102,30 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
                             {week.map(
                                 (day, keyDay) => (
                                     <th key={keyDay}>
-                                        {day.arrayEvents.map((eventsDay, keyEventDay) => (
-                                            new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
-                                            <Card className='day-of-months' key={keyEventDay}>
+                                        {new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
+                                            <Card className='day-of-months'>
                                                 <Card.Header className='card-day-header'>
-                                                    {new Date(eventsDay.startEvent.toString()).getDate()}
-                                                    <button className='add-event-button'
-                                                        onClick={() => {
-                                                            setShowAddEvent({ showModal: true, dateEvent: eventsDay.startEvent })
-                                                        }}>+</button>
+                                                    {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
+                                                    <AddEvent userId={userId} day={day.arrayEvents[0].startEvent} />
                                                 </Card.Header>
 
-                                                <Card.Body className='card-day-text'>
-                                                    {eventsDay.name != "" &&
-                                                        <Card.Text >
-                                                            <Button variant="light">
-                                                                {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                            </Button>
-                                                            {" " + eventsDay.name}
-                                                        </Card.Text>}
-                                                </Card.Body>
+                                                <div className="scrollbar scrollbar-success">
+                                                    {day.arrayEvents.map((eventsDay, keyEventDay) => (
+                                                        <Card.Body id='card-day-text' key={keyEventDay} >
+                                                            {eventsDay.name != "" &&
+                                                                <Card.Text>
+                                                                    <Button variant="light">
+                                                                        {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
+                                                                    </Button>
+                                                                    {" " + eventsDay.name}
+                                                                </Card.Text>}
+
+                                                        </Card.Body>
+                                                    ))}
+                                                </div>
                                             </Card>
-                                        ))}
+
+                                        }
                                     </th>
                                 )
                             )
@@ -136,7 +136,8 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
             </tbody>
         </Table>
 
-      
+
+
     </div>)
 }
 

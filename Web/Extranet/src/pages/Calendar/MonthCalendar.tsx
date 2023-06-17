@@ -1,15 +1,14 @@
 import { FunctionComponent, useState, useEffect } from "react";
-import { Table, Card, Button } from "react-bootstrap";
+import { Table, Card } from "react-bootstrap";
 import { shortDaysWeek } from "../../constants/DayOfWeek";
-import "../../css/month-calendar.css"
-import { TimeToStringRequest, TimeToString } from "../../custom-functions/TimeToString";
+import { TimeToStringRequest } from "../../custom-functions/TimeToString";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
-import { IEventArray } from "../../models/IEventArray";
 import { IEvent } from "../../models/IEvent";
+import { IEventArray } from "../../models/IEventArray";
 import { UserService } from "../../services/UserService";
-import AddEvent from "../AddEvent";
-import EventInfo from "../EventInfo";
-
+import AddEvent from "./actions-with-events/AddEvent";
+import EventInfo from "./actions-with-events/EventInfo";
+import "../../css/calendar/month-calendar.css"
 
 export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
@@ -110,10 +109,7 @@ export const MonthCalendar: FunctionComponent = () => {
                                                         <Card.Body id='card-day-text' key={keyEventDay} >
                                                             {eventsDay.name != "" &&
                                                                 <Card.Text>
-                                                                    {/* <Button variant="light">
-                                                                        {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                                    </Button> */}
-                                                                    <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent}/>
+                                                                    <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
                                                                     {" " + eventsDay.name}
                                                                 </Card.Text>}
 
@@ -121,7 +117,6 @@ export const MonthCalendar: FunctionComponent = () => {
                                                     ))}
                                                 </div>
                                             </Card>
-
                                         }
                                     </th>
                                 )

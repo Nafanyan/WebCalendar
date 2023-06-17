@@ -1,17 +1,18 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { IEvent } from '../../models/IEvent';
-import { IEventArray } from '../../models/IEventArray';
-import { UserService } from '../../services/UserService';
-import { Button, Card } from 'react-bootstrap';
-import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
-import { fullDaysWeek } from '../../constants/DayOfWeek';
-import "../../css/day-calendar.css"
-import { useTypedSelector } from '../../hooks/useTypeSelector';
-import AddEvent from '../AddEvent';
+import { FunctionComponent, useState, useEffect } from "react";
+import { Card, Button } from "react-bootstrap";
+import { fullDaysWeek } from "../../constants/DayOfWeek";
+import { TimeToStringRequest, TimeToString } from "../../custom-functions/TimeToString";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { IEvent } from "../../models/IEvent";
+import { IEventArray } from "../../models/IEventArray";
+import { UserService } from "../../services/UserService";
+import AddEvent from "./actions-with-events/AddEvent";
+import "../../css/calendar/day-calendar.css"
+import EventInfoDayMode from "./actions-with-events/EventInfoDayMode";
 
 export const DayCalendare: FunctionComponent = () => {
     const [dayEvents, setDayEvents] = useState<IEventArray>({ arrayEvents: new Array<IEvent>() });
-    const { userId, day, month, year, nextRendering } = useTypedSelector(state => state.currentDay)
+    const { userId, day, month, year, nextRendering } = useTypedSelector(state => state.currentDay);
     useEffect(() => {
         const createEvents = async () => {
             const service: UserService = new UserService();
@@ -28,7 +29,7 @@ export const DayCalendare: FunctionComponent = () => {
                     description: "",
                     startEvent: new Date(year, month - 1, day, 0, 0, 0),
                     endEvent: new Date(year, month - 1, day, 0, 0, 0)
-                }
+                };
                 emptyEvents.push(emptyEvent);
                 setDayEvents({ arrayEvents: emptyEvents });
             }
@@ -38,7 +39,7 @@ export const DayCalendare: FunctionComponent = () => {
         };
 
         createEvents();
-    }, [userId, day, month, year, nextRendering])
+    }, [userId, day, month, year, nextRendering]);
 
     return (<div>
         <Card className='events-of-day'>
@@ -49,17 +50,9 @@ export const DayCalendare: FunctionComponent = () => {
             
             <div className="scrollbar scrollbar-success">
                 <Card.Body className='card-day'>
-                    {dayEvents.arrayEvents.map((eventsDay, keyEvent) => (
+                    {dayEvents.arrayEvents.map((eventsDay) => (
                         eventsDay.name != "" &&
-                        <Button variant="outline-success" id={'event-info'} key={keyEvent}>
-                            <Card.Text className='event-name-time'>
-                                {eventsDay.name + " "}
-                                {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                            </Card.Text>
-                            <Card.Text className='event-description'>
-                                {eventsDay.description != "" ? "\n" + eventsDay.description : ""}
-                            </Card.Text>
-                        </Button>
+                        <EventInfoDayMode eventDate={eventsDay}/>
                     ))}
                 </Card.Body>
             </div>

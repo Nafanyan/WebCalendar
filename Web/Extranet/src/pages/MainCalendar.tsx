@@ -1,16 +1,15 @@
-
 import { FunctionComponent } from 'react';
 import { Card, Nav } from 'react-bootstrap';
-import '../css/main-calendar.css'
+import '../css/main-calendar.css';
 import { useTypedSelector } from '../hooks/useTypeSelector';
 import { SwitchMode, SwitchModeContain } from './calendar/SwitchMode';
 
 export interface MainCalendarProps {
     mode: string
-}
+};
 
 export const MainCalendar: FunctionComponent<MainCalendarProps> = ({ mode }) => {
-    const currDay = useTypedSelector(state => state.currentDay)
+    const currDay = useTypedSelector(state => state.currentDay);
 
     return (
         <div>

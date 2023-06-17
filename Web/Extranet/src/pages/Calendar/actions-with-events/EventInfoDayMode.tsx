@@ -1,25 +1,24 @@
-import { FunctionComponent, useState, useEffect } from "react"
-import { Button, Form, Modal } from "react-bootstrap"
+import { FunctionComponent, useState } from "react"
+import { Modal, Button, Form, Card } from "react-bootstrap"
 import { useDispatch } from "react-redux"
-import "../css/month-calendar.css"
-import { TimeToString, TimeToStringCommand, TimeToStringRequest } from "../custom-functions/TimeToString"
-import { useTypedSelector } from "../hooks/useTypeSelector"
-import { IEvent } from "../models/IEvent"
-import { EventService } from "../services/EventService"
-import { IEventQueryResult } from "../models/query/IEventQuery"
-import { IValidationResult } from "../models/IValidationResult"
-import { CurrentDayActionType } from "../models/type/currentDay"
+import { TimeToStringRequest, TimeToStringCommand, TimeToString } from "../../../custom-functions/TimeToString"
+import { useTypedSelector } from "../../../hooks/useTypeSelector"
+import { IValidationResult } from "../../../models/IValidationResult"
+import { IEventQueryResult } from "../../../models/query/IEventQuery"
+import { CurrentDayActionType } from "../../../models/type/currentDay"
+import { EventService } from "../../../services/EventService"
+import "../../../css/calendar/actions-with-events/event-info-day-mode.css"
+import { IEvent } from "../../../models/IEvent"
 
-export interface EventInfoProps {
-    startEvent: Date,
-    endEvent: Date
+export interface EventInfoDayModeProps {
+    eventDate: IEvent
 }
 
-export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEvent }) => {
-    const { userId, nextRendering } = useTypedSelector(status => status.currentDay)
-    const dispatch = useDispatch()
+export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eventDate }) => {
+    const { userId, nextRendering } = useTypedSelector(status => status.currentDay);
+    const dispatch = useDispatch();
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false);
 
     const [event, setEvent] = useState<IEventQueryResult>(
         {
@@ -27,8 +26,8 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 userId: userId,
                 name: " ",
                 description: " ",
-                startEvent: startEvent,
-                endEvent: endEvent
+                startEvent: eventDate.startEvent,
+                endEvent: eventDate.endEvent
             },
             validationResult: {
                 IsFail: false,
@@ -39,34 +38,40 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
 
     const handleClose = () => {
         setShow(false)
-    }
+    };
 
     const handleShow = async () => {
         setShow(true)
         const service: EventService = new EventService();
-        let startEventStr: string = TimeToStringRequest(new Date(startEvent))
-        let endEventStr: string = TimeToStringRequest(new Date(endEvent));
+        let startEventStr: string = TimeToStringRequest(new Date(eventDate.startEvent));
+        let endEventStr: string = TimeToStringRequest(new Date(eventDate.endEvent));
         setEvent(await service.get(userId, startEventStr, endEventStr));
-    }
+    };
 
     const deleteEvent = async () => {
-        const service: EventService = new EventService()
-        let startEventStr: string = TimeToStringCommand(new Date(startEvent), TimeToString(startEvent))
-        let endEventStr: string = TimeToStringCommand(new Date(endEvent), TimeToString(endEvent))
+        const service: EventService = new EventService();
+        let startEventStr: string = TimeToStringCommand(new Date(eventDate.startEvent), TimeToString(eventDate.startEvent));
+        let endEventStr: string = TimeToStringCommand(new Date(eventDate.endEvent), TimeToString(eventDate.endEvent));
 
         let result: IValidationResult = await service.delete(userId, {
             StartEvent: startEventStr,
             EndEvent: endEventStr
-        })
+        });
 
-        dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering })
-        handleClose()
-    }
+        dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+        handleClose();
+    };
 
     return (
         <>
-            <Button variant="light" onClick={handleShow}>
-                {TimeToString(startEvent) + " - " + TimeToString(endEvent)}
+            <Button variant="outline-success" id={'event-info'} onClick={handleShow}>
+                <Card.Text className='event-name-time'>
+                    {eventDate.name + " "}
+                    {TimeToString(eventDate.startEvent) + " - " + TimeToString(eventDate.endEvent)}
+                </Card.Text>
+                <Card.Text className='event-description'>
+                    {eventDate.description != "" ? "\n" + eventDate.description : ""}
+                </Card.Text>
             </Button>
 
             <Modal show={show} onHide={handleClose}>
@@ -112,7 +117,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                                         disabled
                                         readOnly
                                     >
-                                        {TimeToString(startEvent)}
+                                        {TimeToString(eventDate.startEvent)}
                                     </Form.Control>
                                 </Form.Group>
 
@@ -125,7 +130,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                                         disabled
                                         readOnly
                                     >
-                                        {TimeToString(endEvent)}
+                                        {TimeToString(eventDate.endEvent)}
                                     </Form.Control>
                                 </Form.Group>
                             </Form>
@@ -150,5 +155,5 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
     )
 }
 
-export default EventInfo
+export default EventInfoDayMode
 

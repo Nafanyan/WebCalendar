@@ -1,9 +1,9 @@
 @font-face {
     font-family: 'Oswald';
     src: local('Oswald'),
-        url('../fonts/Oswald-Regular.ttf') format('truetype'),
-        url('../fonts/Oswald-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Oswald-Regular.woff') format('woff');
+        url('../../fonts/Oswald-Regular.ttf') format('truetype'),
+        url('../../fonts/Oswald-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Oswald-Regular.woff') format('woff');
     font-weight: 400;
     font-style: 'regular';
 }
@@ -11,9 +11,9 @@
 @font-face {
     font-family: 'Oswald';
     src: local('Oswald'),
-        url('../fonts/Oswald-Light.ttf') format('truetype'),
-        url('../fonts/Oswald-Light.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Oswald-Light.woff') format('woff');
+        url('../../fonts/Oswald-Light.ttf') format('truetype'),
+        url('../../fonts/Oswald-Light.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Oswald-Light.woff') format('woff');
     font-weight: 300;
     font-style: 'light';
 }
@@ -116,7 +116,7 @@
 
 /* Обработка кнопки для описания события  */
 .btn-light {
-    width: 103px;
+    width: 110px;
     height: 30px;
     --bs-btn-padding-x: none;
     --bs-btn-padding-y: none;

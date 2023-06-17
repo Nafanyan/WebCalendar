@@ -1,17 +1,19 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, Table } from 'react-bootstrap';
-import { IEvent } from '../../models/IEvent';
-import { UserService } from '../../services/UserService';
-import { IEventArray } from '../../models/IEventArray';
-import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
-import { shortDaysWeek } from '../../constants/DayOfWeek';
-import "../../css/week-calendar.css"
-import { useTypedSelector } from '../../hooks/useTypeSelector';
-import AddEvent from '../AddEvent';
+import { FunctionComponent, useState, useEffect } from "react"
+import { Table, Card, Button } from "react-bootstrap"
+import { shortDaysWeek } from "../../constants/DayOfWeek"
+import { TimeToStringRequest } from "../../custom-functions/TimeToString"
+import { useTypedSelector } from "../../hooks/useTypeSelector"
+import { IEvent } from "../../models/IEvent"
+import { IEventArray } from "../../models/IEventArray"
+import { UserService } from "../../services/UserService"
+import AddEvent from "./actions-with-events/AddEvent"
+import "../../css/calendar/week-calendar.css"
+import EventInfo from "./actions-with-events/EventInfo"
+
 
 export const WeekCalendar: FunctionComponent = () => {
-    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([])
-    const { userId, year, month, day } = useTypedSelector(state => state.currentDay)
+    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
+    const { userId, year, month, day } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const create2DArray = async () => {
@@ -93,9 +95,7 @@ export const WeekCalendar: FunctionComponent = () => {
                                                     <Card.Body className='card-day-text' key={keyEventDay}>
                                                         {eventsDay.name != "" &&
                                                             <Card.Text >
-                                                                <Button variant="light">
-                                                                    {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                                </Button>
+                                                               <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
                                                                 {" " + eventsDay.name}
                                                             </Card.Text>}
                                                     </Card.Body>

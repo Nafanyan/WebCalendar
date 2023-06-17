@@ -1,0 +1,110 @@
+@font-face {
+    font-family: 'Oswald';
+    src: local('Oswald'),
+        url('../../fonts/Oswald-Regular.ttf') format('truetype'),
+        url('../../fonts/Oswald-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Oswald-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: 'regular';
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: local('Oswald'),
+        url('../../fonts/Oswald-Light.ttf') format('truetype'),
+        url('../../fonts/Oswald-Light.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Oswald-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: 'light';
+}
+
+#dropdown-month-button {
+    position: relative;
+    left: 18px;
+
+    font-family: 'Oswald';
+    font-style: light;
+    font-weight: 300;
+    font-size: 35.5785px;
+    line-height: 53px;
+
+    --bs-btn-bg: #ffffff;
+    color: black;
+    border: none;
+
+    --bs-btn-color: #black;
+    --bs-btn-bg: #ffffff;
+
+    --bs-btn-hover-color: #black;
+    --bs-btn-hover-bg: #ffffff;
+
+    --bs-btn-active-color: #black;
+    --bs-btn-active-bg: #d7d7d7;
+    --bs-btn-active-border-color: #black;
+}
+
+#year-change-group{
+    font-family: 'Oswald';
+    font-style: light;
+    font-weight: 300;
+    font-size: 35.5785px;
+    line-height: 53px;
+
+    --bs-btn-bg: #ffffff;
+    color: black;
+    border: none;
+    
+    --bs-btn-color: #black;
+    --bs-btn-bg: #ffffff;
+
+    --bs-btn-hover-color: #black;
+    --bs-btn-hover-bg: #ffffff;
+
+    --bs-btn-active-color: #black;
+    --bs-btn-active-bg: #d7d7d7;
+    --bs-btn-active-border-color: #black;
+}
+
+#week-change-group{
+    font-family: 'Oswald';
+    font-style: light;
+    font-weight: 300;
+    font-size: 35.5785px;
+    line-height: 53px;
+
+    --bs-btn-bg: #ffffff;
+    color: black;
+    border: none;
+    
+    --bs-btn-color: #black;
+    --bs-btn-bg: #ffffff;
+
+    --bs-btn-hover-color: #black;
+    --bs-btn-hover-bg: #ffffff;
+
+    --bs-btn-active-color: #black;
+    --bs-btn-active-bg: #d7d7d7;
+    --bs-btn-active-border-color: #black;
+}
+
+#day-change-group{
+    font-family: 'Oswald';
+    font-style: light;
+    font-weight: 300;
+    font-size: 35.5785px;
+    line-height: 53px;
+
+    --bs-btn-bg: #ffffff;
+    color: black;
+    border: none;
+    
+    --bs-btn-color: #black;
+    --bs-btn-bg: #ffffff;
+
+    --bs-btn-hover-color: #black;
+    --bs-btn-hover-bg: #ffffff;
+
+    --bs-btn-active-color: #black;
+    --bs-btn-active-bg: #d7d7d7;
+    --bs-btn-active-border-color: #black;
+}

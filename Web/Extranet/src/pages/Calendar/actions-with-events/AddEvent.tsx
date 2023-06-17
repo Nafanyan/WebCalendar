@@ -1,27 +1,26 @@
-import { FunctionComponent, useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import "../css/add-event.css";
-import { TimeToStringCommand } from "../custom-functions/TimeToString";
-import { useTypedSelector } from "../hooks/useTypeSelector";
-import { IValidationResult } from "../models/IValidationResult";
-import { CurrentDayActionType } from "../models/type/currentDay";
-import { EventService } from "../services/EventService";
-
+import { FunctionComponent, useState } from "react"
+import { Modal, Button, Form } from "react-bootstrap"
+import { useDispatch } from "react-redux"
+import { TimeToStringCommand } from "../../../custom-functions/TimeToString"
+import { useTypedSelector } from "../../../hooks/useTypeSelector"
+import { IValidationResult } from "../../../models/IValidationResult"
+import { CurrentDayActionType } from "../../../models/type/currentDay"
+import { EventService } from "../../../services/EventService"
+import "../../../css/calendar/actions-with-events/add-event.css";
 
 export interface AddEventProps {
     day: Date
 }
 
 export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
-    const { userId, nextRendering } = useTypedSelector(state => state.currentDay)
-    const dispatch = useDispatch()
-    const [show, setShow] = useState(false)
+    const { userId, nextRendering } = useTypedSelector(state => state.currentDay);
+    const dispatch = useDispatch();
+    const [show, setShow] = useState(false);
 
-    const [nameEvent, setNameEvent] = useState<string>("")
-    const [descriptionEvent, setDescriptionEvent] = useState<string>("")
-    const [startEvent, setStartEvent] = useState<string>('00:00')
-    const [endEvent, setEndEvent] = useState<string>('00:00')
+    const [nameEvent, setNameEvent] = useState<string>("");
+    const [descriptionEvent, setDescriptionEvent] = useState<string>("");
+    const [startEvent, setStartEvent] = useState<string>('00:00');
+    const [endEvent, setEndEvent] = useState<string>('00:00');
 
     const handleClose = () => {
         setShow(false)
@@ -30,12 +29,12 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
         setStartEvent('00:00')
         setEndEvent('00:00')
     }
-    const handleShow = () => setShow(true)
+    const handleShow = () => setShow(true);
 
     const handleAdd = async () => {
-        const service: EventService = new EventService()
-        let startEventStr: string = TimeToStringCommand(new Date(day), startEvent)
-        let endEventStr: string = TimeToStringCommand(new Date(day), endEvent)
+        const service: EventService = new EventService();
+        let startEventStr: string = TimeToStringCommand(new Date(day), startEvent);
+        let endEventStr: string = TimeToStringCommand(new Date(day), endEvent);
 
         let result: IValidationResult = await service.addEvent(userId, {
             Name: nameEvent,
@@ -43,12 +42,12 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
             StartEvent: startEventStr,
             EndEvent: endEventStr
         })
-        dispatch({type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering})
-        handleClose()
+        dispatch({type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering});
+        handleClose();
     }
 
     return (
-        <>
+        <> 
             <button className='add-event-button'
                 onClick={handleShow}>+</button>
 

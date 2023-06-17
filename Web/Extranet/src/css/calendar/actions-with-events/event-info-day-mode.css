@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Oswald';
+    src: local('Oswald'),
+        url('../../../fonts/Oswald-Medium.ttf') format('truetype'),
+        url('../../../fonts/Oswald-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../../../fonts/Oswald-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: medium;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: local('Oswald'),
+        url('../../../fonts/Oswald-Light.ttf') format('truetype'),
+        url('../../../fonts/Oswald-Light.eot?#iefix') format('embedded-opentype'),
+        url('../../../fonts/Oswald-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: light;
+}
+
+.event-name-time {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 26px;
+    margin: 0px;
+    margin-left: 10px;
+}
+
+.event-description {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 36px;
+    margin: 0px;
+    margin-left: 10px;
+}

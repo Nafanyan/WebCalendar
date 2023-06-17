@@ -1,14 +1,14 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootstrap";
-import { months } from "../../constants/Months";
-import '../../css/main-calendar.css';
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { useTypedSelector } from "../../hooks/useTypeSelector";
-import { CurrentDayActionType } from "../../models/type/currentDay";
-import DayCalendar from "./DayCalendar";
-import MonthCalendar from "./MonthCalendar";
-import WeekCalendar from "./WeekCalendar";
+import { FunctionComponent, useState, useEffect } from "react"
+import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootstrap"
+import { useDispatch } from "react-redux"
+import { useLocation } from "react-router-dom"
+import { months } from "../../constants/Months"
+import { useTypedSelector } from "../../hooks/useTypeSelector"
+import { CurrentDayActionType } from "../../models/type/currentDay"
+import DayCalendar from "./DayCalendar"
+import MonthCalendar from "./MonthCalendar"
+import WeekCalendar from "./WeekCalendar"
+import "../../css/calendar/switch-mode.css"
 
 
 export interface SwitchModeProps {
@@ -145,7 +145,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
 }
 
 export const SwitchModeContain: FunctionComponent = () => {
-    const location = useLocation()
+    const location = useLocation();
 
     if (location.pathname === "/weeks") {
         return <WeekCalendar/>

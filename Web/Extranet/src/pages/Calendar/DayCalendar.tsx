@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { IEvent } from '../../models/query/IEvent';
+import { IEvent } from '../../models/IEvent';
 import { IEventArray } from '../../models/IEventArray';
 import { UserService } from '../../services/UserService';
 import { Button, Card } from 'react-bootstrap';
@@ -23,7 +23,7 @@ export const DayCalendare: FunctionComponent = () => {
                 let emptyEvents: IEvent[] = [];
                 let emptyEvent: IEvent;
                 emptyEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: new Date(year, month - 1, day, 0, 0, 0),

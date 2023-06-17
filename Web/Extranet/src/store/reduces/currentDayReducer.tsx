@@ -1,4 +1,4 @@
-import { CurrentDay, CurrentDayAction, CurrentDayActionType } from "../../models/currentDay";
+import { CurrentDay, CurrentDayAction, CurrentDayActionType } from "../../models/type/currentDay"
 
 const initialState: CurrentDay = {
     userId: 4,

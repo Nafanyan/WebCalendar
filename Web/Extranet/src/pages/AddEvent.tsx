@@ -1,12 +1,13 @@
 import { FunctionComponent, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
-import { UserService } from "../services/UserService";
-import { TimeToStringCommand } from "../custom-functions/TimeToString";
-import { IValidationResult } from "../models/command/IValidationResult";
-import "../css/add-event.css";
-import { useTypedSelector } from "../hooks/useTypeSelector";
+import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { CurrentDayActionType } from "../models/currentDay";
+import "../css/add-event.css";
+import { TimeToStringCommand } from "../custom-functions/TimeToString";
+import { useTypedSelector } from "../hooks/useTypeSelector";
+import { IValidationResult } from "../models/IValidationResult";
+import { CurrentDayActionType } from "../models/type/currentDay";
+import { EventService } from "../services/EventService";
+
 
 export interface AddEventProps {
     day: Date
@@ -32,7 +33,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
     const handleShow = () => setShow(true)
 
     const handleAdd = async () => {
-        const service: UserService = new UserService()
+        const service: EventService = new EventService()
         let startEventStr: string = TimeToStringCommand(new Date(day), startEvent)
         let endEventStr: string = TimeToStringCommand(new Date(day), endEvent)
 

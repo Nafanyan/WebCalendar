@@ -5,7 +5,7 @@ import "../../css/month-calendar.css"
 import { TimeToStringRequest, TimeToString } from "../../custom-functions/TimeToString";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
 import { IEventArray } from "../../models/IEventArray";
-import { IEvent } from "../../models/query/IEvent";
+import { IEvent } from "../../models/IEvent";
 import { UserService } from "../../services/UserService";
 import AddEvent from "../AddEvent";
 import EventInfo from "../EventInfo";
@@ -28,7 +28,7 @@ export const MonthCalendar: FunctionComponent = () => {
             for (let i = 1; i <= monthDaysCount; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);
                 let emptyEvent: IEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: emptyDate,
@@ -57,7 +57,7 @@ export const MonthCalendar: FunctionComponent = () => {
             for (let i = 1; i <= dayWeekBeginMonth; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate - 1, i, 0, 0, 0);
                 let emptyEvent: IEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: emptyDate,

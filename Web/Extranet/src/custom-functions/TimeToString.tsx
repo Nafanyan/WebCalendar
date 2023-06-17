@@ -1,8 +1,12 @@
 export function TimeToString(date: Date): string {
     let nowDate: Date = new Date(date.toString());
     let result: string = "";
-    result += nowDate.getHours().toString() + ":";
-    result += nowDate.getMinutes() < 10 ? "0" + nowDate.getMinutes().toString() : nowDate.getMinutes().toString();
+
+    let hours: number = nowDate.getHours();
+    result += (hours < 10 ? "0" + hours.toString() : hours.toString()) + ":";
+
+    let minutes: number = nowDate.getMinutes();
+    result += minutes < 10 ? "0" + minutes.toString() : minutes.toString();
     return result;
 }
 

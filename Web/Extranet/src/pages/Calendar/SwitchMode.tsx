@@ -3,12 +3,13 @@ import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootst
 import { months } from "../../constants/Months";
 import '../../css/main-calendar.css';
 import { useDispatch } from "react-redux";
-import { useTypedSelector } from "../../hooks/useTypeSelector";
-import { CurrentDayAction, CurrentDayActionType } from "../../models/currentDay";
 import { useLocation } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { CurrentDayActionType } from "../../models/type/currentDay";
 import DayCalendar from "./DayCalendar";
 import MonthCalendar from "./MonthCalendar";
 import WeekCalendar from "./WeekCalendar";
+
 
 export interface SwitchModeProps {
     mode: string

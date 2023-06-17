@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, Table } from 'react-bootstrap';
-import { IEvent } from '../../models/query/IEvent';
+import { IEvent } from '../../models/IEvent';
 import { UserService } from '../../services/UserService';
 import { IEventArray } from '../../models/IEventArray';
 import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
@@ -29,7 +29,7 @@ export const WeekCalendar: FunctionComponent = () => {
             let daysOfMonth: IEventArray[] = [];
             for (let i = day - dayWeekBeginMonth; i <= day + 7 - dayWeekBeginMonth; i++) {
                 let emptyEvent: IEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: new Date(year, monthForCreateDate, i, 0, 0, 0),

@@ -1,11 +1,14 @@
 import { FunctionComponent, useState, useEffect } from "react"
-import { Button, Modal } from "react-bootstrap"
+import { Button, Form, Modal } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import "../css/month-calendar.css"
-import { TimeToString, TimeToStringRequest } from "../custom-functions/TimeToString"
+import { TimeToString, TimeToStringCommand, TimeToStringRequest } from "../custom-functions/TimeToString"
 import { useTypedSelector } from "../hooks/useTypeSelector"
-import { IEvent } from "../models/query/IEvent"
+import { IEvent } from "../models/IEvent"
 import { EventService } from "../services/EventService"
+import { IEventQueryResult } from "../models/query/IEventQuery"
+import { IValidationResult } from "../models/IValidationResult"
+import { CurrentDayActionType } from "../models/type/currentDay"
 
 export interface EventInfoProps {
     startEvent: Date,
@@ -15,38 +18,49 @@ export interface EventInfoProps {
 export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEvent }) => {
     const { userId, nextRendering } = useTypedSelector(status => status.currentDay)
     const dispatch = useDispatch()
+
     const [show, setShow] = useState(false)
-    const [event, setEvent] = useState<IEvent>(
+
+    const [event, setEvent] = useState<IEventQueryResult>(
         {
-            id: userId,
-            name: "",
-            description: "",
-            startEvent: new Date(startEvent),
-            endEvent: new Date(endEvent)
+            objResult: {
+                userId: userId,
+                name: " ",
+                description: " ",
+                startEvent: startEvent,
+                endEvent: endEvent
+            },
+            validationResult: {
+                IsFail: false,
+                Error: null
+            }
         }
     );
-
-
-    useEffect(() => {
-        const fetchEvent = async () => {
-            const service: EventService = new EventService();
-            let startEventStr: string = TimeToStringRequest(new Date(startEvent))
-            let endEventStr: string = TimeToStringRequest(new Date(endEvent));
-            let fetchedEvent: IEvent = await service.get(userId, startEventStr, endEventStr);
-            setEvent(fetchedEvent);
-            console.log(event);
-        }
-        if (show)
-        {
-            fetchEvent(); 
-        }
-    },[show])
 
     const handleClose = () => {
         setShow(false)
     }
+
     const handleShow = async () => {
         setShow(true)
+        const service: EventService = new EventService();
+        let startEventStr: string = TimeToStringRequest(new Date(startEvent))
+        let endEventStr: string = TimeToStringRequest(new Date(endEvent));
+        setEvent(await service.get(userId, startEventStr, endEventStr));
+    }
+
+    const deleteEvent = async () => {
+        const service: EventService = new EventService()
+        let startEventStr: string = TimeToStringCommand(new Date(startEvent), TimeToString(startEvent))
+        let endEventStr: string = TimeToStringCommand(new Date(endEvent), TimeToString(endEvent))
+
+        let result: IValidationResult = await service.delete(userId, {
+            StartEvent: startEventStr,
+            EndEvent: endEventStr
+        })
+
+        dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering })
+        handleClose()
     }
 
     return (
@@ -59,11 +73,66 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 <Modal.Header closeButton>
                     <Modal.Title>Данные события</Modal.Title>
                 </Modal.Header>
-                <div>{event.name}</div>
-                <div>{event.description}</div>
-                {/* <div>{TimeToString(event.startEvent)}</div>
-                <div>{TimeToString(event.endEvent)}</div> */}
+                {event.objResult.name != " " &&
+                    <>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group
+                                    className="name-event-info"
+                                    controlId="name-event-info-Textarea"
+                                >
+                                    <Form.Label>Название события:</Form.Label>
+                                    <Form.Control as="textarea" rows={1}
+                                        disabled
+                                        readOnly
+                                    >
+                                        {event.objResult.name}
+                                    </Form.Control>
+                                </Form.Group>
 
+                                <Form.Group
+                                    className="description-event-info"
+                                    controlId="description-event-info-Textarea"
+                                >
+                                    <Form.Label>Описание события:</Form.Label>
+                                    <Form.Control as="textarea" rows={3}
+                                        disabled
+                                        readOnly
+                                    >
+                                        {event.objResult.description}
+                                    </Form.Control>
+                                </Form.Group>
+
+                                <Form.Group
+                                    className="start-event-info"
+                                    controlId="start-event-info-Textarea"
+                                >
+                                    <Form.Label>Время начала:</Form.Label>
+                                    <Form.Control as="textarea" rows={1}
+                                        disabled
+                                        readOnly
+                                    >
+                                        {TimeToString(startEvent)}
+                                    </Form.Control>
+                                </Form.Group>
+
+                                <Form.Group
+                                    className="end-event-info"
+                                    controlId="end-event-info-Textarea"
+                                >
+                                    <Form.Label>Время окончания:</Form.Label>
+                                    <Form.Control as="textarea" rows={1}
+                                        disabled
+                                        readOnly
+                                    >
+                                        {TimeToString(endEvent)}
+                                    </Form.Control>
+                                </Form.Group>
+                            </Form>
+
+                        </Modal.Body>
+                    </>
+                }
                 <Modal.Body>
 
 
@@ -72,7 +141,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                     <Button variant="secondary" onClick={handleClose}>
                         Выйти
                     </Button>
-                    <Button variant="primary">
+                    <Button variant="primary" onClick={deleteEvent}>
                         Удалить событие
                     </Button>
                 </Modal.Footer>

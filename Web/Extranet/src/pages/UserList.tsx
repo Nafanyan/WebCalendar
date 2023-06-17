@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from "react";
 import { useTypedSelector } from "../hooks/useTypeSelector";
 import { useDispatch } from "react-redux";
-import { CurrentDay, CurrentDayActionType } from "../models/currentDay";
+import { CurrentDayActionType } from "../models/type/currentDay";
 
 const UserList: FunctionComponent = () => {
     const currDay = useTypedSelector(state => state.currentDay);

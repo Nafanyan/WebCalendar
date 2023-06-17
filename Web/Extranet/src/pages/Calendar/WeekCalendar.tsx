@@ -5,18 +5,13 @@ import { UserService } from '../../services/UserService';
 import { IEventArray } from '../../models/IEventArray';
 import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
 import { shortDaysWeek } from '../../constants/DayOfWeek';
-import AddEvent from '../AddEvent';
 import "../../css/week-calendar.css"
+import { useTypedSelector } from '../../hooks/useTypeSelector';
+import AddEvent from '../AddEvent';
 
-export interface WeekCalendarProps {
-    userId: number
-    day: number
-    month: number
-    year: number
-}
-
-export const WeekCalendar: FunctionComponent<WeekCalendarProps> = ({ userId, day, month, year }) => {
-    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
+export const WeekCalendar: FunctionComponent = () => {
+    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([])
+    const { userId, year, month, day } = useTypedSelector(state => state.currentDay)
 
     useEffect(() => {
         const create2DArray = async () => {
@@ -89,7 +84,7 @@ export const WeekCalendar: FunctionComponent<WeekCalendarProps> = ({ userId, day
                                         <Card className='day-of-weeks' >
                                             <Card.Header className='card-day-header'>
                                                 {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
-                                                <AddEvent userId={userId} day={day.arrayEvents[0].startEvent} />
+                                                <AddEvent day={day.arrayEvents[0].startEvent} />
                                             </Card.Header>
 
                                             <div className="scrollbar scrollbar-success">

@@ -1,23 +1,17 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { IEvent } from '../../models/query/IEvent';
 import { IEventArray } from '../../models/IEventArray';
 import { UserService } from '../../services/UserService';
 import { Button, Card } from 'react-bootstrap';
 import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
 import { fullDaysWeek } from '../../constants/DayOfWeek';
-import AddEvent from '../AddEvent';
 import "../../css/day-calendar.css"
+import { useTypedSelector } from '../../hooks/useTypeSelector';
+import AddEvent from '../AddEvent';
 
-export interface DayCalendarProps {
-    userId: number
-    day: number,
-    month: number
-    year: number
-}
-
-export const DayCalendare: FunctionComponent<DayCalendarProps> = ({ userId, day, month, year }) => {
+export const DayCalendare: FunctionComponent = () => {
     const [dayEvents, setDayEvents] = useState<IEventArray>({ arrayEvents: new Array<IEvent>() });
-
+    const { userId, day, month, year, nextRendering } = useTypedSelector(state => state.currentDay)
     useEffect(() => {
         const createEvents = async () => {
             const service: UserService = new UserService();
@@ -44,13 +38,13 @@ export const DayCalendare: FunctionComponent<DayCalendarProps> = ({ userId, day,
         };
 
         createEvents();
-    }, [userId, day, month, year])
+    }, [userId, day, month, year, nextRendering])
 
     return (<div>
         <Card className='events-of-day'>
             <Card.Header className='card-day-header-day-mode'>
                 {fullDaysWeek[new Date(year, month - 1, day).getDay()]}
-                <AddEvent userId={userId} day={new Date(year, month - 1, day)} />
+                <AddEvent day={new Date(year, month - 1, day)} />
             </Card.Header>
             
             <div className="scrollbar scrollbar-success">

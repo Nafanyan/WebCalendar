@@ -1,28 +1,24 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, Table } from 'react-bootstrap';
-import { IEvent } from '../../models/query/IEvent';
-import { UserService } from '../../services/UserService';
-import { IEventArray } from '../../models/IEventArray';
-import { TimeToStringRequest, TimeToString } from '../../custom-functions/TimeToString';
-import { fullDaysWeek, shortDaysWeek } from '../../constants/DayOfWeek';
-import { AddEvent } from '../AddEvent';
+import { FunctionComponent, useState, useEffect } from "react";
+import { Table, Card, Button } from "react-bootstrap";
+import { shortDaysWeek } from "../../constants/DayOfWeek";
 import "../../css/month-calendar.css"
+import { TimeToStringRequest, TimeToString } from "../../custom-functions/TimeToString";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { IEventArray } from "../../models/IEventArray";
+import { IEvent } from "../../models/query/IEvent";
+import { UserService } from "../../services/UserService";
+import AddEvent from "../AddEvent";
+import EventInfo from "../EventInfo";
 
 
-export interface MonthCalendarProps {
-    userId: number
-    month: number
-    year: number
-}
-
-export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, month, year }) => {
+export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
+    const { userId, year, month, nextRendering } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const create2DArray = async () => {
             let monthForCreateDate: number = month - 1;
             let monthDaysCount: number = new Date(year, month, 0).getDate();
-
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
@@ -79,7 +75,7 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
         };
 
         create2DArray();
-    }, [userId, year, month])
+    }, [userId, year, month, nextRendering])
 
     return (<div>
         <Table striped bordered hover>
@@ -106,7 +102,7 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
                                             <Card className='day-of-months'>
                                                 <Card.Header className='card-day-header'>
                                                     {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
-                                                    <AddEvent userId={userId} day={day.arrayEvents[0].startEvent} />
+                                                    <AddEvent day={day.arrayEvents[0].startEvent} />
                                                 </Card.Header>
 
                                                 <div className="scrollbar scrollbar-success">
@@ -114,9 +110,10 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
                                                         <Card.Body id='card-day-text' key={keyEventDay} >
                                                             {eventsDay.name != "" &&
                                                                 <Card.Text>
-                                                                    <Button variant="light">
+                                                                    {/* <Button variant="light">
                                                                         {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                                    </Button>
+                                                                    </Button> */}
+                                                                    <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent}/>
                                                                     {" " + eventsDay.name}
                                                                 </Card.Text>}
 
@@ -135,9 +132,6 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
                 )}
             </tbody>
         </Table>
-
-
-
     </div>)
 }
 

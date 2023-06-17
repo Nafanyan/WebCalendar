@@ -1,51 +1,50 @@
 import { FunctionComponent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import "../css/add-event.css"
-import { fullDaysWeek } from "../constants/DayOfWeek";
-import { IEvent } from "../models/query/IEvent";
 import { UserService } from "../services/UserService";
-import { TimeToStringCommand, TimeToStringRequest } from "../custom-functions/TimeToString";
+import { TimeToStringCommand } from "../custom-functions/TimeToString";
 import { IValidationResult } from "../models/command/IValidationResult";
+import "../css/add-event.css";
+import { useTypedSelector } from "../hooks/useTypeSelector";
+import { useDispatch } from "react-redux";
+import { CurrentDayActionType } from "../models/currentDay";
 
 export interface AddEventProps {
-    userId: number;
-    day: Date;
+    day: Date
 }
 
-export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
-    const [show, setShow] = useState(false);
+export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
+    const { userId, nextRendering } = useTypedSelector(state => state.currentDay)
+    const dispatch = useDispatch()
+    const [show, setShow] = useState(false)
 
-    const [nameEvent, setNameEvent] = useState<string>("");
-    const [descriptionEvent, setDescriptionEvent] = useState<string>("");
-    const [startEvent, setStartEvent] = useState<string>('00:00');
-    const [endEvent, setEndEvent] = useState<string>('00:00');
+    const [nameEvent, setNameEvent] = useState<string>("")
+    const [descriptionEvent, setDescriptionEvent] = useState<string>("")
+    const [startEvent, setStartEvent] = useState<string>('00:00')
+    const [endEvent, setEndEvent] = useState<string>('00:00')
 
     const handleClose = () => {
-        setShow(false);
-        setNameEvent("");
-        setDescriptionEvent("");
-        setStartEvent('00:00');
-        setEndEvent('00:00');
+        setShow(false)
+        setNameEvent("")
+        setDescriptionEvent("")
+        setStartEvent('00:00')
+        setEndEvent('00:00')
     }
-    const handleShow = () => setShow(true);
-    const handleAdd = async() => {
-        const service: UserService = new UserService();
-        let startEventStr: string = TimeToStringCommand(new Date(day), startEvent);
-        let endEventStr: string = TimeToStringCommand(new Date(day), endEvent);
+    const handleShow = () => setShow(true)
 
-        let result: IValidationResult =  await service.addEvent(userId, {
+    const handleAdd = async () => {
+        const service: UserService = new UserService()
+        let startEventStr: string = TimeToStringCommand(new Date(day), startEvent)
+        let endEventStr: string = TimeToStringCommand(new Date(day), endEvent)
+
+        let result: IValidationResult = await service.addEvent(userId, {
             Name: nameEvent,
             Description: descriptionEvent,
             StartEvent: startEventStr,
             EndEvent: endEventStr
-        });
-        handleClose();
+        })
+        dispatch({type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering})
+        handleClose()
     }
-
-    // console.log("name ", nameEvent);
-    // console.log("desriptionEvent ", desriptionEvent);
-    // console.log("startEvent ", startEvent);
-    // console.log("endEvent ", endEvent);
 
     return (
         <>
@@ -54,8 +53,9 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title> {fullDaysWeek[new Date(day).getDay()]}</Modal.Title>
+                    <Modal.Title>Введите данные события</Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     <Form>
                         <Form.Group
@@ -63,8 +63,8 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Название события:</Form.Label>
-                            <Form.Control as="textarea" rows={1} 
-                            onChange={n => setNameEvent(n.target.value)}/>
+                            <Form.Control as="textarea" rows={1}
+                                onChange={n => setNameEvent(n.target.value)} />
                         </Form.Group>
 
                         <Form.Group
@@ -72,7 +72,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Описание события:</Form.Label>
-                            <Form.Control as="textarea" rows={3} onChange={d => setDescriptionEvent(d.target.value)}/>
+                            <Form.Control as="textarea" rows={3} onChange={d => setDescriptionEvent(d.target.value)} />
                         </Form.Group>
 
                         <div className="form-group row">
@@ -83,7 +83,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
                                     onChange={se => setStartEvent(se.target.value)}
                                     className="start-event"
                                     id="start-event-input">
-                                    
+
                                 </input>
                             </div>
                         </div>
@@ -112,7 +112,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ userId, day }) => {
                 </Modal.Footer>
             </Modal>
         </>
-    );
+    )
 }
 
-export default AddEvent;
+export default AddEvent

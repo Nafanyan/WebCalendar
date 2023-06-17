@@ -1,17 +1,18 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
-import { DateContext, IContextDateUser, defaultState } from "../models/ContextDateUser";
+import UserList from "./UserList";
+import { useTypedSelector } from "../hooks/useTypeSelector";
 
 
 export const Check: FunctionComponent = () => {
-    // const {dateUser} = useContext(IContextDateUser);
-    const [dateUser, setDateUser] = useState<IContextDateUser>(defaultState)
-    console.log(dateUser.userId);
+    const day = useTypedSelector(state => state.currentDay);
+
+    useEffect(() => {
+
+        console.log(day);
+    }, [day])
+
+
     return <div>
-        <button onClick={() => setDateUser({
-            userId: 0,
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            day: new Date().getDate(),
-        })}></button>
+        <UserList />
     </div>
 }

@@ -1,6 +1,6 @@
-import { CurrentDay, CurrentDayAction, CurrentDayActionType } from "../../models/type/currentDay"
+import { CurrentDayState, CurrentDayAction, CurrentDayActionType } from "../../models/type/currentDay"
 
-const initialState: CurrentDay = {
+const initialState: CurrentDayState = {
     userId: 4,
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -8,7 +8,7 @@ const initialState: CurrentDay = {
     nextRendering: false
 }
 
-export const currentDayReducer = (state = initialState, action: CurrentDayAction): CurrentDay => {
+export const currentDayReducer = (state = initialState, action: CurrentDayAction): CurrentDayState => {
     switch (action.type) {
         case CurrentDayActionType.CHANGE_CURRENT_DAY:
             return {
@@ -20,11 +20,7 @@ export const currentDayReducer = (state = initialState, action: CurrentDayAction
 
         case CurrentDayActionType.FORCED_DEPENDENCY_RENDER:
             return {
-                ...state, userId: state.userId,
-                year: state.year,
-                month: state.month,
-                day: state.day,
-                nextRendering: action.nextRendering
+                ...state, nextRendering: action.nextRendering
             }
         default:
             return state

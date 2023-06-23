@@ -13,7 +13,7 @@ import EventInfo from "./actions-with-events/EventInfo"
 
 export const WeekCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    const { userId, year, month, day } = useTypedSelector(state => state.currentDay);
+    const { userId, year, month, day, nextRendering } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const create2DArray = async () => {
@@ -60,7 +60,7 @@ export const WeekCalendar: FunctionComponent = () => {
         }
 
         create2DArray();
-    }, [userId, day, month, year])
+    }, [userId, day, month, year, nextRendering])
 
     return (<div>
         <Table striped bordered hover>
@@ -96,7 +96,7 @@ export const WeekCalendar: FunctionComponent = () => {
                                                         {eventsDay.name != "" &&
                                                             <Card.Text >
                                                                <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
-                                                                {" " + eventsDay.name}
+                                                               {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}
                                                             </Card.Text>}
                                                     </Card.Body>
                                                 ))}

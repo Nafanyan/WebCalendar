@@ -15,7 +15,8 @@ export interface AddEventProps {
 export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
     const { userId, nextRendering } = useTypedSelector(state => state.currentDay);
     const dispatch = useDispatch();
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState<boolean>(false);
+    const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
 
     const [nameEvent, setNameEvent] = useState<string>("");
     const [descriptionEvent, setDescriptionEvent] = useState<string>("");
@@ -28,6 +29,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
         setDescriptionEvent("")
         setStartEvent('00:00')
         setEndEvent('00:00')
+        setResponse({error: "", isFail: false})
     }
     const handleShow = () => setShow(true);
 
@@ -42,12 +44,15 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
             StartEvent: startEventStr,
             EndEvent: endEventStr
         })
-        dispatch({type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering});
-        handleClose();
+        setResponse(result);
+        if (!result.isFail) {
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            handleClose();
+        }
     }
 
     return (
-        <> 
+        <>
             <button className='add-event-button'
                 onClick={handleShow}>+</button>
 
@@ -57,6 +62,11 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
                 </Modal.Header>
 
                 <Modal.Body>
+                {response.isFail &&
+                    <div className="alert alert-danger" role="alert">
+                        {response.error}
+                    </div>
+                }
                     <Form>
                         <Form.Group
                             className="name-event"
@@ -82,8 +92,8 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
                                     type="time"
                                     onChange={se => setStartEvent(se.target.value)}
                                     className="start-event"
-                                    id="start-event-input">
-
+                                    id="start-event-input"
+                                    value={startEvent}>
                                 </input>
                             </div>
                         </div>
@@ -95,7 +105,8 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
                                     type="time"
                                     onChange={se => setEndEvent(se.target.value)}
                                     className="end-event"
-                                    id="end-event-input">
+                                    id="end-event-input"
+                                    value={endEvent}>
                                 </input>
                             </div>
                         </div>

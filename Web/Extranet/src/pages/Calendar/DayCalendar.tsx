@@ -47,12 +47,12 @@ export const DayCalendare: FunctionComponent = () => {
                 {fullDaysWeek[new Date(year, month - 1, day).getDay()]}
                 <AddEvent day={new Date(year, month - 1, day)} />
             </Card.Header>
-            
+
             <div className="scrollbar scrollbar-success">
                 <Card.Body className='card-day'>
-                    {dayEvents.arrayEvents.map((eventsDay) => (
+                    {dayEvents.arrayEvents.map((eventsDay, key) => (
                         eventsDay.name != "" &&
-                        <EventInfoDayMode eventDate={eventsDay}/>
+                        <EventInfoDayMode eventDate={eventsDay} key={key} />
                     ))}
                 </Card.Body>
             </div>

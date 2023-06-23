@@ -19,6 +19,7 @@
 }
 
 .event-name-time {
+    text-align: left;
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 400;
@@ -29,6 +30,7 @@
 }
 
 .event-description {
+    text-align: left;
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 300;

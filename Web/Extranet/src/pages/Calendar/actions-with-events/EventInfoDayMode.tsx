@@ -9,6 +9,7 @@ import { CurrentDayActionType } from "../../../models/type/currentDay"
 import { EventService } from "../../../services/EventService"
 import "../../../css/calendar/actions-with-events/event-info-day-mode.css"
 import { IEvent } from "../../../models/IEvent"
+import { CanEditEventInfo, ShowEventInfo } from "./EventInfoAction"
 
 export interface EventInfoDayModeProps {
     eventDate: IEvent
@@ -19,6 +20,9 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
     const dispatch = useDispatch();
 
     const [show, setShow] = useState(false);
+    const [canEditEvent, setCanEditEvent] = useState<boolean>(false);
+    const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
+
 
     const [event, setEvent] = useState<IEventQueryResult>(
         {
@@ -30,8 +34,8 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
                 endEvent: eventDate.endEvent
             },
             validationResult: {
-                IsFail: false,
-                Error: null
+                isFail: false,
+                error: null
             }
         }
     );
@@ -62,11 +66,30 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
         handleClose();
     };
 
+    const updateEvent = async () => {
+        const service: EventService = new EventService();
+        let startEventStr: string = TimeToStringCommand(new Date(eventDate.startEvent), TimeToString(event.objResult.startEvent));
+        let endEventStr: string = TimeToStringCommand(new Date(eventDate.endEvent), TimeToString(event.objResult.endEvent));
+
+        let result: IValidationResult = await service.updateEvent(userId, {
+            Name: event.objResult.name,
+            Description: event.objResult.description,
+            StartEvent: startEventStr,
+            EndEvent: endEventStr
+        })
+        setResponse(result);
+        if (!result.isFail) {
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            handleClose();
+            setCanEditEvent(false);
+        }
+    }
+
     return (
         <>
             <Button variant="outline-success" id={'event-info'} onClick={handleShow}>
                 <Card.Text className='event-name-time'>
-                    {eventDate.name + " "}
+                    {" " + (eventDate.name.length > 16 ? eventDate.name.substring(0, 16) + "... " : eventDate.name + " ")}
                     {TimeToString(eventDate.startEvent) + " - " + TimeToString(eventDate.endEvent)}
                 </Card.Text>
                 <Card.Text className='event-description'>
@@ -74,81 +97,45 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
                 </Card.Text>
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show}
+                onHide={() => { if (!canEditEvent) { handleClose() } }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Данные события</Modal.Title>
                 </Modal.Header>
-                {event.objResult.name != " " &&
-                    <>
-                        <Modal.Body>
-                            <Form>
-                                <Form.Group
-                                    className="name-event-info"
-                                    controlId="name-event-info-Textarea"
-                                >
-                                    <Form.Label>Название события:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {event.objResult.name}
-                                    </Form.Control>
-                                </Form.Group>
 
-                                <Form.Group
-                                    className="description-event-info"
-                                    controlId="description-event-info-Textarea"
-                                >
-                                    <Form.Label>Описание события:</Form.Label>
-                                    <Form.Control as="textarea" rows={3}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {event.objResult.description}
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="start-event-info"
-                                    controlId="start-event-info-Textarea"
-                                >
-                                    <Form.Label>Время начала:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {TimeToString(eventDate.startEvent)}
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="end-event-info"
-                                    controlId="end-event-info-Textarea"
-                                >
-                                    <Form.Label>Время окончания:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {TimeToString(eventDate.endEvent)}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Form>
-
-                        </Modal.Body>
-                    </>
-                }
                 <Modal.Body>
-
-
+                    {response.isFail &&
+                        <div className="alert alert-danger" role="alert">
+                            {response.error}
+                        </div>
+                    }
+                    {event.objResult.name != " " &&
+                        <>
+                            {canEditEvent ? (<CanEditEventInfo event={event} />) : (<ShowEventInfo event={event} />)}
+                        </>
+                    }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Выйти
-                    </Button>
-                    <Button variant="primary" onClick={deleteEvent}>
-                        Удалить событие
-                    </Button>
+                    {canEditEvent ? (
+                        <>
+                            <Button variant="secondary" onClick={() => setCanEditEvent(false)}>
+                                Отменить
+                            </Button>
+                            <Button variant="primary" onClick={updateEvent} >
+                                Сохранить
+                            </Button>
+                        </>
+
+                    ) : (
+                        <>
+                            <Button variant="secondary" onClick={() => setCanEditEvent(true)}>
+                                Изменить
+                            </Button>
+                            <Button variant="primary" onClick={deleteEvent}>
+                                Удалить событие
+                            </Button>
+                        </>
+                    )}
                 </Modal.Footer>
             </Modal>
         </>

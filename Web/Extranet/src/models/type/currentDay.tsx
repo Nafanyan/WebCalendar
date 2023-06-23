@@ -1,4 +1,4 @@
-export interface CurrentDay {
+export interface CurrentDayState {
     userId: number;
     year: number;
     month: number;

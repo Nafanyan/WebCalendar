@@ -8,6 +8,7 @@ import { IEventQueryResult } from "../../../models/query/IEventQuery"
 import { CurrentDayActionType } from "../../../models/type/currentDay"
 import { EventService } from "../../../services/EventService"
 import "../../../css/calendar/actions-with-events/event-info.css"
+import { CanEditEventInfo, ShowEventInfo } from "./EventInfoAction"
 
 export interface EventInfoProps {
     startEvent: Date,
@@ -18,7 +19,10 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
     const { userId, nextRendering } = useTypedSelector(status => status.currentDay);
     const dispatch = useDispatch();
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState<boolean>(false);
+    const [canEditEvent, setCanEditEvent] = useState<boolean>(false);
+    const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
+
 
     const [event, setEvent] = useState<IEventQueryResult>(
         {
@@ -30,8 +34,8 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 endEvent: endEvent
             },
             validationResult: {
-                IsFail: false,
-                Error: null
+                isFail: false,
+                error: null
             }
         }
     );
@@ -58,9 +62,38 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
             EndEvent: endEventStr
         });
 
-        dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
-        handleClose();
+        setResponse(result);
+        if (!result.isFail) {
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            handleClose();
+        }
     };
+
+    const updateEvent = async () => {
+        const service: EventService = new EventService();
+        let startEventStr: string = TimeToStringCommand(new Date(startEvent), TimeToString(event.objResult.startEvent));
+        let endEventStr: string = TimeToStringCommand(new Date(endEvent), TimeToString(event.objResult.endEvent));
+
+        let result: IValidationResult = await service.updateEvent(userId, {
+            Name: event.objResult.name,
+            Description: event.objResult.description,
+            StartEvent: startEventStr,
+            EndEvent: endEventStr
+        })
+        console.log(await service.updateEvent(userId, {
+            Name: event.objResult.name,
+            Description: event.objResult.description,
+            StartEvent: startEventStr,
+            EndEvent: endEventStr
+        }));
+        console.log(result);
+        setResponse(result);
+        if (!result.isFail) {
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            handleClose();
+            setCanEditEvent(false);
+        }
+    }
 
     return (
         <>
@@ -68,83 +101,48 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 {TimeToString(startEvent) + " - " + TimeToString(endEvent)}
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show}
+                onHide={() => { if (!canEditEvent) { handleClose() } }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Данные события</Modal.Title>
                 </Modal.Header>
-                {event.objResult.name != " " &&
-                    <>
-                        <Modal.Body>
-                            <Form>
-                                <Form.Group
-                                    className="name-event-info"
-                                    controlId="name-event-info-Textarea"
-                                >
-                                    <Form.Label>Название события:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {event.objResult.name}
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="description-event-info"
-                                    controlId="description-event-info-Textarea"
-                                >
-                                    <Form.Label>Описание события:</Form.Label>
-                                    <Form.Control as="textarea" rows={3}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {event.objResult.description}
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="start-event-info"
-                                    controlId="start-event-info-Textarea"
-                                >
-                                    <Form.Label>Время начала:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {TimeToString(startEvent)}
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="end-event-info"
-                                    controlId="end-event-info-Textarea"
-                                >
-                                    <Form.Label>Время окончания:</Form.Label>
-                                    <Form.Control as="textarea" rows={1}
-                                        disabled
-                                        readOnly
-                                    >
-                                        {TimeToString(endEvent)}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Form>
-
-                        </Modal.Body>
-                    </>
-                }
+                
                 <Modal.Body>
-
-
+                    {response.isFail &&
+                        <div className="alert alert-danger" role="alert">
+                            {response.error}
+                        </div>
+                    }
+                    {event.objResult.name != " " &&
+                        <>
+                            {canEditEvent ? (<CanEditEventInfo event={event} />) : (<ShowEventInfo event={event} />)}
+                        </>
+                    }
                 </Modal.Body>
+
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Выйти
-                    </Button>
-                    <Button variant="primary" onClick={deleteEvent}>
-                        Удалить событие
-                    </Button>
+                    {canEditEvent ? (
+                        <>
+                            <Button variant="secondary" onClick={() => setCanEditEvent(false)}>
+                                Отменить
+                            </Button>
+                            <Button variant="primary" onClick={updateEvent} >
+                                Сохранить
+                            </Button>
+                        </>
+
+                    ) : (
+                        <>
+                            <Button variant="secondary" onClick={() => setCanEditEvent(true)}>
+                                Изменить
+                            </Button>
+                            <Button variant="primary" onClick={deleteEvent}>
+                                Удалить событие
+                            </Button>
+                        </>
+                    )}
                 </Modal.Footer>
-            </Modal>
+            </Modal >
         </>
     )
 }

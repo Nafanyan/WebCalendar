@@ -1,4 +1,4 @@
 export interface IValidationResult{
-    IsFail: boolean,
-    Error: string | null
+    isFail: boolean,
+    error: string | null
 }

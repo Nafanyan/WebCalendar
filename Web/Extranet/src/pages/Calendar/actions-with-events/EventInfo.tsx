@@ -80,13 +80,6 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
             StartEvent: startEventStr,
             EndEvent: endEventStr
         })
-        console.log(await service.updateEvent(userId, {
-            Name: event.objResult.name,
-            Description: event.objResult.description,
-            StartEvent: startEventStr,
-            EndEvent: endEventStr
-        }));
-        console.log(result);
         setResponse(result);
         if (!result.isFail) {
             dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
@@ -106,7 +99,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 <Modal.Header closeButton>
                     <Modal.Title>Данные события</Modal.Title>
                 </Modal.Header>
-                
+
                 <Modal.Body>
                     {response.isFail &&
                         <div className="alert alert-danger" role="alert">

@@ -1,10 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import { Check } from './pages/Check';
 import MainCalendar from './pages/MainCalendar';
-
-
 
 function App() {
 
@@ -17,8 +14,6 @@ function App() {
           <Route path="/months" element={<MainCalendar mode="months" />} />
           <Route path="/weeks" element={<MainCalendar mode="weeks" />} />
           <Route path="/days" element={<MainCalendar mode="days" />} />
-          <Route path="/check" element={<Check />} />
-
         </Route>
       </Routes>
     </BrowserRouter>

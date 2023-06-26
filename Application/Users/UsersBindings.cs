@@ -23,7 +23,7 @@ namespace WebCalendar.Application.Users
             services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetEventsQueryDto, GetEventsQuery>, GetEventsQueryHandler>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
             services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidator>();

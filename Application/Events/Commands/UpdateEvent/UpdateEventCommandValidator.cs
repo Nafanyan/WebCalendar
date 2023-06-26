@@ -15,7 +15,7 @@ namespace Application.Events.Commands.UpdateEvent
 
         public async Task<ValidationResult> ValidationAsync(UpdateEventCommand command)
         {
-            if (command.Name == null)
+            if (command.Name == null || command.Name == "")
             {
                 return ValidationResult.Fail("The name of event cannot be empty/cannot be null");
             }
@@ -40,7 +40,7 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
-            if (await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
+            if (!await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
             {
                 return ValidationResult.Fail("This event is superimposed on the existing event in time");
             }

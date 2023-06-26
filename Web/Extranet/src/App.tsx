@@ -1,30 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import { Check } from './pages/Check';
 import MainCalendar from './pages/MainCalendar';
-import { useState } from 'react';
-import { SettingDateForUser } from './models/SettingDateForUser';
-
-
+import { AuthenticationPage } from './pages/AuthenticationPage';
 
 function App() {
-  const [settingDateForUser, setSettingDateForUser] = useState<SettingDateForUser>(new SettingDateForUser())
 
   return (
-    <BrowserRouter> 
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />} >
-        <Route index element={<MainCalendar mode = "months" settingDate={settingDateForUser}/>} />
-        <Route path="/" element={<MainCalendar mode = "months" settingDate={settingDateForUser}/>} />
-        <Route path="/months" element={<MainCalendar mode = "months" settingDate={settingDateForUser}/>} />
-        <Route path="/weeks" element={<MainCalendar mode = "weeks" settingDate={settingDateForUser}/>} />
-        <Route path="/days" element={<MainCalendar mode = "days" settingDate={settingDateForUser}/>} />
-        <Route path="/check" element={<Check userId={4} mounth={5} year={2023}/>} />
-
+          <Route index element={<MainCalendar mode="months" />} />
+          <Route path="/" element={<MainCalendar mode="months" />} />
+          <Route path="/months" element={<MainCalendar mode="months" />} />
+          <Route path="/weeks" element={<MainCalendar mode="weeks" />} />
+          <Route path="/days" element={<MainCalendar mode="days" />} />
+          <Route path="/authetication" element={<AuthenticationPage />} />
         </Route>
       </Routes>
-     </BrowserRouter>
+    </BrowserRouter>
   );
 }
 

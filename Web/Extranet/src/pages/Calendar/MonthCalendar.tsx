@@ -1,36 +1,33 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, Table } from 'react-bootstrap';
-import "../../css/month-calendar.css"
-import { IEvent } from '../../models/IEvent';
-import { UserService } from '../../services/UserService';
-import { IEventArray } from '../../models/IEventArray';
-import { TimeToString, TimeToStringRequest } from '../../CustomFunctions/TimeToString';
+import { FunctionComponent, useState, useEffect } from "react";
+import { Table, Card } from "react-bootstrap";
+import { shortDaysWeek } from "../../constants/DayOfWeek";
+import { TimeToStringRequest } from "../../custom-functions/TimeToString";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { IEvent } from "../../models/IEvent";
+import { IEventArray } from "../../models/IEventArray";
+import { UserService } from "../../services/UserService";
+import AddEvent from "./actions-with-events/AddEvent";
+import EventInfo from "./actions-with-events/EventInfo";
+import "../../css/calendar/month-calendar.css"
 
-export interface MonthCalendarProps {
-    userId: number
-    month: number
-    year: number
-}
-
-export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, month, year }) => {
+export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    let daysWeek: string[] = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
+    const { userId, year, month, nextRendering } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
-        const fetchEvents = async () => {
+        const create2DArray = async () => {
             let monthForCreateDate: number = month - 1;
             let monthDaysCount: number = new Date(year, month, 0).getDate();
-
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
-            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr)
+            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr);
 
             let daysOfMonth: IEventArray[] = [];
             for (let i = 1; i <= monthDaysCount; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);
                 let emptyEvent: IEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: emptyDate,
@@ -40,11 +37,11 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
             }
 
             let currentEvent: IEvent;
-
             for (let i = 0; i < events.length; i++) {
                 currentEvent = events[i];
                 let nowDate: Date = new Date(currentEvent.startEvent.toString());
                 let nowDayWeek = (nowDate.getDate() - 1);
+
                 if (daysOfMonth[nowDayWeek].arrayEvents[0].name == "") {
                     daysOfMonth[nowDayWeek].arrayEvents.pop();
                 }
@@ -59,7 +56,7 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
             for (let i = 1; i <= dayWeekBeginMonth; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate - 1, i, 0, 0, 0);
                 let emptyEvent: IEvent = {
-                    id: userId,
+                    userId: userId,
                     name: "",
                     description: "",
                     startEvent: emptyDate,
@@ -76,15 +73,14 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
             setDay2DArray(daysOfMonth2D);
         };
 
-        fetchEvents();
-
-    }, [])
+        create2DArray();
+    }, [userId, year, month, nextRendering])
 
     return (<div>
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    {daysWeek.map((day, keyWeekDay) =>
+                    {shortDaysWeek.map((day, keyWeekDay) =>
                     (
                         <th className='day-of-week' key={keyWeekDay}>
                             {day}
@@ -101,24 +97,27 @@ export const MonthCalendar: FunctionComponent<MonthCalendarProps> = ({ userId, m
                             {week.map(
                                 (day, keyDay) => (
                                     <th key={keyDay}>
-                                        {day.arrayEvents.map((eventsDay, keyEventDay) => (
-                                            new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
-                                            <Card className='day-of-months' key={keyEventDay}>
+                                        {new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
+                                            <Card className='day-of-months'>
                                                 <Card.Header className='card-day-header'>
-                                                    {new Date(eventsDay.startEvent.toString()).getDate()}
-                                                    <button className='add-event-button'>+</button>
+                                                    {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
+                                                    <AddEvent day={day.arrayEvents[0].startEvent} />
                                                 </Card.Header>
-                                                <Card.Body className='card-day-text'>
-                                                    {eventsDay.name != "" &&
-                                                        <Card.Text >
-                                                            <Button variant="light">
-                                                                {TimeToString(eventsDay.startEvent) + " - " + TimeToString(eventsDay.endEvent)}
-                                                            </Button>
-                                                            {" " + eventsDay.name}
-                                                        </Card.Text>}
-                                                </Card.Body>
+
+                                                <div className="scrollbar scrollbar-success">
+                                                    {day.arrayEvents.map((eventsDay, keyEventDay) => (
+                                                        <Card.Body id='card-day-text' key={keyEventDay} >
+                                                            {eventsDay.name != "" &&
+                                                                <Card.Text>
+                                                                    <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
+                                                                    {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}
+                                                                </Card.Text>}
+
+                                                        </Card.Body>
+                                                    ))}
+                                                </div>
                                             </Card>
-                                        ))}
+                                        }
                                     </th>
                                 )
                             )

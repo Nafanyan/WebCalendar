@@ -19,7 +19,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
     const currDay = useTypedSelector(state => state.currentDay)
     const dispatch = useDispatch()
 
-    let nowDayWeek: number = new Date(currDay.year, currDay.month, currDay.day).getDay() - 1
+    let nowDayWeek: number = new Date(currDay.year, currDay.month - 1, currDay.day).getDay() - 1
     if (nowDayWeek == -1) {
         nowDayWeek = 6
     }

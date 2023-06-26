@@ -6,7 +6,9 @@ import { useTypedSelector } from "../../hooks/useTypeSelector";
 import { IEvent } from "../../models/IEvent";
 import { IEventArray } from "../../models/IEventArray";
 import { UserService } from "../../services/UserService";
-import "../../css/calendar/month-calendar.css";
+import AddEvent from "./actions-with-events/AddEvent";
+import EventInfo from "./actions-with-events/EventInfo";
+import "../../css/calendar/month-calendar.css"
 
 export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);

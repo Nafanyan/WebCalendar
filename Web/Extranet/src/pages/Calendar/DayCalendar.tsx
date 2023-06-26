@@ -6,11 +6,9 @@ import { useTypedSelector } from "../../hooks/useTypeSelector";
 import { IEvent } from "../../models/IEvent";
 import { IEventArray } from "../../models/IEventArray";
 import { UserService } from "../../services/UserService";
-import AddEvent from "./actions-with-events/AddEvent";
 import "../../css/calendar/day-calendar.css"
-import EventInfoDayMode from "./actions-with-events/EventInfoDayMode";
-import { ChartForWeek } from "./ChartForWeek";
-import { ChartForDay } from "./ChartForDay";
+
+
 
 export const DayCalendare: FunctionComponent = () => {
     const [dayEvents, setDayEvents] = useState<IEventArray>({ arrayEvents: new Array<IEvent>() });
@@ -59,7 +57,6 @@ export const DayCalendare: FunctionComponent = () => {
                 </Card.Body>
             </div>
         </Card>
-        <ChartForDay arrayEvents={dayEvents.arrayEvents}/>
     </div>)
 }
 

@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { Card, Nav } from 'react-bootstrap';
 import '../css/main-calendar.css';
 import { useTypedSelector } from '../hooks/useTypeSelector';
-import { SwitchMode, SwitchModeContain } from './calendar/SwitchMode';
+import { SwitchMode, SwitchModeContain } from './Calendar/SwitchMode';
 
 export interface MainCalendarProps {
     mode: string

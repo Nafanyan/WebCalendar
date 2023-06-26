@@ -1,15 +1,16 @@
-import { FunctionComponent, useState, useEffect } from "react"
-import { Table, Card, Button } from "react-bootstrap"
-import { shortDaysWeek } from "../../constants/DayOfWeek"
-import { TimeToStringRequest } from "../../custom-functions/TimeToString"
-import { useTypedSelector } from "../../hooks/useTypeSelector"
-import { IEvent } from "../../models/IEvent"
-import { IEventArray } from "../../models/IEventArray"
-import { UserService } from "../../services/UserService"
-import AddEvent from "./actions-with-events/AddEvent"
+
+import { FunctionComponent, useState, useEffect } from "react";
+import { Table, Card } from "react-bootstrap";
+import { shortDaysWeek } from "../../constants/DayOfWeek";
 import "../../css/calendar/week-calendar.css"
-import EventInfo from "./actions-with-events/EventInfo"
-import { ChartForWeek } from "./ChartForWeek"
+import { TimeToStringRequest } from "../../custom-functions/TimeToString";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { IEvent } from "../../models/IEvent";
+import { IEventArray } from "../../models/IEventArray";
+import { UserService } from "../../services/UserService";
+import AddEvent from "./actions-with-events/AddEvent";
+import EventInfo from "./actions-with-events/EventInfo";
+
 
 
 export const WeekCalendar: FunctionComponent = () => {
@@ -112,7 +113,6 @@ export const WeekCalendar: FunctionComponent = () => {
                 )}
             </tbody>
         </Table>
-        <ChartForWeek events={day2DArray}/>
     </div>)
 }
 

@@ -22,7 +22,7 @@ export const MonthCalendar: FunctionComponent = () => {
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
             let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr);
-
+            console.log(events)
             let daysOfMonth: IEventArray[] = [];
             for (let i = 1; i <= monthDaysCount; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);

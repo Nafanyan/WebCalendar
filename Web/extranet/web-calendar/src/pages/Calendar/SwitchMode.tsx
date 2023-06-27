@@ -2,13 +2,13 @@ import { FunctionComponent, useState, useEffect } from "react"
 import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { months } from "../../constants/Months"
-import { useTypedSelector } from "../../hooks/useTypeSelector"
-import { CurrentDayActionType } from "../../models/type/currentDay"
 import "../../css/calendar/switch-mode.css"
 import DayCalendar from "./DayCalendar"
 import MonthCalendar from "./MonthCalendar"
 import WeekCalendar from "./WeekCalendar"
+import { months } from "../../constants/Montsh"
+import { CurrentDayActionType } from "../../models/type/currentDay"
+import { useTypedSelector } from "../../hooks/UseTypeSelector"
 
 
 export interface SwitchModeProps {

@@ -1,4 +1,3 @@
-import { IValidationResult } from "../models/IValidationResult";
 import { IEvent } from "../models/IEvent";
 import AxiosDefault from "./AxiosDefault";
 

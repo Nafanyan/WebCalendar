@@ -15,7 +15,7 @@ namespace Application.Events.Commands.CreateEvent
 
         public async Task<ValidationResult> ValidationAsync(CreateEventCommand command)
         {
-            if (command.Name == null)
+            if (command.Name == null || command.Name == "")
             {
                 return ValidationResult.Fail("The name of event cannot be empty/cannot be null");
             }
@@ -35,7 +35,7 @@ namespace Application.Events.Commands.CreateEvent
                 return ValidationResult.Fail("The event must occur within one day");
             }
 
-            if (command.StartEvent > command.EndEvent)
+            if (command.StartEvent >= command.EndEvent)
             {
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }

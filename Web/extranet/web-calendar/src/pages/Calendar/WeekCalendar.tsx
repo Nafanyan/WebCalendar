@@ -12,7 +12,7 @@ import { IDay } from "../../models/IEventArray"
 
 
 export const WeekCalendar: FunctionComponent = () => {
-    const [day2DArray, setDay2DArray] = useState<IDay[][]>([]);
+    const [days, setDays] = useState<IDay[][]>([]);
     const { userId, year, month, day, reRender } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export const WeekCalendar: FunctionComponent = () => {
 
             let daysOfMonth2D: IDay[][] = [];
             daysOfMonth2D.push(daysOfMonth.slice(0, 7));
-            setDay2DArray(daysOfMonth2D);
+            setDays(daysOfMonth2D);
         }
 
         let events: IEvent[] = [];
@@ -73,7 +73,7 @@ export const WeekCalendar: FunctionComponent = () => {
             </thead>
 
             <tbody>
-                {day2DArray.map(
+                {days.map(
                     (week, keyWeek) => (
                         <tr key={keyWeek}>
                             {week.map(

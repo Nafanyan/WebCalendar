@@ -1,0 +1,10 @@
+/* Обработка кнопки для добавления события */
+.add-event-button {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+
+    font-family: 'Oswald';
+    font-size: 80px;
+    float: right;
+    color: #53A656;
+}

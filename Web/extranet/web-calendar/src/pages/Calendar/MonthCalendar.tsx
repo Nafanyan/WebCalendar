@@ -12,7 +12,7 @@ import { IEventArray } from "../../models/IEventArray"
 
 export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    const { userId, year, month, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, year, month, reRender } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const formingInfoIn2DArray = async () => {
@@ -80,7 +80,7 @@ export const MonthCalendar: FunctionComponent = () => {
         let monthDaysCount: number = new Date(year, month, 0).getDate();
 
         formingInfoIn2DArray();
-    }, [userId, year, month, nextRendering])
+    }, [userId, year, month, reRender])
 
     return (<div>
         <Table striped bordered hover>

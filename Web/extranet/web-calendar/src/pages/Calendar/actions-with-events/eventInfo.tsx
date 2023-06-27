@@ -16,7 +16,7 @@ export interface EventInfoProps {
 }
 
 export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEvent }) => {
-    const { userId, reRender: nextRendering } = useTypedSelector(status => status.currentDay);
+    const { userId, reRender } = useTypedSelector(status => status.currentDay);
     const dispatch = useDispatch();
 
     const [show, setShow] = useState<boolean>(false);
@@ -63,7 +63,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
 
         setResponse(result);
         if (!result.isFail) {
-            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
             handleClose();
         }
     };
@@ -81,7 +81,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
         })
         setResponse(result);
         if (!result.isFail) {
-            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
             handleClose();
             setCanEditEvent(false);
         }

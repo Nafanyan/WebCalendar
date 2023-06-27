@@ -12,7 +12,7 @@ import { UserService } from "../../services/UserService"
 
 export const DayCalendare: FunctionComponent = () => {
     const [dayEvents, setDayEvents] = useState<IEventArray>({ arrayEvents: new Array<IEvent>() });
-    const { userId, day, month, year, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, day, month, year, reRender } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const formingInfoInArray = async () => {
@@ -46,7 +46,7 @@ export const DayCalendare: FunctionComponent = () => {
         let events: IEvent[] = [];
 
         formingInfoInArray();
-    }, [userId, day, month, year, nextRendering]);
+    }, [userId, day, month, year, reRender]);
 
     return (<div>
         <Card className='events-of-day'>

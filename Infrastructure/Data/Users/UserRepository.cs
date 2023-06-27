@@ -24,7 +24,9 @@ namespace Infrastructure.Data.Users
         }
         public async Task<IReadOnlyList<Event>> GetEventsAsync(long id, DateTime startPeriod, DateTime endPeriod)
         {
-            return await _dbSetEvent.Where(e => e.UserId == id && e.StartEvent >= startPeriod && e.EndEvent <= endPeriod)
+            return await _dbSetEvent.Where(e => e.UserId == id)
+                .Where(e => (DateTime.Compare(e.StartEvent, startPeriod) >= 0 && DateTime.Compare(e.StartEvent, endPeriod) <= 0)
+                 || (DateTime.Compare(e.EndEvent, startPeriod) >= 0 && DateTime.Compare(e.EndEvent, endPeriod) <= 0))
                 .ToListAsync();
         }
 

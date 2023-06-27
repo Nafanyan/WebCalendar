@@ -13,7 +13,7 @@ import { IEventArray } from "../../models/IEventArray"
 
 export const WeekCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    const { userId, year, month, day, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, year, month, day, reRender } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
         const formingInfoIn2DArray = async () => {
@@ -65,7 +65,7 @@ export const WeekCalendar: FunctionComponent = () => {
         }
 
         formingInfoIn2DArray();
-    }, [userId, day, month, year, nextRendering])
+    }, [userId, day, month, year, reRender])
 
     return (<div>
         <Table striped bordered hover>

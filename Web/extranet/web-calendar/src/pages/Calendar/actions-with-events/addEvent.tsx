@@ -13,7 +13,7 @@ export interface AddEventProps {
 }
 
 export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
-    const { userId, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, reRender } = useTypedSelector(state => state.currentDay);
     const dispatch = useDispatch();
     const [show, setShow] = useState<boolean>(false);
     const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
@@ -46,7 +46,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
         })
         setResponse(result);
         if (!result.isFail) {
-            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, nextRendering: !nextRendering });
+            dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
             handleClose();
         }
     }

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureMigration", "InfrastructureMigration\InfrastructureMigration.csproj", "{4C1DF6C2-CA63-452A-B0FD-FD9CE221A80D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Migration", "InfrastructureMigration\Infrastructure.Migration.csproj", "{4C1DF6C2-CA63-452A-B0FD-FD9CE221A80D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

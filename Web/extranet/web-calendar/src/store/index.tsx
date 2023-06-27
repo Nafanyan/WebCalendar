@@ -36,6 +36,4 @@ store.subscribe(() => {
     saveToLocalStorage(store.getState().currentDay)
 })
 
-
 export default store;
-

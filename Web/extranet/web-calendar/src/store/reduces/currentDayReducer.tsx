@@ -5,7 +5,7 @@ const initialState: CurrentDayState = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     day: new Date().getDate(),
-    nextRendering: false
+    reRender: false
 }
 
 export const currentDayReducer = (state = initialState, action: CurrentDayAction): CurrentDayState => {
@@ -20,7 +20,7 @@ export const currentDayReducer = (state = initialState, action: CurrentDayAction
 
         case CurrentDayActionType.FORCED_DEPENDENCY_RENDER:
             return {
-                ...state, nextRendering: action.nextRendering
+                ...state, reRender: action.reRender
             }
         default:
             return state

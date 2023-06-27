@@ -13,21 +13,19 @@ import { IEventArray } from "../../models/IEventArray"
 
 export const WeekCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    const { userId, year, month, day, nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, year, month, day, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
-        const create2DArray = async () => {
-            let monthForCreateDate: number = month - 1;
-            let dayWeekBeginMonth: number = new Date(year, monthForCreateDate, day).getDay() - 1;
-            if (dayWeekBeginMonth == -1) {
-                dayWeekBeginMonth = 6;
-            }
-
+        const formingInfoIn2DArray = async () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day - dayWeekBeginMonth, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day + 6 - dayWeekBeginMonth, 23, 59));
-            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr);
+            events = await service.getEvent(userId, startEventStr, endEventStr);
 
+            fillIn2DArray();
+        }
+
+        const fillIn2DArray = () => {
             let daysOfMonth: IEventArray[] = [];
             for (let i = day - dayWeekBeginMonth; i <= day + 7 - dayWeekBeginMonth; i++) {
                 let emptyEvent: IEvent = {
@@ -59,7 +57,14 @@ export const WeekCalendar: FunctionComponent = () => {
             setDay2DArray(daysOfMonth2D);
         }
 
-        create2DArray();
+        let events: IEvent[] = [];
+        let monthForCreateDate: number = month - 1;
+        let dayWeekBeginMonth: number = new Date(year, monthForCreateDate, day).getDay() - 1;
+        if (dayWeekBeginMonth == -1) {
+            dayWeekBeginMonth = 6;
+        }
+
+        formingInfoIn2DArray();
     }, [userId, day, month, year, nextRendering])
 
     return (<div>

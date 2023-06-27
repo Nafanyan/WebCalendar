@@ -16,7 +16,7 @@ export interface EventInfoProps {
 }
 
 export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEvent }) => {
-    const { userId, nextRendering } = useTypedSelector(status => status.currentDay);
+    const { userId, reRender: nextRendering } = useTypedSelector(status => status.currentDay);
     const dispatch = useDispatch();
 
     const [show, setShow] = useState<boolean>(false);
@@ -34,8 +34,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                 endEvent: endEvent
             },
             validationResult: {
-                isFail: false,
-                error: null
+                isFail: false
             }
         }
     );

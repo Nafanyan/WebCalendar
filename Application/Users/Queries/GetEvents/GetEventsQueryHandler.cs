@@ -25,20 +25,15 @@ namespace Application.Users.Queries.GetEvents
             {
                 IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
                     getEventsQuery.StartEvent, getEventsQuery.EndEvent);
-                List<GetEventsQueryDto> getEventsQueryDtos = new List<GetEventsQueryDto>();
-                GetEventsQueryDto getEventsQueryDto;
-                foreach (Event e in events)
+
+                List<GetEventsQueryDto> getEventsQueryDtos = events.Select(e => new GetEventsQueryDto
                 {
-                    getEventsQueryDto = new GetEventsQueryDto
-                    {
-                        UserId = e.UserId,
-                        Name = e.Name,
-                        Description = e.Description,
-                        StartEvent = e.StartEvent,
-                        EndEvent = e.EndEvent
-                    };
-                    getEventsQueryDtos.Add(getEventsQueryDto);
-                }
+                    UserId = e.UserId,
+                    Name = e.Name,
+                    Description = e.Description,
+                    StartEvent = e.StartEvent,
+                    EndEvent = e.EndEvent
+                }).ToList();
                 return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(getEventsQueryDtos);
             }
             return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(validationResult);

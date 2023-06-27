@@ -3,7 +3,7 @@ export interface CurrentDayState {
     year: number;
     month: number;
     day: number;
-    nextRendering?: boolean;
+    reRender?: boolean;
 }
 
 export enum CurrentDayActionType{
@@ -21,7 +21,7 @@ interface ChangeCurrentDay{
 
 interface ForcedDependencyRender{
     type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER;
-    nextRendering: boolean;
+    reRender: boolean;
 }
 
 export type CurrentDayAction =  ChangeCurrentDay | ForcedDependencyRender;

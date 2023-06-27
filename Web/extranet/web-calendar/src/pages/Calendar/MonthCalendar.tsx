@@ -1,28 +1,30 @@
-import { FunctionComponent, useState, useEffect } from "react";
-import { Table, Card } from "react-bootstrap";
-import { shortDaysWeek } from "../../constants/DayOfWeek";
-import { UserService } from "../../services/UserService";
-import AddEvent from "./actions-with-events/addEvent";
-import EventInfo from "./actions-with-events/eventInfo";
+import { FunctionComponent, useState, useEffect } from "react"
+import { Table, Card } from "react-bootstrap"
+import { shortDaysWeek } from "../../constants/DayOfWeek"
+import { UserService } from "../../services/UserService"
+import AddEvent from "./actions-with-events/addEvent"
+import EventInfo from "./actions-with-events/eventInfo"
 import "../../css/calendar/month-calendar.css"
-import { TimeToStringRequest } from "../../custom-function/TimeToString";
-import { useTypedSelector } from "../../hooks/UseTypeSelector";
-import { IEvent } from "../../models/IEvent";
-import { IEventArray } from "../../models/IEventArray";
+import { TimeToStringRequest } from "../../custom-function/TimeToString"
+import { useTypedSelector } from "../../hooks/UseTypeSelector"
+import { IEvent } from "../../models/IEvent"
+import { IEventArray } from "../../models/IEventArray"
 
 export const MonthCalendar: FunctionComponent = () => {
     const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
-    const { userId, year, month, nextRendering } = useTypedSelector(state => state.currentDay);
+    const { userId, year, month, reRender: nextRendering } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
-        const create2DArray = async () => {
-            let monthForCreateDate: number = month - 1;
-            let monthDaysCount: number = new Date(year, month, 0).getDate();
+        const formingInfoIn2DArray = async () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
-            let events: IEvent[] = await service.getEvent(userId, startEventStr, endEventStr);
-            console.log(events)
+            events = await service.getEvent(userId, startEventStr, endEventStr);
+
+            fillIn2DArray();
+        };
+
+        const fillIn2DArray = () => {
             let daysOfMonth: IEventArray[] = [];
             for (let i = 1; i <= monthDaysCount; i++) {
                 let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);
@@ -73,7 +75,11 @@ export const MonthCalendar: FunctionComponent = () => {
             setDay2DArray(daysOfMonth2D);
         };
 
-        create2DArray();
+        let events: IEvent[] = [];
+        let monthForCreateDate: number = month - 1;
+        let monthDaysCount: number = new Date(year, month, 0).getDate();
+
+        formingInfoIn2DArray();
     }, [userId, year, month, nextRendering])
 
     return (<div>
@@ -112,7 +118,6 @@ export const MonthCalendar: FunctionComponent = () => {
                                                                     <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
                                                                     {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}
                                                                 </Card.Text>}
-
                                                         </Card.Body>
                                                     ))}
                                                 </div>

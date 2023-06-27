@@ -16,7 +16,7 @@ export interface EventInfoDayModeProps {
 }
 
 export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eventDate }) => {
-    const { userId, nextRendering } = useTypedSelector(status => status.currentDay);
+    const { userId, reRender: nextRendering } = useTypedSelector(status => status.currentDay);
     const dispatch = useDispatch();
 
     const [show, setShow] = useState(false);
@@ -34,8 +34,7 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
                 endEvent: eventDate.endEvent
             },
             validationResult: {
-                isFail: false,
-                error: null
+                isFail: false
             }
         }
     );

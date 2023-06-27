@@ -15,7 +15,7 @@ namespace Application.Events.Commands.CreateEvent
 
         public async Task<ValidationResult> ValidationAsync(CreateEventCommand command)
         {
-            if (command.Name == null || command.Name == "")
+            if (command.Name == null || command.Name == string.Empty)
             {
                 return ValidationResult.Fail("The name of event cannot be empty/cannot be null");
             }

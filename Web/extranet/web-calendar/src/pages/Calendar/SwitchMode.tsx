@@ -130,7 +130,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
                         as={ButtonGroup}
                         key={'month'}
                         id={'dropdown-month-button'}
-                        title={months[nowMonth]}>
+                        title={months[nowMonth - 1]}>
                         {months.map(
                             (month, keyMonth) => (
                                 <Dropdown.Item key={keyMonth} onClick={event => changeMonth(event, keyMonth)} >

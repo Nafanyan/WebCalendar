@@ -1,5 +1,6 @@
 import { IEvent } from "./IEvent";
 
-export interface IEventArray {
-    arrayEvents: IEvent[]
+export interface IDay {
+    arrayEvents: IEvent[],
+    date: Date
 }

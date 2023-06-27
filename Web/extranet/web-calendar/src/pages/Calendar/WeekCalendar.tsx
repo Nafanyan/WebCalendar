@@ -8,34 +8,27 @@ import EventInfo from "./actions-with-events/eventInfo"
 import { TimeToStringRequest } from "../../custom-function/TimeToString"
 import { useTypedSelector } from "../../hooks/UseTypeSelector"
 import { IEvent } from "../../models/IEvent"
-import { IEventArray } from "../../models/IEventArray"
+import { IDay } from "../../models/IEventArray"
 
 
 export const WeekCalendar: FunctionComponent = () => {
-    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
+    const [day2DArray, setDay2DArray] = useState<IDay[][]>([]);
     const { userId, year, month, day, reRender } = useTypedSelector(state => state.currentDay);
 
     useEffect(() => {
-        const formingInfoIn2DArray = async () => {
+        const dataInitialization = async () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day - dayWeekBeginMonth, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day + 6 - dayWeekBeginMonth, 23, 59));
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
-            fillIn2DArray();
+            fillState();
         }
 
-        const fillIn2DArray = () => {
-            let daysOfMonth: IEventArray[] = [];
+        const fillState = () => {
+            let daysOfMonth: IDay[] = [];
             for (let i = day - dayWeekBeginMonth; i <= day + 7 - dayWeekBeginMonth; i++) {
-                let emptyEvent: IEvent = {
-                    userId: userId,
-                    name: "",
-                    description: "",
-                    startEvent: new Date(year, monthForCreateDate, i, 0, 0, 0),
-                    endEvent: new Date(year, monthForCreateDate, i, 0, 0, 0)
-                }
-                daysOfMonth.push({ arrayEvents: [emptyEvent] });
+                daysOfMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate, i, 0, 0, 0) });
             }
 
             let currentEvent: IEvent;
@@ -43,16 +36,14 @@ export const WeekCalendar: FunctionComponent = () => {
                 currentEvent = events[i];
                 let nowDate: Date = new Date(currentEvent.startEvent.toString());
                 let nowDayWeek = (nowDate.getDay() - 1);
+
                 if (nowDayWeek == -1) {
                     nowDayWeek = 6;
-                }
-                if (daysOfMonth[nowDayWeek % 7].arrayEvents[0].name == "") {
-                    daysOfMonth[nowDayWeek % 7].arrayEvents.pop();
                 }
                 daysOfMonth[nowDayWeek % 7].arrayEvents.push(currentEvent);
             }
 
-            let daysOfMonth2D: IEventArray[][] = [];
+            let daysOfMonth2D: IDay[][] = [];
             daysOfMonth2D.push(daysOfMonth.slice(0, 7));
             setDay2DArray(daysOfMonth2D);
         }
@@ -64,7 +55,7 @@ export const WeekCalendar: FunctionComponent = () => {
             dayWeekBeginMonth = 6;
         }
 
-        formingInfoIn2DArray();
+        dataInitialization();
     }, [userId, day, month, year, reRender])
 
     return (<div>
@@ -90,15 +81,15 @@ export const WeekCalendar: FunctionComponent = () => {
                                     <th key={keyDay}>
                                         <Card className='day-of-weeks' >
                                             <Card.Header className='card-day-header'>
-                                                {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
-                                                <AddEvent day={day.arrayEvents[0].startEvent} />
+                                                {new Date(day.date.toString()).getDate()}
+                                                <AddEvent day={day.date} />
                                             </Card.Header>
 
                                             <div className="scrollbar scrollbar-success">
                                                 {day.arrayEvents.map((eventsDay, keyEventDay) => (
 
                                                     <Card.Body className='card-day-text' key={keyEventDay}>
-                                                        {eventsDay.name != "" &&
+                                                        {eventsDay != null &&
                                                             <Card.Text >
                                                                <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
                                                                {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}

@@ -7,15 +7,16 @@ import EventInfoDayMode from "./actions-with-events/eventInfoDayMode"
 import { TimeToStringRequest } from "../../custom-function/TimeToString"
 import { useTypedSelector } from "../../hooks/UseTypeSelector"
 import { IEvent } from "../../models/IEvent"
-import { IEventArray } from "../../models/IEventArray"
+import { IDay } from "../../models/IEventArray"
 import { UserService } from "../../services/UserService"
 
 export const DayCalendare: FunctionComponent = () => {
-    const [dayEvents, setDayEvents] = useState<IEventArray>({ arrayEvents: new Array<IEvent>() });
     const { userId, day, month, year, reRender } = useTypedSelector(state => state.currentDay);
+    const [dayEvents, setDayEvents] = useState<IDay>({ arrayEvents: [], date: new Date(year, month - 1, day, 0, 0, 0) });
+
 
     useEffect(() => {
-        const formingInfoInArray = async () => {
+        const dataInitialization = async () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 23, 59));
@@ -26,26 +27,15 @@ export const DayCalendare: FunctionComponent = () => {
 
         const fillInArray = () => {
             if (events.length == 0) {
-                let emptyEvents: IEvent[] = [];
-                let emptyEvent: IEvent;
-                emptyEvent = {
-                    userId: userId,
-                    name: "",
-                    description: "",
-                    startEvent: new Date(year, month - 1, day, 0, 0, 0),
-                    endEvent: new Date(year, month - 1, day, 0, 0, 0)
-                };
-                emptyEvents.push(emptyEvent);
-                setDayEvents({ arrayEvents: emptyEvents });
+                setDayEvents({ ...dayEvents, arrayEvents: [] });
             }
             else {
-                setDayEvents({ arrayEvents: events });
+                setDayEvents({ ...dayEvents, arrayEvents: events });
             }
         };
 
         let events: IEvent[] = [];
-
-        formingInfoInArray();
+        dataInitialization();
     }, [userId, day, month, year, reRender]);
 
     return (<div>

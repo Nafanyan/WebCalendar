@@ -3,39 +3,31 @@ import { Table, Card } from "react-bootstrap"
 import { shortDaysWeek } from "../../constants/DayOfWeek"
 import { UserService } from "../../services/UserService"
 import AddEvent from "./actions-with-events/addEvent"
-import EventInfo from "./actions-with-events/eventInfo"
 import "../../css/calendar/month-calendar.css"
 import { TimeToStringRequest } from "../../custom-function/TimeToString"
 import { useTypedSelector } from "../../hooks/UseTypeSelector"
 import { IEvent } from "../../models/IEvent"
-import { IEventArray } from "../../models/IEventArray"
+import { IDay } from "../../models/IEventArray"
+import { EventInfo } from "./actions-with-events/eventInfo"
 
 export const MonthCalendar: FunctionComponent = () => {
-    const [day2DArray, setDay2DArray] = useState<IEventArray[][]>([]);
     const { userId, year, month, reRender } = useTypedSelector(state => state.currentDay);
+    const [days, setDays] = useState<IDay[][]>([]);
 
     useEffect(() => {
-        const formingInfoIn2DArray = async () => {
+        const dataInitialization = async () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
-            fillIn2DArray();
+            fillState();
         };
 
-        const fillIn2DArray = () => {
-            let daysOfMonth: IEventArray[] = [];
+        const fillState = () => {
+            let daysOfMonth: IDay[] = [];
             for (let i = 1; i <= monthDaysCount; i++) {
-                let emptyDate: Date = new Date(year, monthForCreateDate, i, 0, 0, 0);
-                let emptyEvent: IEvent = {
-                    userId: userId,
-                    name: "",
-                    description: "",
-                    startEvent: emptyDate,
-                    endEvent: emptyDate
-                }
-                daysOfMonth.push({ arrayEvents: [emptyEvent] });
+                daysOfMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate, i, 0, 0, 0) });
             }
 
             let currentEvent: IEvent;
@@ -43,10 +35,6 @@ export const MonthCalendar: FunctionComponent = () => {
                 currentEvent = events[i];
                 let nowDate: Date = new Date(currentEvent.startEvent.toString());
                 let nowDayWeek = (nowDate.getDate() - 1);
-
-                if (daysOfMonth[nowDayWeek].arrayEvents[0].name == "") {
-                    daysOfMonth[nowDayWeek].arrayEvents.pop();
-                }
                 daysOfMonth[nowDayWeek].arrayEvents.push(currentEvent);
             }
 
@@ -54,32 +42,25 @@ export const MonthCalendar: FunctionComponent = () => {
             if (dayWeekBeginMonth == -1) {
                 dayWeekBeginMonth = 6;
             };
-            let daysOfPrevMonth: IEventArray[] = [];
+
+            let daysOfPrevMonth: IDay[] = [];
             for (let i = 1; i <= dayWeekBeginMonth; i++) {
-                let emptyDate: Date = new Date(year, monthForCreateDate - 1, i, 0, 0, 0);
-                let emptyEvent: IEvent = {
-                    userId: userId,
-                    name: "",
-                    description: "",
-                    startEvent: emptyDate,
-                    endEvent: emptyDate
-                }
-                daysOfPrevMonth.push({ arrayEvents: [emptyEvent] });
+                daysOfPrevMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate - 1, i, 0, 0, 0) });
             }
             daysOfMonth = [...daysOfPrevMonth, ...daysOfMonth];
 
-            let daysOfMonth2D: IEventArray[][] = [];
+            let daysOfMonth2D: IDay[][] = [];
             for (let i = 0; i < monthDaysCount + dayWeekBeginMonth - 1; i += 7) {
                 daysOfMonth2D.push(daysOfMonth.slice(i, i + 7));
             }
-            setDay2DArray(daysOfMonth2D);
+            setDays(daysOfMonth2D);
         };
 
         let events: IEvent[] = [];
         let monthForCreateDate: number = month - 1;
         let monthDaysCount: number = new Date(year, month, 0).getDate();
 
-        formingInfoIn2DArray();
+        dataInitialization();
     }, [userId, year, month, reRender])
 
     return (<div>
@@ -97,27 +78,28 @@ export const MonthCalendar: FunctionComponent = () => {
             </thead>
 
             <tbody>
-                {day2DArray.map(
+                {days.map(
                     (week, keyWeek) => (
                         <tr key={keyWeek}>
                             {week.map(
-                                (day, keyDay) => (
+                                (nowDay, keyDay) => (
                                     <th key={keyDay}>
-                                        {new Date(day.arrayEvents[0].startEvent.toString()).getMonth() == month - 1 &&
+                                        {new Date(nowDay.date).getMonth() == month - 1 &&
                                             <Card className='day-of-months'>
                                                 <Card.Header className='card-day-header'>
-                                                    {new Date(day.arrayEvents[0].startEvent.toString()).getDate()}
-                                                    <AddEvent day={day.arrayEvents[0].startEvent} />
+                                                    {new Date(nowDay.date.toString()).getDate()}
+                                                    <AddEvent day={nowDay.date} />
                                                 </Card.Header>
 
                                                 <div className="scrollbar scrollbar-success">
-                                                    {day.arrayEvents.map((eventsDay, keyEventDay) => (
+                                                    {nowDay.arrayEvents.map((eventsDay, keyEventDay) => (
                                                         <Card.Body id='card-day-text' key={keyEventDay} >
-                                                            {eventsDay.name != "" &&
+                                                            {eventsDay != null &&
                                                                 <Card.Text>
                                                                     <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
-                                                                    {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}
-                                                                </Card.Text>}
+                                                                    {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0, 9) + "..." : eventsDay.name + " ")}
+                                                                </Card.Text>
+                                                            }
                                                         </Card.Body>
                                                     ))}
                                                 </div>

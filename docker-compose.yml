@@ -1,18 +1,17 @@
 version: '3.4'
 
 services:
+
   presentation.intranet.api:
     image: ${DOCKER_REGISTRY-}presentationintranetapi
     build:
       context: .
       dockerfile: Web/Presentation.Intranet.Api/Dockerfile
-    ports:
-        - "5000:80"
+
   
-  frontend-react:
-    image: ${DOCKER_REGISTRY-}frontend-react
+  client:
+    image: ${DOCKER_REGISTRY-}client
     build:
-      context: .
-      dockerfile: Web/extranet/web-calendar/Dockerfile
-    ports:
-        - "5001:3000"
+      context: Web/extranet/web-calendar
+      dockerfile: Dockerfile
+

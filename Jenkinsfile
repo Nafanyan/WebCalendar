@@ -2,7 +2,9 @@
 // Pipeline block
 pipeline {
 // Agent block
-agent any
+agent {docker {
+    image 'python:latest'
+}}
 stages {
     stage("test_build")
     {

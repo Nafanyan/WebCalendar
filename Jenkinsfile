@@ -1,16 +1,11 @@
-// Global Variable goes here
-// Pipeline block
 pipeline {
-// Agent block
-agent {docker {
-    image 'python:latest'
-}}
-stages {
-    stage("test_build")
-    {
-        steps{
-            echo "hello world"
+    agent { dockerfile true }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+                sh 'svn --version'
+            }
         }
     }
-}
 }

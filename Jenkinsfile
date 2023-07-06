@@ -2,9 +2,7 @@
 // Pipeline block
 pipeline {
 // Agent block
-agent {docker {
-    image "nafanyan/backend:latest"
-}}
+agent any
 stages {
     stage("test_build")
     {

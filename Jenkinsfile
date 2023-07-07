@@ -1,25 +1,26 @@
-pipline {
-	agent any
-	stages {
-		stage("verify tooling") {
-			steps {
-				sh '''
-					docker version
-					docker info
-					docker compose version
-				'''
-			}
-		}
-		stage("Prune Docker data") {
-			steps {
-				sh 'docker system prune -a --volumes -f'
-			}
-		}
-		stage("Start compose containers") {
-			steps {
-				sh 'docker compose up -d --no-color --wait'
-				sh 'docker compose ps'
-			}
-		}
-	}
+pipeline {
+    agent any
+    stages {
+        stage('Tooling version') {
+            steps {
+                sh '''
+                    docker --version
+                    docker compose version
+                '''
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker context use default'
+                sh 'docker compose build'
+                sh 'docker compose push'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker compose up'
+                sh 'docker compose ps --format json'
+            }
+        }
+    }
 }

@@ -1,10 +1,25 @@
-pipeline {
-    agent { docker-compose true }
-    stages {
-        stage('Test') {
-            steps {
-                sh echo 'docker images'
-            }
-        }
-    }
+pipline {
+	agent any
+	stages {
+		stage("verify tooling") {
+			steps {
+				sh '''
+					docker version
+					docker info
+					docker compose version
+				'''
+			}
+		}
+		stage("Prune Docker data") {
+			steps {
+				sh 'docker system prune -a --volumes -f'
+			}
+		}
+		stage("Start compose containers") {
+			steps {
+				sh 'docker compose up -d --no-color --wait'
+				sh 'docker compose ps'
+			}
+		}
+	}
 }

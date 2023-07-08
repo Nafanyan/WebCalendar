@@ -15,7 +15,3 @@ services:
       context: Web/extranet/web-calendar
       dockerfile: Dockerfile
   
-
-  proxy:
-    image: nginx:mainline
-

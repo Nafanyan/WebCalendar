@@ -15,7 +15,7 @@ using Presentation.Intranet.Api.Mappers.UserMappers;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;

@@ -31,11 +31,7 @@ namespace Presentation.Intranet.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseCors(builder => {
-                builder.AllowAnyOrigin();
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-            });
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseAuthorization();
 

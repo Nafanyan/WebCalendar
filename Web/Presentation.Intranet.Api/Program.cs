@@ -10,7 +10,9 @@ namespace Presentation.Intranet.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
+            var connectionString = builder.Configuration.GetConnectionString("WebCalendar"); // for release
+            //var connectionString = builder.Configuration.GetConnectionString("WebCalendarLocal"); for debug
+
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("Infrastructure.Migration")));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

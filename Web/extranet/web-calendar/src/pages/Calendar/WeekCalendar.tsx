@@ -18,8 +18,8 @@ export const WeekCalendar: FunctionComponent = () => {
     useEffect(() => {
         const dataInitialization = async () => {
             const service: UserService = new UserService();
-            let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day - dayWeekBeginMonth, 0, 0));
-            let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, day + 6 - dayWeekBeginMonth, 23, 59));
+            let startEventStr: string = TimeToStringRequest(new Date(year, month, day - dayWeekBeginMonth, 0, 0));
+            let endEventStr: string = TimeToStringRequest(new Date(year, month, day + 6 - dayWeekBeginMonth, 23, 59));
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillState();
@@ -28,7 +28,7 @@ export const WeekCalendar: FunctionComponent = () => {
         const fillState = () => {
             let daysOfMonth: IDay[] = [];
             for (let i = day - dayWeekBeginMonth; i <= day + 7 - dayWeekBeginMonth; i++) {
-                daysOfMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate, i, 0, 0, 0) });
+                daysOfMonth.push({ arrayEvents: [], date: new Date(year, month, i, 0, 0, 0) });
             }
 
             let currentEvent: IEvent;
@@ -49,8 +49,7 @@ export const WeekCalendar: FunctionComponent = () => {
         }
 
         let events: IEvent[] = [];
-        let monthForCreateDate: number = month - 1;
-        let dayWeekBeginMonth: number = new Date(year, monthForCreateDate, day).getDay() - 1;
+        let dayWeekBeginMonth: number = new Date(year, month, day).getDay() - 1;
         if (dayWeekBeginMonth == -1) {
             dayWeekBeginMonth = 6;
         }

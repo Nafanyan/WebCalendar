@@ -19,7 +19,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
     const currDay = useTypedSelector(state => state.currentDay)
     const dispatch = useDispatch()
 
-    let nowDayWeek: number = new Date(currDay.year, currDay.month - 1, currDay.day).getDay() - 1
+    let nowDayWeek: number = new Date(currDay.year, currDay.month, currDay.day).getDay() - 1
     if (nowDayWeek == -1) {
         nowDayWeek = 6
     }
@@ -27,18 +27,17 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
     const [nowYear, setNowYear] = useState<number>(currDay.year)
     const [nowMonth, setNowMonth] = useState<number>(currDay.month)
     const [nowDay, setNowDay] = useState<number>(currDay.day)
-    const [nowDate, setNowDate] = useState<Date>(new Date(nowYear, nowMonth - 1, nowDay))
+    const [nowDate, setNowDate] = useState<Date>(new Date(nowYear, nowMonth, nowDay))
 
     const [startWeekDay, setStartWeekDay] = useState<Date>(
-        new Date(currDay.year, currDay.month - 1, currDay.day - nowDayWeek))
+        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek))
     const [endWeekDay, setEndWeekDay] = useState<Date>(
-        new Date(currDay.year, currDay.month - 1, currDay.day - nowDayWeek + 6))
+        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek + 6))
 
     useEffect(() => {
         setNowDay(nowDate.getDate())
-        setNowMonth(nowDate.getMonth() + 1)
+        setNowMonth(nowDate.getMonth())
         setNowYear(nowDate.getFullYear())
-
         setStartWeekDay(
             new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek))
         setEndWeekDay(
@@ -48,38 +47,38 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
             type: CurrentDayActionType.CHANGE_CURRENT_DAY,
             userId: currDay.userId,
             year: nowDate.getFullYear(),
-            month: nowDate.getMonth() + 1,
+            month: nowDate.getMonth(),
             day: nowDate.getDate()
         })
 
     }, [nowDate])
 
     const previousDay = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth - 1, nowDay - 1))
+        setNowDate(new Date(nowYear, nowMonth, nowDay - 1))
     }
 
     const nextDay = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth - 1, nowDay + 1))
+        setNowDate(new Date(nowYear, nowMonth, nowDay + 1))
     }
 
     const previousWeek = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth - 1, nowDay - 7))
+        setNowDate(new Date(nowYear, nowMonth, nowDay - 7))
     }
 
     const nextWeek = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth - 1, nowDay + 7))
+        setNowDate(new Date(nowYear, nowMonth, nowDay + 7))
     }
 
     const previousYear = (event: React.MouseEvent<HTMLElement>) => {
-        currDay.year > 2000 ? setNowDate(new Date(nowYear - 1, nowMonth - 1, nowDay)) : setNowYear(nowYear)
+        currDay.year > 2000 ? setNowDate(new Date(nowYear - 1, nowMonth, nowDay)) : setNowYear(nowYear)
     }
 
     const nextYear = (event: React.MouseEvent<HTMLElement>) => {
-        nowYear <= new Date().getFullYear() + 15 ? setNowDate(new Date(nowYear + 1, nowMonth - 1, nowDay)) : setNowYear(nowYear)
+        nowYear <= new Date().getFullYear() + 15 ? setNowDate(new Date(nowYear + 1, nowMonth, nowDay)) : setNowYear(nowYear)
     }
 
     const changeMonth = (event: React.MouseEvent<HTMLElement>, numMonth: number) => {
-        setNowDate(new Date(nowYear, numMonth - 1, nowDay))
+        setNowDate(new Date(nowYear, numMonth, nowDay))
     }
 
     return (
@@ -130,7 +129,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
                         as={ButtonGroup}
                         key={'month'}
                         id={'dropdown-month-button'}
-                        title={months[nowMonth - 1]}>
+                        title={months[nowMonth]}>
                         {months.map(
                             (month, keyMonth) => (
                                 <Dropdown.Item key={keyMonth} onClick={event => changeMonth(event, keyMonth)} >

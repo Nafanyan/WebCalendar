@@ -13,7 +13,7 @@ using Presentation.Intranet.Api.Mappers.EventMappers;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("Users")]
+    [Route("api/Users")]
     public class EventsController : ControllerBase
     {
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;

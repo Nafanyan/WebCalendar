@@ -12,14 +12,14 @@ import { UserService } from "../../services/UserService"
 
 export const DayCalendare: FunctionComponent = () => {
     const { userId, day, month, year, reRender } = useTypedSelector(state => state.currentDay);
-    const [dayEvents, setDayEvents] = useState<IDay>({ arrayEvents: [], date: new Date(year, month - 1, day, 0, 0, 0) });
+    const [dayEvents, setDayEvents] = useState<IDay>({ arrayEvents: [], date: new Date(year, month, day, 0, 0, 0) });
 
 
     useEffect(() => {
         const dataInitialization = async () => {
             const service: UserService = new UserService();
-            let startEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 0, 0));
-            let endEventStr: string = TimeToStringRequest(new Date(year, month - 1, day, 23, 59));
+            let startEventStr: string = TimeToStringRequest(new Date(year, month, day, 0, 0));
+            let endEventStr: string = TimeToStringRequest(new Date(year, month, day, 23, 59));
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillInArray();
@@ -41,8 +41,8 @@ export const DayCalendare: FunctionComponent = () => {
     return (<div>
         <Card className='events-of-day'>
             <Card.Header className='card-day-header-day-mode'>
-                {fullDaysWeek[new Date(year, month - 1, day).getDay()]}
-                <AddEvent day={new Date(year, month - 1, day)} />
+                {fullDaysWeek[new Date(year, month, day).getDay()]}
+                <AddEvent day={new Date(year, month, day)} />
             </Card.Header>
 
             <div className="scrollbar scrollbar-success">

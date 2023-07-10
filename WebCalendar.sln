@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}"
 EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Migration", "Infrastructure.Migration\Infrastructure.Migration.csproj", "{A7DA876F-960E-4C09-8623-C306E9AE96F3}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Migration", "Infrastructure.Migration\Infrastructure.Migration.csproj", "{4D81DD4A-790F-46E6-8386-97AFF2668253}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A4E17C4A-2933-495F-A6FA-546F782772ED}"
+>>>>>>> e67cc99b64bde1c6050c781494856c790f150810
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +43,21 @@ Global
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD8A7EF1-5B11-4488-B1A4-6B0FD1B7B71A}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{A7DA876F-960E-4C09-8623-C306E9AE96F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7DA876F-960E-4C09-8623-C306E9AE96F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7DA876F-960E-4C09-8623-C306E9AE96F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7DA876F-960E-4C09-8623-C306E9AE96F3}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{4D81DD4A-790F-46E6-8386-97AFF2668253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D81DD4A-790F-46E6-8386-97AFF2668253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D81DD4A-790F-46E6-8386-97AFF2668253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D81DD4A-790F-46E6-8386-97AFF2668253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4E17C4A-2933-495F-A6FA-546F782772ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4E17C4A-2933-495F-A6FA-546F782772ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4E17C4A-2933-495F-A6FA-546F782772ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4E17C4A-2933-495F-A6FA-546F782772ED}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> e67cc99b64bde1c6050c781494856c790f150810
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,11 +7,11 @@ import AxiosDefault from "./AxiosDefault";
 
 export class EventService {
     async get(id: number, startPeriod: string, endPeriod: string): Promise<IEventQueryResult> {
-        return (await AxiosDefault.get<IEventQueryResult>("Users/" + id + "/Events?startEvent=" + startPeriod + "&endEvent=" + endPeriod)).data;
+        return (await AxiosDefault.get<IEventQueryResult>("api/Users/" + id + "/Events?startEvent=" + startPeriod + "&endEvent=" + endPeriod)).data;
     }
 
     async delete(id: number, date: IDeleteEvent): Promise<IValidationResult> {
-        let response: IValidationResult = await AxiosDefault.delete("Users/" + id + "/Events", { data: date }).then((response) => {
+        let response: IValidationResult = await AxiosDefault.delete("api/Users/" + id + "/Events", { data: date }).then((response) => {
             return response.data;
         }).catch(error => {
             return error.response.data.validationResult
@@ -20,7 +20,7 @@ export class EventService {
     }
 
     async addEvent(id: number, date: IAddEvent): Promise<IValidationResult> {
-        let response: IValidationResult = await AxiosDefault.post("Users/" + id + "/Events", date).then((response) => {
+        let response: IValidationResult = await AxiosDefault.post("api/Users/" + id + "/Events", date).then((response) => {
             return response.data;
         }).catch(error => {
             return error.response.data.validationResult
@@ -30,7 +30,7 @@ export class EventService {
     }
 
     async updateEvent(id: number, date: IUpdateEvent): Promise<IValidationResult> {
-        let response: IValidationResult = await AxiosDefault.put("Users/" + id + "/Events", date).then((response) => {
+        let response: IValidationResult = await AxiosDefault.put("api/Users/" + id + "/Events", date).then((response) => {
             return response.data;
         }).catch(error => {
             return error.response.data

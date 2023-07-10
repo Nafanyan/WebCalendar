@@ -17,8 +17,8 @@ export const MonthCalendar: FunctionComponent = () => {
     useEffect(() => {
         const dataInitialization = async () => {
             const service: UserService = new UserService();
-            let startEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, 1, 0, 0));
-            let endEventStr: string = TimeToStringRequest(new Date(year, monthForCreateDate, monthDaysCount, 23, 59));
+            let startEventStr: string = TimeToStringRequest(new Date(year, month, 1, 0, 0));
+            let endEventStr: string = TimeToStringRequest(new Date(year, month, monthDaysCount, 23, 59));
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillState();
@@ -27,7 +27,7 @@ export const MonthCalendar: FunctionComponent = () => {
         const fillState = () => {
             let daysOfMonth: IDay[] = [];
             for (let i = 1; i <= monthDaysCount; i++) {
-                daysOfMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate, i, 0, 0, 0) });
+                daysOfMonth.push({ arrayEvents: [], date: new Date(year, month, i, 0, 0, 0) });
             }
 
             let currentEvent: IEvent;
@@ -38,27 +38,26 @@ export const MonthCalendar: FunctionComponent = () => {
                 daysOfMonth[nowDayWeek].arrayEvents.push(currentEvent);
             }
 
-            let dayWeekBeginMonth: number = new Date(year, monthForCreateDate, 1).getDay() - 1;
+            let dayWeekBeginMonth: number = new Date(year, month, 1).getDay() - 1;
             if (dayWeekBeginMonth == -1) {
                 dayWeekBeginMonth = 6;
             };
 
             let daysOfPrevMonth: IDay[] = [];
             for (let i = 1; i <= dayWeekBeginMonth; i++) {
-                daysOfPrevMonth.push({ arrayEvents: [], date: new Date(year, monthForCreateDate - 1, i, 0, 0, 0) });
+                daysOfPrevMonth.push({ arrayEvents: [], date: new Date(year, month - 1, i, 0, 0, 0) });
             }
             daysOfMonth = [...daysOfPrevMonth, ...daysOfMonth];
 
             let daysOfMonth2D: IDay[][] = [];
-            for (let i = 0; i < monthDaysCount + dayWeekBeginMonth - 1; i += 7) {
+            for (let i = 0; i < monthDaysCount + dayWeekBeginMonth; i += 7) {
                 daysOfMonth2D.push(daysOfMonth.slice(i, i + 7));
             }
             setDays(daysOfMonth2D);
         };
 
         let events: IEvent[] = [];
-        let monthForCreateDate: number = month - 1;
-        let monthDaysCount: number = new Date(year, month, 0).getDate();
+        let monthDaysCount: number = new Date(year, month + 1, 0).getDate();
 
         dataInitialization();
     }, [userId, year, month, reRender])
@@ -84,7 +83,7 @@ export const MonthCalendar: FunctionComponent = () => {
                             {week.map(
                                 (nowDay, keyDay) => (
                                     <th key={keyDay}>
-                                        {new Date(nowDay.date).getMonth() == month - 1 &&
+                                        {new Date(nowDay.date).getMonth() == month &&
                                             <Card className='day-of-months'>
                                                 <Card.Header className='card-day-header'>
                                                     {new Date(nowDay.date.toString()).getDate()}

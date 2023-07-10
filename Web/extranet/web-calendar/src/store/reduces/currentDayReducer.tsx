@@ -3,7 +3,7 @@ import { CurrentDayState, CurrentDayAction, CurrentDayActionType } from "../../m
 const initialState: CurrentDayState = {
     userId: 4,
     year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
+    month: new Date().getMonth(),
     day: new Date().getDate(),
     reRender: false
 }

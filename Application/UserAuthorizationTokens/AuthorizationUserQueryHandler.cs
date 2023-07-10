@@ -6,7 +6,7 @@ using Domain.Entities;
 using Domain.Repositories;
 using Domain.UnitOfWork;
 
-namespace Application.UserAuthorizationTokens.Queries.AuthorizationUser
+namespace Application.UserAuthorizationTokens
 {
     public class AuthorizationUserQueryHandler : IQueryHandler<GetTokenQueryDto, AuthorizationUserQuery>
     {
@@ -28,13 +28,13 @@ namespace Application.UserAuthorizationTokens.Queries.AuthorizationUser
         {
             ValidationResult validationResult = await _userAuthorizationValidator.ValidationAsync(query);
 
-            if (! validationResult.IsFail)
+            if (!validationResult.IsFail)
             {
                 UserAuthorizationToken token = await _userAuthorizationRepository.GetTokenAsync(query.UserId);
                 // меняем значения токенов
                 token.SetAccessToken("");
                 token.SetRefreshToken("");
-                
+
                 GetTokenQueryDto getTokenQueryDto = new GetTokenQueryDto
                 {
                     AccessToken = token.AccessToken,

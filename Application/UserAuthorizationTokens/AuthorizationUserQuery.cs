@@ -1,4 +1,4 @@
-﻿namespace Application.UserAuthorizationTokens.Queries.AuthorizationUser
+﻿namespace Application.UserAuthorizationTokens
 {
     public class AuthorizationUserQuery
     {

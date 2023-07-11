@@ -17,26 +17,21 @@ namespace Application.UserAuthorizationTokens
 
         public async Task<ValidationResult> ValidationAsync(AuthorizationUserQuery query)
         {
-            //if (query.Login == null)
-            //{
-            //    return ValidationResult.Fail("The login cannot be empty/cannot be null");
-            //}
+            if (query.Login == null)
+            {
+                return ValidationResult.Fail("The login cannot be empty/cannot be null");
+            }
 
-            //if (!await _userRepository.ContainsAsync(user => user.Login == query.Login))
-            //{
-            //    return ValidationResult.Fail("There is no user with this username");
-            //}
+            if (!await _userRepository.ContainsAsync(user => user.Login == query.Login))
+            {
+                return ValidationResult.Fail("There is no user with this username");
+            }
 
-            //User user = await _userRepository.GetByIdAsync(query.UserId);
-            //if (user.PasswordHash != query.PasswordHash)
-            //{
-            //    return ValidationResult.Fail("The entered password does not match the current one");
-            //}
-
-            //if (!await _userAuthorizationRepository.ContainsAsync(token => token.UserId == query.UserId))
-            //{
-            //    return ValidationResult.Fail("The user is not registered");
-            //}
+            User user = await _userRepository.GetByIdAsync(query.UserId);
+            if (user.PasswordHash != query.PasswordHash)
+            {
+                return ValidationResult.Fail("The entered password does not match the current one");
+            }
 
             return ValidationResult.Ok();
         }

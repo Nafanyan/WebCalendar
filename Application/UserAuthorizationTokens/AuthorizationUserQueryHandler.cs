@@ -36,20 +36,38 @@ namespace Application.UserAuthorizationTokens
         }
         public async Task<QueryResult<GetTokenQueryDto>> HandleAsync(AuthorizationUserQuery query)
         {
+            List<Claim> authClaims = new List<Claim>
+            {
+                new Claim(nameof(query.UserId), query.UserId.ToString())
+            };
+
+            if (query.RefreshToken == (await _userAuthorizationRepository.GetTokenAsync(query.UserId)).RefreshToken)
+            {
+                string newAccessToken = new JwtSecurityTokenHandler().WriteToken(CreateToken(authClaims));
+                return new QueryResult<GetTokenQueryDto>(new GetTokenQueryDto
+                {
+                    AccessToken = newAccessToken,
+                    RefreshToken = query.RefreshToken
+                });
+            }
+
             ValidationResult validationResult = await _userAuthorizationValidator.ValidationAsync(query);
 
             if (!validationResult.IsFail)
             {
-                var authClaims = new List<Claim>
-                {
-                    new Claim(nameof(query.UserId), query.UserId.ToString())
-                };
                 string newAccessToken = new JwtSecurityTokenHandler().WriteToken(CreateToken(authClaims));
                 string newRefreshToken = GenerateRefreshToken();
 
-                UserAuthorizationToken token = await _userAuthorizationRepository.GetTokenAsync(query.UserId);
-                token.SetAccessToken(newAccessToken);
-                token.SetRefreshToken(newRefreshToken);
+                if (await _userAuthorizationRepository.ContainsAsync(token => token.UserId == query.UserId))
+                {
+                    UserAuthorizationToken token = await _userAuthorizationRepository.GetTokenAsync(query.UserId);
+                    token.SetRefreshToken(newRefreshToken);
+                }
+                else
+                {
+                    await _userAuthorizationRepository.AddAsync(new UserAuthorizationToken(newRefreshToken, query.UserId));
+                }
+
                 await _unitOfWork.CommitAsync();
 
                 return new QueryResult<GetTokenQueryDto>(new GetTokenQueryDto
@@ -57,7 +75,6 @@ namespace Application.UserAuthorizationTokens
                     AccessToken = newAccessToken,
                     RefreshToken = newRefreshToken
                 });
-
             }
 
             return new QueryResult<GetTokenQueryDto>(validationResult);

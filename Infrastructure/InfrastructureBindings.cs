@@ -1,7 +1,7 @@
-﻿
-using Domain.Repositories;
+﻿using Domain.Repositories;
 using Domain.UnitOfWork;
 using Infrastructure.Data.Events;
+using Infrastructure.Data.UserAuthorizationTokens;
 using Infrastructure.Data.Users;
 using Infrastructure.Foundation;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +14,7 @@ namespace Infrastructure
         {
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserAuthorizationRepository, UserAuthorizationRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }

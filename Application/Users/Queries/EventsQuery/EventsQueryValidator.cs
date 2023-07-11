@@ -1,5 +1,4 @@
-﻿using Application.Events.Queries.GetEvent;
-using Application.Validation;
+﻿using Application.Validation;
 using Domain.Repositories;
 
 namespace Application.Users.Queries.EventsQuery

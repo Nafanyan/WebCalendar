@@ -20,7 +20,7 @@ namespace Application.Users.Queries.QueryUserById
 
         public async Task<QueryResult<UserQueryByIdDto>> HandleAsync(UserQueryById getUserByIdQuery)
         {
-            ValidationResult validationResult = await _userByIdQueryValidator.ValidationAsync(getUserByIdQuery)
+            ValidationResult validationResult = await _userByIdQueryValidator.ValidationAsync(getUserByIdQuery);
             if (!validationResult.IsFail)
             {
                 User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);

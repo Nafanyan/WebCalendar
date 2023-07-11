@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.UserAuthorizationTokens.Commands.UserAuthorization;
+using Application.Result;
 
 namespace Presentation.Intranet.Api.Controllers
 {
@@ -34,8 +35,20 @@ namespace Presentation.Intranet.Api.Controllers
                 Login = "s",
                 PasswordHash = "s"
             };
+            CommandResult commandResult = await _authorizationUserCommandHandler.HandleAsync(query);
+            if (commandResult.ValidationResult.IsFail)
+            {
+                return BadRequest(commandResult.ValidationResult);
+            }
 
-            return Ok(await _authorizationUserCommandHandler.HandleAsync(query));
+            List<Claim> authClaims = new List<Claim>
+            {
+                new Claim(nameof(query.UserId), query.UserId.ToString())
+            };
+            string newAccessToken = new JwtSecurityTokenHandler().WriteToken(CreateToken(authClaims));
+            string newRefreshToken = GenerateRefreshToken();
+
+            return Ok();
         }
 
         private JwtSecurityToken CreateToken(List<Claim> authClaims)

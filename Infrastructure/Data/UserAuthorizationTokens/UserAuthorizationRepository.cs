@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Data.UserAuthorizationTokens
 {
-    public class UserAuthorizationRepository : BaseRepository<UserAuthorizationToken>, IUserAuthorizationRepository
+    public class UserAuthorizationRepository : BaseRepository<UserAuthorizationToken>, UserAuthorizationTokenRepository
     {
         public UserAuthorizationRepository(WebCalendarDbContext dbContext) : base(dbContext)
         {

@@ -11,8 +11,8 @@ namespace Application.UserAuthorizationTokens
     {
         public static IServiceCollection AddUserAuthorizationTokenBindings(this IServiceCollection services)
         {
-            services.AddScoped<IQueryHandler<GetTokenQueryDto, AuthorizationUserQuery>, AuthorizationUserQueryHandler>();
-            services.AddScoped<IAsyncValidator<AuthorizationUserQuery>, AuthorizationUserQueryValidator>();
+            services.AddScoped<IQueryHandler<GetTokenQueryDto, UserAuthorizationQuery>, AuthorizationUserQueryHandler>();
+            services.AddScoped<IAsyncValidator<UserAuthorizationQuery>, AuthorizationUserQueryValidator>();
 
             return services;
         }

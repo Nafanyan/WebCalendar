@@ -14,7 +14,7 @@ namespace Infrastructure
         {
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserAuthorizationRepository, UserAuthorizationRepository>();
+            services.AddScoped<UserAuthorizationTokenRepository, UserAuthorizationRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }

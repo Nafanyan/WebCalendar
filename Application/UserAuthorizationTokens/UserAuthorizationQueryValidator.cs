@@ -4,18 +4,18 @@ using Domain.Repositories;
 
 namespace Application.UserAuthorizationTokens
 {
-    public class AuthorizationUserQueryValidator : IAsyncValidator<AuthorizationUserQuery>
+    public class AuthorizationUserQueryValidator : IAsyncValidator<UserAuthorizationQuery>
     {
-        private readonly IUserAuthorizationRepository _userAuthorizationRepository;
+        private readonly UserAuthorizationTokenRepository _userAuthorizationRepository;
         private readonly IUserRepository _userRepository;
 
-        public AuthorizationUserQueryValidator(IUserAuthorizationRepository userAuthorizationRepository, IUserRepository userRepository)
+        public AuthorizationUserQueryValidator(UserAuthorizationTokenRepository userAuthorizationRepository, IUserRepository userRepository)
         {
             _userAuthorizationRepository = userAuthorizationRepository;
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(AuthorizationUserQuery query)
+        public async Task<ValidationResult> ValidationAsync(UserAuthorizationQuery query)
         {
             if (query.Login == null)
             {
@@ -24,13 +24,18 @@ namespace Application.UserAuthorizationTokens
 
             if (!await _userRepository.ContainsAsync(user => user.Login == query.Login))
             {
-                return ValidationResult.Fail("There is no user with this username");
+                return ValidationResult.Fail("Invalid username or password");
             }
 
             User user = await _userRepository.GetByIdAsync(query.UserId);
             if (user.PasswordHash != query.PasswordHash)
             {
-                return ValidationResult.Fail("The entered password does not match the current one");
+                return ValidationResult.Fail("Invalid username or password");
+            }
+
+            if (query.RefreshToken == (await _userAuthorizationRepository.GetTokenAsync(query.UserId)).RefreshToken)
+            {
+                return ValidationResult.Fail("Your token is outdated or invalid");
             }
 
             return ValidationResult.Ok();

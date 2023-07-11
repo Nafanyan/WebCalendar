@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandValidator : IAsyncValidator<UpdateEventCommand>
+    public class UpdateEventCommandValidator : IAsyncValidator<EventUpdateCommand>
     {
         private readonly IEventRepository _eventRepository;
 
@@ -13,7 +13,7 @@ namespace Application.Events.Commands.UpdateEvent
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UpdateEventCommand command)
+        public async Task<ValidationResult> ValidationAsync(EventUpdateCommand command)
         {
             if (command.Name == null || command.Name == String.Empty)
             {

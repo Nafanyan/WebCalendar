@@ -7,15 +7,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UpdateUserPasswordCommandHandler : ICommandHandler<UpdateUserPasswordCommand>
+    public class UpdateUserPasswordCommandHandler : ICommandHandler<UserPasswordUpdateCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<UpdateUserPasswordCommand> _updateUserPasswordCommandValidator;
+        private readonly IAsyncValidator<UserPasswordUpdateCommand> _updateUserPasswordCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateUserPasswordCommandHandler(
             IUserRepository userRepository, 
-            IAsyncValidator<UpdateUserPasswordCommand> validator,
+            IAsyncValidator<UserPasswordUpdateCommand> validator,
             IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
@@ -23,7 +23,7 @@ namespace Application.Users.Commands.UpdateUserPassword
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateUserPasswordCommand updateUserPasswordCommand)
+        public async Task<CommandResult> HandleAsync(UserPasswordUpdateCommand updateUserPasswordCommand)
         {
             ValidationResult validationResult = await _updateUserPasswordCommandValidator.ValidationAsync(updateUserPasswordCommand);
             if (!validationResult.IsFail)

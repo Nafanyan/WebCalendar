@@ -16,13 +16,13 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/Users")]
     public class EventsController : ControllerBase
     {
-        private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
+        private readonly ICommandHandler<EventCreateCommand> _createEventCommandHandler;
         private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
         private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
         private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _getEventQueryHandler;
 
         public EventsController(
-            ICommandHandler<CreateEventCommand> createEventCommandHandler,
+            ICommandHandler<EventCreateCommand> createEventCommandHandler,
             ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
             ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
             IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler)

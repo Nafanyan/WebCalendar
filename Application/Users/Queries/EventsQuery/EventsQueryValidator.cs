@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryValidator : IAsyncValidator<GetEventsQuery>
+    public class GetEventsQueryValidator : IAsyncValidator<EventsQuery>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,7 +13,7 @@ namespace Application.Users.Queries.GetEvents
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetEventsQuery query)
+        public async Task<ValidationResult> ValidationAsync(EventsQuery query)
         {
             if (!await _userRepository.ContainsAsync(user => user.Id == query.UserId))
             {

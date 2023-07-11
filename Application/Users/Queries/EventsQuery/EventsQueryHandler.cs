@@ -7,18 +7,18 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {
-    public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>
+    public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<GetEventsQuery> _getEventsQueryValidator;
+        private readonly IAsyncValidator<EventsQuery> _getEventsQueryValidator;
 
-        public GetEventsQueryHandler(IUserRepository userRepository, IAsyncValidator<GetEventsQuery> validator)
+        public GetEventsQueryHandler(IUserRepository userRepository, IAsyncValidator<EventsQuery> validator)
         {
             _userRepository = userRepository;
             _getEventsQueryValidator = validator;
         }
 
-        public async Task<QueryResult<IReadOnlyList<GetEventsQueryDto>>> HandleAsync(GetEventsQuery getEventsQuery)
+        public async Task<QueryResult<IReadOnlyList<EventsQueryDto>>> HandleAsync(EventsQuery getEventsQuery)
         {
             ValidationResult validationResult = await _getEventsQueryValidator.ValidationAsync(getEventsQuery);
             if (!validationResult.IsFail)
@@ -26,7 +26,7 @@ namespace Application.Users.Queries.GetEvents
                 IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
                     getEventsQuery.StartEvent, getEventsQuery.EndEvent);
 
-                List<GetEventsQueryDto> getEventsQueryDtos = events.Select(e => new GetEventsQueryDto
+                List<EventsQueryDto> getEventsQueryDtos = events.Select(e => new EventsQueryDto
                 {
                     UserId = e.UserId,
                     Name = e.Name,
@@ -34,9 +34,9 @@ namespace Application.Users.Queries.GetEvents
                     StartEvent = e.StartEvent,
                     EndEvent = e.EndEvent
                 }).ToList();
-                return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(getEventsQueryDtos);
+                return new QueryResult<IReadOnlyList<EventsQueryDto>>(getEventsQueryDtos);
             }
-            return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(validationResult);
+            return new QueryResult<IReadOnlyList<EventsQueryDto>>(validationResult);
         }
     }
 }

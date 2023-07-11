@@ -1,18 +1,18 @@
 ﻿using Application.Validation;
 using Domain.Repositories;
 
-namespace Application.Events.Queries.GetEvent
+namespace Application.Events.Queries.EventQuery
 {
-    public class GetEventQueryValidator : IAsyncValidator<GetEventQuery>
+    public class EventQueryValidator : IAsyncValidator<EventQuery>
     {
         private readonly IEventRepository _eventRepository;
 
-        public GetEventQueryValidator(IEventRepository eventRepository)
+        public EventQueryValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetEventQuery query)
+        public async Task<ValidationResult> ValidationAsync(EventQuery query)
         {
             if (query.StartEvent == null)
             {

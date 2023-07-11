@@ -1,6 +1,6 @@
 ﻿namespace Application.UserAuthorizationTokens
 {
-    public class AuthorizationUserQuery
+    public class UserAuthorizationQuery
     {
         public long UserId { get; init; }
         public string? Login { get; init; }

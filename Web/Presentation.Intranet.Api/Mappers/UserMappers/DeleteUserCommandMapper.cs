@@ -5,9 +5,9 @@ namespace Presentation.Intranet.Api.Mappers.UserMappers
 {
     public static class DeleteUserCommandMapper
     {
-        public static DeleteUserCommand Map(this DeleteUserDto deleteUserDto)
+        public static UserDeleteCommand Map(this DeleteUserDto deleteUserDto)
         {
-            return new DeleteUserCommand
+            return new UserDeleteCommand
             {
                 Id = deleteUserDto.Id,
                 PasswordHash = deleteUserDto.PasswordHash

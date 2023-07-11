@@ -15,7 +15,7 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddScoped<ICommandHandler<UserCreateCommand>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
@@ -23,7 +23,7 @@ namespace WebCalendar.Application.Users
             services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
             services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidator>();
+            services.AddScoped<IAsyncValidator<UserCreateCommand>, CreateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateUserPasswordCommand>, UpdateUserPasswordCommandValidator>();

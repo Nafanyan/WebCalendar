@@ -5,9 +5,9 @@ namespace Presentation.Intranet.Api.Mappers.UserMappers
 {
     public static class UpdateUserPasswordCommandMapper
     {
-        public static UpdateUserPasswordCommand Map(this UpdateUserPasswordDto updateUserPasswordDto)
+        public static UserPasswordUpdateCommand Map(this UpdateUserPasswordDto updateUserPasswordDto)
         {
-            return new UpdateUserPasswordCommand
+            return new UserPasswordUpdateCommand
             {
                 Id = updateUserPasswordDto.Id,
                 OldPasswordHash = updateUserPasswordDto.OldPasswordHash,

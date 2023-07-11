@@ -18,7 +18,7 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
+        private readonly ICommandHandler<UserCreateCommand> _createUserCommandHandler;
         private readonly ICommandHandler<DeleteUserCommand> _deleteUserCommandHandler;
         private readonly ICommandHandler<UpdateUserLoginCommand> _updateUserLoginCommandHandler;
         private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
@@ -26,7 +26,7 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _getUserByIdQueryHandler;
 
         public UsersController(
-            ICommandHandler<CreateUserCommand> createUserCommandHandler,
+            ICommandHandler<UserCreateCommand> createUserCommandHandler,
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,

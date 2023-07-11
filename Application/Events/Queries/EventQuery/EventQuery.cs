@@ -1,6 +1,6 @@
-﻿namespace Application.Events.Queries.GetEvent
+﻿namespace Application.Events.Queries.EventQuery
 {
-    public class GetEventQuery
+    public class EventQuery
     {
         public long UserId { get; init; }
         public DateTime StartEvent { get; init; }

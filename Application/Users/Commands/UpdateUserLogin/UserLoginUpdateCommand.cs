@@ -1,6 +1,6 @@
 ﻿namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserLoginCommand
+    public class UserLoginUpdateCommand
     {
         public long Id { get; init; }
         public string Login { get; init; }

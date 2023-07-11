@@ -5,33 +5,33 @@ using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Users.Queries.GetUserById
+namespace Application.Users.Queries.QueryUserById
 {
-    public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
+    public class UserQueryHandlerById : IQueryHandler<DTOs.UserQueryById, UserQueryById>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<GetUserByIdQuery> _getUserByIdQueryValidator;
+        private readonly IAsyncValidator<UserQueryById> _getUserByIdQueryValidator;
 
-        public GetUserByIdQueryHandler(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
+        public UserQueryHandlerById(IUserRepository userRepository, IAsyncValidator<UserQueryById> validator)
         {
             _userRepository = userRepository;
             _getUserByIdQueryValidator = validator;
         }
 
-        public async Task<QueryResult<GetUserByIdQueryDto>> HandleAsync(GetUserByIdQuery getUserByIdQuery)
+        public async Task<QueryResult<DTOs.UserQueryById>> HandleAsync(UserQueryById getUserByIdQuery)
         {
             ValidationResult validationResult = await _getUserByIdQueryValidator.ValidationAsync(getUserByIdQuery);
             if (!validationResult.IsFail)
             {
                 User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);
-                GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
+                DTOs.UserQueryById getUserByIdQueryDto = new DTOs.UserQueryById
                 {
                     Id = user.Id,
                     Login = user.Login
                 };
-                return new QueryResult<GetUserByIdQueryDto>(getUserByIdQueryDto);
+                return new QueryResult<DTOs.UserQueryById>(getUserByIdQueryDto);
             }
-            return new QueryResult<GetUserByIdQueryDto>(validationResult);
+            return new QueryResult<DTOs.UserQueryById>(validationResult);
         }
     }
 }

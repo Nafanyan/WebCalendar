@@ -2,18 +2,18 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Users.Commands.DeleteUser
+namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class DeleteUserCommandValidator : IAsyncValidator<DeleteUserCommand>
+    public class UpdateUserPasswordCommandValidator : IAsyncValidator<UserPasswordUpdateCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public DeleteUserCommandValidator(IUserRepository userRepository)
+        public UpdateUserPasswordCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(DeleteUserCommand command)
+        public async Task<ValidationResult> ValidationAsync(UserPasswordUpdateCommand command)
         {
             if (!await _userRepository.ContainsAsync(user => user.Id == command.Id))
             {
@@ -21,7 +21,7 @@ namespace Application.Users.Commands.DeleteUser
             }
 
             User user = await _userRepository.GetByIdAsync(command.Id);
-            if (user.PasswordHash != command.PasswordHash)
+            if (user.PasswordHash != command.OldPasswordHash)
             {
                 return ValidationResult.Fail("The entered password does not match the current one");
             }

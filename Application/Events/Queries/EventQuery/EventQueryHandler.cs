@@ -7,7 +7,7 @@ using Application.Events.DTOs;
 
 namespace Application.Events.Queries.EventQuery
 {
-    public class EventQueryHandler : IQueryHandler<GetEventQueryDto, EventQuery>
+    public class EventQueryHandler : IQueryHandler<EventQueryDto, EventQuery>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<EventQuery> _eventQueryValidator;
@@ -18,14 +18,14 @@ namespace Application.Events.Queries.EventQuery
             _eventQueryValidator = validator;
         }
 
-        public async Task<QueryResult<GetEventQueryDto>> HandleAsync(EventQuery getEventQuery)
+        public async Task<QueryResult<EventQueryDto>> HandleAsync(EventQuery getEventQuery)
         {
             ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
             if (!validationResult.IsFail)
             {
                 Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
                     getEventQuery.StartEvent, getEventQuery.EndEvent);
-                GetEventQueryDto getEventQueryDto = new GetEventQueryDto
+                EventQueryDto getEventQueryDto = new EventQueryDto
                 {
                     UserId = foundEvent.UserId,
                     Name = foundEvent.Name,
@@ -33,9 +33,9 @@ namespace Application.Events.Queries.EventQuery
                     StartEvent = foundEvent.StartEvent,
                     EndEvent = foundEvent.EndEvent
                 };
-                return new QueryResult<GetEventQueryDto>(getEventQueryDto);
+                return new QueryResult<EventQueryDto>(getEventQueryDto);
             }
-            return new QueryResult<GetEventQueryDto>(validationResult);
+            return new QueryResult<EventQueryDto>(validationResult);
         }
     }
 }

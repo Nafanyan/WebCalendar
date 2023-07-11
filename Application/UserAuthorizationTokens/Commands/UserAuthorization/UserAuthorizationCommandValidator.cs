@@ -2,9 +2,9 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.UserAuthorizationTokens
+namespace Application.UserAuthorizationTokens.Commands.UserAuthorization
 {
-    public class AuthorizationUserQueryValidator : IAsyncValidator<UserAuthorizationQuery>
+    public class AuthorizationUserQueryValidator : IAsyncValidator<UserAuthorizationCommand>
     {
         private readonly UserAuthorizationTokenRepository _userAuthorizationRepository;
         private readonly IUserRepository _userRepository;
@@ -15,7 +15,7 @@ namespace Application.UserAuthorizationTokens
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UserAuthorizationQuery query)
+        public async Task<ValidationResult> ValidationAsync(UserAuthorizationCommand query)
         {
             if (query.Login == null)
             {
@@ -31,11 +31,6 @@ namespace Application.UserAuthorizationTokens
             if (user.PasswordHash != query.PasswordHash)
             {
                 return ValidationResult.Fail("Invalid username or password");
-            }
-
-            if (query.RefreshToken == (await _userAuthorizationRepository.GetTokenAsync(query.UserId)).RefreshToken)
-            {
-                return ValidationResult.Fail("Your token is outdated or invalid");
             }
 
             return ValidationResult.Ok();

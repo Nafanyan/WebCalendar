@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.CreateEvent
 {
-    public class CreateEventCommandValidator : IAsyncValidator<EventCreateCommand>
+    public class EventCreateCommandValidator : IAsyncValidator<EventCreateCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public CreateEventCommandValidator(IEventRepository eventRepository)
+        public EventCreateCommandValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

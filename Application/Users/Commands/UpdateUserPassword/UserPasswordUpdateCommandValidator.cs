@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UpdateUserPasswordCommandValidator : IAsyncValidator<UserPasswordUpdateCommand>
+    public class UserPasswordUpdateCommandValidator : IAsyncValidator<UserPasswordUpdateCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserPasswordCommandValidator(IUserRepository userRepository)
+        public UserPasswordUpdateCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

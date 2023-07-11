@@ -1,6 +1,6 @@
 ﻿namespace Application.Events.Commands.CreateEvent
 {
-    public class CreateEventCommand
+    public class EventCreateCommand
     {
         public long UserId { get; init; }
         public string Name { get; init; }

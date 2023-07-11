@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.UserAuthorizationTokens.DTOs;
-using Application.Users.DTOs;
-using Application.Users.Queries.GetUserById;
+using Application.UserAuthorizationTokens.Commands.UserAuthorization;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,8 +9,8 @@ namespace Application.UserAuthorizationTokens
     {
         public static IServiceCollection AddUserAuthorizationTokenBindings(this IServiceCollection services)
         {
-            services.AddScoped<IQueryHandler<GetTokenQueryDto, UserAuthorizationQuery>, AuthorizationUserQueryHandler>();
-            services.AddScoped<IAsyncValidator<UserAuthorizationQuery>, AuthorizationUserQueryValidator>();
+            services.AddScoped<ICommandHandler<UserAuthorizationCommand>, AuthorizationUserQueryHandler>();
+            services.AddScoped<IAsyncValidator<UserAuthorizationCommand>, AuthorizationUserQueryValidator>();
 
             return services;
         }

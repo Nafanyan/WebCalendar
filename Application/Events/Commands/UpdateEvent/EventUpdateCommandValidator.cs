@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandValidator : IAsyncValidator<EventUpdateCommand>
+    public class EventUpdateCommandValidator : IAsyncValidator<EventUpdateCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public UpdateEventCommandValidator(IEventRepository eventRepository)
+        public EventUpdateCommandValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

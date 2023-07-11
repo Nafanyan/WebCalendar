@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UpdateUserPasswordCommandHandler : ICommandHandler<UserPasswordUpdateCommand>
+    public class UserPasswordUpdateCommandHandler : ICommandHandler<UserPasswordUpdateCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<UserPasswordUpdateCommand> _updateUserPasswordCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserPasswordCommandHandler(
+        public UserPasswordUpdateCommandHandler(
             IUserRepository userRepository, 
             IAsyncValidator<UserPasswordUpdateCommand> validator,
             IUnitOfWork unitOfWork)

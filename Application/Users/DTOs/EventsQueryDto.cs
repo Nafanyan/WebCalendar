@@ -1,7 +1,7 @@
 ﻿
 namespace Application.Users.DTOs
 {
-    public class GetEventsQueryDto
+    public class EventsQueryDto
     {
         public long UserId { get; init; }
         public string Name { get; init; }

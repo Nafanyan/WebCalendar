@@ -7,15 +7,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
+    public class UserDeleteCommandHandler : ICommandHandler<UserDeleteCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<DeleteUserCommand> _deleteUserCommandValidator;
+        private readonly IAsyncValidator<UserDeleteCommand> _deleteUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteUserCommandHandler(
+        public UserDeleteCommandHandler(
             IUserRepository userRepository, 
-            IAsyncValidator<DeleteUserCommand> validator,
+            IAsyncValidator<UserDeleteCommand> validator,
             IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
@@ -23,7 +23,7 @@ namespace Application.Users.Commands.DeleteUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteUserCommand deleteUserCommand)
+        public async Task<CommandResult> HandleAsync(UserDeleteCommand deleteUserCommand)
         {
             ValidationResult validationResult = await _deleteUserCommandValidator.ValidationAsync(deleteUserCommand);
             if (!validationResult.IsFail)

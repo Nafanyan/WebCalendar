@@ -4,16 +4,16 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UpdateUserLoginCommandValidator : IAsyncValidator<UpdateUserLoginCommand>
+    public class UserLoginUpdateCommandValidator : IAsyncValidator<UserLoginUpdateCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserLoginCommandValidator(IUserRepository userRepository)
+        public UserLoginUpdateCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UpdateUserLoginCommand command)
+        public async Task<ValidationResult> ValidationAsync(UserLoginUpdateCommand command)
         {
             if (command.Login == null)
             {

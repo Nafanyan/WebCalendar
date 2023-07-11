@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {
-    public class CreateEventCommandHandler : ICommandHandler<EventCreateCommand>
+    public class EventCreateCommandHandler : ICommandHandler<EventCreateCommand>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<EventCreateCommand> _createEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateEventCommandHandler(
+        public EventCreateCommandHandler(
             IEventRepository eventRepository, 
             IAsyncValidator<EventCreateCommand> validator,
             IUnitOfWork unitOfWork)

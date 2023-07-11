@@ -7,15 +7,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
+    public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<CreateUserCommand> _addUserCommandValidator;
+        private readonly IAsyncValidator<UserCreateCommand> _addUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommandHandler(
+        public UserCreateCommandHandler(
             IUserRepository userRepository, 
-            IAsyncValidator<CreateUserCommand> validator,
+            IAsyncValidator<UserCreateCommand> validator,
             IUnitOfWork unitOfWork) 
         {
             _userRepository = userRepository;
@@ -23,7 +23,7 @@ namespace Application.Users.Commands.CreateUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(CreateUserCommand addUserCommand)
+        public async Task<CommandResult> HandleAsync(UserCreateCommand addUserCommand)
         {
             ValidationResult validationResult = await _addUserCommandValidator.ValidationAsync(addUserCommand);
             if (!validationResult.IsFail)

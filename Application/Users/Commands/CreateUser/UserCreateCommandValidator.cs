@@ -4,16 +4,16 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    class CreateUserCommandValidator : IAsyncValidator<CreateUserCommand>
+    class UserCreateCommandValidator : IAsyncValidator<UserCreateCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandValidator(IUserRepository userRepository)
+        public UserCreateCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(CreateUserCommand command)
+        public async Task<ValidationResult> ValidationAsync(UserCreateCommand command)
         {
             if (command.Login == null)
             {

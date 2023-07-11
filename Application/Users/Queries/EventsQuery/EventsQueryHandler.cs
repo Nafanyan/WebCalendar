@@ -5,14 +5,14 @@ using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Users.Queries.GetEvents
+namespace Application.Users.Queries.EventsQuery
 {
-    public class GetEventsQueryHandler : IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery>
+    public class EventsQueryHandler : IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<EventsQuery> _getEventsQueryValidator;
 
-        public GetEventsQueryHandler(IUserRepository userRepository, IAsyncValidator<EventsQuery> validator)
+        public EventsQueryHandler(IUserRepository userRepository, IAsyncValidator<EventsQuery> validator)
         {
             _userRepository = userRepository;
             _getEventsQueryValidator = validator;

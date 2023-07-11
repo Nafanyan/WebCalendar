@@ -8,15 +8,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandHandler : ICommandHandler<UpdateEventCommand>
+    public class EventUpdateCommandHandler : ICommandHandler<EventUpdateCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IAsyncValidator<UpdateEventCommand> _updateEventCommandValidator;
+        private readonly IAsyncValidator<EventUpdateCommand> _updateEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateEventCommandHandler(
+        public EventUpdateCommandHandler(
             IEventRepository eventRepository, 
-            IAsyncValidator<UpdateEventCommand> validator,
+            IAsyncValidator<EventUpdateCommand> validator,
             IUnitOfWork unitOfWork) 
         {
             _eventRepository = eventRepository;
@@ -24,7 +24,7 @@ namespace Application.Events.Commands.UpdateEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateEventCommand updateEventCommand)
+        public async Task<CommandResult> HandleAsync(EventUpdateCommand updateEventCommand)
         {
             ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)

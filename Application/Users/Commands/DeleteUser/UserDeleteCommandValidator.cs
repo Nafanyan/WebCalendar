@@ -4,11 +4,11 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandValidator : IAsyncValidator<UserDeleteCommand>
+    public class UserDeleteCommandValidator : IAsyncValidator<UserDeleteCommand>
     {
         private readonly IUserRepository _userRepository;
 
-        public DeleteUserCommandValidator(IUserRepository userRepository)
+        public UserDeleteCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

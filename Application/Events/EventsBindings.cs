@@ -2,10 +2,9 @@
 using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
 using Application.Events.DTOs;
-using Application.Events.Queries.GetEvent;
+using Application.Events.Queries.EventQuery;
 using Application.Interfaces;
 using Application.Validation;
-using Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WebCalendar.Application.Events

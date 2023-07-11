@@ -1,6 +1,6 @@
 ﻿namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommand
+    public class EventDeleteCommand
     {
         public long UserId { get; init; }
         public DateTime StartEvent { get; init; }

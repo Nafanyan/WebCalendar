@@ -1,12 +1,11 @@
 ﻿using Application.Interfaces;
-using Application.UserAuthorizationTokens.DTOs;
-using Application.UserAuthorizationTokens;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Application.UserAuthorizationTokens.Commands.UserAuthorization;
 
 namespace Presentation.Intranet.Api.Controllers
 {
@@ -14,14 +13,14 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/[controller]")]
     public class AuthenticateController : ControllerBase
     {
-        private readonly IQueryHandler<GetTokenQueryDto, UserAuthorizationQuery> _authorizationUserQueryHandler;
+        private readonly ICommandHandler<UserAuthorizationCommand> _authorizationUserCommandHandler;
         private readonly IConfiguration _configuration;
 
         public AuthenticateController(
-            IQueryHandler<GetTokenQueryDto, UserAuthorizationQuery> authorizationUserQueryHandler,
+             ICommandHandler<UserAuthorizationCommand> authorizationUserCommandHandler,
             IConfiguration configuration)
         {
-            _authorizationUserQueryHandler = authorizationUserQueryHandler;
+            _authorizationUserCommandHandler = authorizationUserCommandHandler;
             _configuration = configuration;
         }
 
@@ -29,14 +28,14 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> CheckToken()
         {
-            UserAuthorizationQuery query = new UserAuthorizationQuery
+            UserAuthorizationCommand query = new UserAuthorizationCommand
             {
                 UserId = 4,
                 Login = "s",
                 PasswordHash = "s"
             };
 
-            return Ok(await _authorizationUserQueryHandler.HandleAsync(query));
+            return Ok(await _authorizationUserCommandHandler.HandleAsync(query));
         }
 
         private JwtSecurityToken CreateToken(List<Claim> authClaims)

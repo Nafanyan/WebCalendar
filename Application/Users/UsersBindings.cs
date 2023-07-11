@@ -4,8 +4,8 @@ using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
 using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.DTOs;
-using Application.Users.Queries.GetEvents;
-using Application.Users.Queries.GetUserById;
+using Application.Users.Queries.EventsQuery;
+using Application.Users.Queries.QueryUserById;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,21 +15,21 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<UserCreateCommand>, CreateUserCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
+            services.AddScoped<ICommandHandler<UserCreateCommand>, UserCreateCommandHandler>();
+            services.AddScoped<ICommandHandler<UserDeleteCommand>, UserDeleteCommandHandler>();
+            services.AddScoped<ICommandHandler<UserLoginUpdateCommand>, UserLoginUpdateCommandHandler>();
+            services.AddScoped<ICommandHandler<UserPasswordUpdateCommand>, UserPasswordUpdateCommandHandler>();
 
-            services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
-            services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery>, EventsQueryHandler>();
+            services.AddScoped<IQueryHandler<UserQueryByIdDto, UserQueryById>, UserQueryHandlerById>();
 
-            services.AddScoped<IAsyncValidator<UserCreateCommand>, CreateUserCommandValidator>();
-            services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateUserPasswordCommand>, UpdateUserPasswordCommandValidator>();
+            services.AddScoped<IAsyncValidator<UserCreateCommand>, UserCreateCommandValidator>();
+            services.AddScoped<IAsyncValidator<UserDeleteCommand>, UserDeleteCommandValidator>();
+            services.AddScoped<IAsyncValidator<UserLoginUpdateCommand>, UserLoginUpdateCommandValidator>();
+            services.AddScoped<IAsyncValidator<UserPasswordUpdateCommand>, UserPasswordUpdateCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetEventsQuery>, GetEventsQueryValidator>();
-            services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidator>();
+            services.AddScoped<IAsyncValidator<EventsQuery>, EventsQueryValidator>();
+            services.AddScoped<IAsyncValidator<UserQueryById>, UserQueryValidatorById>();
             return services;
         }
     }

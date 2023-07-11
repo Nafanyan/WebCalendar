@@ -2,13 +2,13 @@
 using Application.Validation;
 using Domain.Repositories;
 
-namespace Application.Users.Queries.GetEvents
+namespace Application.Users.Queries.EventsQuery
 {
-    public class GetEventsQueryValidator : IAsyncValidator<EventsQuery>
+    public class EventsQueryValidator : IAsyncValidator<EventsQuery>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetEventsQueryValidator(IUserRepository userRepository)
+        public EventsQueryValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

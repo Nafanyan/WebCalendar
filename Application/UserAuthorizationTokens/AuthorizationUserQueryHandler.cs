@@ -7,7 +7,6 @@ using Domain.Repositories;
 using Domain.UnitOfWork;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -34,6 +33,7 @@ namespace Application.UserAuthorizationTokens
             _userAuthorizationValidator = validator;
             _unitOfWork = unitOfWork;
         }
+
         public async Task<QueryResult<GetTokenQueryDto>> HandleAsync(AuthorizationUserQuery query)
         {
             List<Claim> authClaims = new List<Claim>
@@ -52,7 +52,6 @@ namespace Application.UserAuthorizationTokens
             }
 
             ValidationResult validationResult = await _userAuthorizationValidator.ValidationAsync(query);
-
             if (!validationResult.IsFail)
             {
                 string newAccessToken = new JwtSecurityTokenHandler().WriteToken(CreateToken(authClaims));
@@ -67,7 +66,6 @@ namespace Application.UserAuthorizationTokens
                 {
                     await _userAuthorizationRepository.AddAsync(new UserAuthorizationToken(newRefreshToken, query.UserId));
                 }
-
                 await _unitOfWork.CommitAsync();
 
                 return new QueryResult<GetTokenQueryDto>(new GetTokenQueryDto

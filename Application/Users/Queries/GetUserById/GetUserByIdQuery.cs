@@ -1,4 +1,4 @@
-﻿namespace Application.Users.Queries.QueryUserById
+﻿namespace Application.Users.Queries.GetUserById
 {
     public class GetUserByIdQuery
     {

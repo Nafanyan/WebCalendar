@@ -1,20 +1,20 @@
 ﻿using Application.Validation;
 using Domain.Repositories;
 
-namespace Application.Users.Queries.EventsQuery
+namespace Application.Users.Queries.GetUserById
 {
-    public class GetEventsQueryValidator : IAsyncValidator<GetEventsQuery>
+    public class GetUserByIdQueryValidator : IAsyncValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetEventsQueryValidator(IUserRepository userRepository)
+        public GetUserByIdQueryValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetEventsQuery query)
+        public async Task<ValidationResult> ValidationAsync(GetUserByIdQuery query)
         {
-            if (!await _userRepository.ContainsAsync(user => user.Id == query.UserId))
+            if (!await _userRepository.ContainsAsync(user => user.Id == query.Id))
             {
                 return ValidationResult.Fail("There is no user with this id");
             }

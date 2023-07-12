@@ -4,8 +4,8 @@ using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
 using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.DTOs;
-using Application.Users.Queries.EventsQuery;
-using Application.Users.Queries.QueryUserById;
+using Application.Users.Queries.GetEvents;
+using Application.Users.Queries.GetUserById;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 

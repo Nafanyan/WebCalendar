@@ -1,4 +1,4 @@
-﻿namespace Application.Users.Queries.EventsQuery
+﻿namespace Application.Users.Queries.GetEvents
 {
     public class GetEventsQuery
     {

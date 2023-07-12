@@ -21,22 +21,23 @@ namespace Application.Users.Queries.EventsQuery
         public async Task<QueryResult<IReadOnlyList<EventsQueryDto>>> HandleAsync(EventsQuery getEventsQuery)
         {
             ValidationResult validationResult = await _getEventsQueryValidator.ValidationAsync(getEventsQuery);
-            if (!validationResult.IsFail)
+            if (validationResult.IsFail)
             {
-                IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
-                    getEventsQuery.StartEvent, getEventsQuery.EndEvent);
-
-                List<EventsQueryDto> getEventsQueryDtos = events.Select(e => new EventsQueryDto
-                {
-                    UserId = e.UserId,
-                    Name = e.Name,
-                    Description = e.Description,
-                    StartEvent = e.StartEvent,
-                    EndEvent = e.EndEvent
-                }).ToList();
-                return new QueryResult<IReadOnlyList<EventsQueryDto>>(getEventsQueryDtos);
+                return new QueryResult<IReadOnlyList<EventsQueryDto>>(validationResult);
             }
-            return new QueryResult<IReadOnlyList<EventsQueryDto>>(validationResult);
+
+            IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
+                getEventsQuery.StartEvent, getEventsQuery.EndEvent);
+
+            List<EventsQueryDto> getEventsQueryDtos = events.Select(e => new EventsQueryDto
+            {
+                UserId = e.UserId,
+                Name = e.Name,
+                Description = e.Description,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            }).ToList();
+            return new QueryResult<IReadOnlyList<EventsQueryDto>>(getEventsQueryDtos);
         }
     }
 }

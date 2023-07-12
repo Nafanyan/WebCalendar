@@ -21,17 +21,18 @@ namespace Application.Users.Queries.QueryUserById
         public async Task<QueryResult<UserQueryByIdDto>> HandleAsync(UserQueryById getUserByIdQuery)
         {
             ValidationResult validationResult = await _userByIdQueryValidator.ValidationAsync(getUserByIdQuery);
-            if (!validationResult.IsFail)
+            if (validationResult.IsFail)
             {
-                User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);
-                UserQueryByIdDto getUserByIdQueryDto = new UserQueryByIdDto
-                {
-                    Id = user.Id,
-                    Login = user.Login
-                };
-                return new QueryResult<UserQueryByIdDto>(getUserByIdQueryDto);
+                return new QueryResult<UserQueryByIdDto>(validationResult);
             }
-            return new QueryResult<UserQueryByIdDto>(validationResult);
+
+            User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);
+            UserQueryByIdDto getUserByIdQueryDto = new UserQueryByIdDto
+            {
+                Id = user.Id,
+                Login = user.Login
+            };
+            return new QueryResult<UserQueryByIdDto>(getUserByIdQueryDto);
         }
     }
 }

@@ -1,24 +1,25 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Foundation;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Data.UserAuthorizationTokens
 {
-    public class UserAuthorizationRepository : BaseRepository<UserAuthorizationToken>, UserAuthorizationTokenRepository
+    public class UserAuthorizationRepository : BaseRepository<UserAuthorizationToken>, IUserAuthorizationTokenRepository
     {
         public UserAuthorizationRepository(WebCalendarDbContext dbContext) : base(dbContext)
         {
         }
 
-        public Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate)
+        public async Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await Entities.Where(predicate).FirstOrDefaultAsync() != null;
         }
 
-        public Task<UserAuthorizationToken> GetTokenAsync(long userId)
+        public async Task<UserAuthorizationToken> GetTokenByUserIdAsync(long userId)
         {
-            throw new NotImplementedException();
+            return await Entities.Where(ua => ua.UserId == userId).FirstOrDefaultAsync();
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 
 namespace Domain.Repositories
 {
-    public interface UserAuthorizationTokenRepository : IAddedRepository<UserAuthorizationToken>
+    public interface IUserAuthorizationTokenRepository : IAddedRepository<UserAuthorizationToken>
     {
-        Task<UserAuthorizationToken> GetTokenAsync(long userId);
+        Task<UserAuthorizationToken> GetTokenByUserIdAsync(long userId);
         Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate);
     }
 }

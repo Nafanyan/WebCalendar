@@ -21,21 +21,23 @@ namespace Application.Events.Queries.EventQuery
         public async Task<QueryResult<EventQueryDto>> HandleAsync(EventQuery getEventQuery)
         {
             ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
-            if (!validationResult.IsFail)
+            if (validationResult.IsFail)
             {
-                Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
-                    getEventQuery.StartEvent, getEventQuery.EndEvent);
-                EventQueryDto getEventQueryDto = new EventQueryDto
-                {
-                    UserId = foundEvent.UserId,
-                    Name = foundEvent.Name,
-                    Description = foundEvent.Description,
-                    StartEvent = foundEvent.StartEvent,
-                    EndEvent = foundEvent.EndEvent
-                };
-                return new QueryResult<EventQueryDto>(getEventQueryDto);
+                return new QueryResult<EventQueryDto>(validationResult);
             }
-            return new QueryResult<EventQueryDto>(validationResult);
+
+            Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
+                getEventQuery.StartEvent, getEventQuery.EndEvent);
+            EventQueryDto getEventQueryDto = new EventQueryDto
+            {
+                UserId = foundEvent.UserId,
+                Name = foundEvent.Name,
+                Description = foundEvent.Description,
+                StartEvent = foundEvent.StartEvent,
+                EndEvent = foundEvent.EndEvent
+            };
+
+            return new QueryResult<EventQueryDto>(getEventQueryDto);
         }
     }
 }

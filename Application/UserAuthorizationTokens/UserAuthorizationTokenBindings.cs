@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.UserAuthorizationTokens.Commands.CreateToken;
-using Application.UserAuthorizationTokens.Commands.TokenVerification;
+using Application.UserAuthorizationTokens.Commands.VerificationToken;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,11 +10,11 @@ namespace Application.UserAuthorizationTokens
     {
         public static IServiceCollection AddUserAuthorizationTokenBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<TokenCreateCommand>, TokenCreateCommandHandler>();
-            services.AddScoped<ICommandHandler<TokenVerificationCommand>, TokenVerificationCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateTokenCommand>, CreateTokenCommandHandler>();
+            services.AddScoped<ICommandHandler<VerificationTokenCommand>, VerificationTokenCommandHandler>();
 
-            services.AddScoped<IAsyncValidator<TokenCreateCommand>, TokenCreateCommandValidator>();
-            services.AddScoped<IAsyncValidator<TokenVerificationCommand>, TokenVerificationCommandValidator>();
+            services.AddScoped<IAsyncValidator<CreateTokenCommand>, CreateTokenCommandValidator>();
+            services.AddScoped<IAsyncValidator<VerificationTokenCommand>, VerificationTokenCommandValidator>();
 
             return services;
         }

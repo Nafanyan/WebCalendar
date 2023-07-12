@@ -8,15 +8,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandHandler : ICommandHandler<EventDeleteCommand>
+    public class DeleteEventCommandHandler : ICommandHandler<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IAsyncValidator<EventDeleteCommand> _deleteEventCommandValidator;
+        private readonly IAsyncValidator<DeleteEventCommand> _deleteEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
         public DeleteEventCommandHandler(
             IEventRepository eventRepository, 
-            IAsyncValidator<EventDeleteCommand> validator,
+            IAsyncValidator<DeleteEventCommand> validator,
             IUnitOfWork unitOfWork)
         {
             _eventRepository = eventRepository;
@@ -24,7 +24,7 @@ namespace Application.Events.Commands.DeleteEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(EventDeleteCommand deleteEventCommand)
+        public async Task<CommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
         {
             ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)

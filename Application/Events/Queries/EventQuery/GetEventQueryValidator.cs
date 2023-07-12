@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Events.Queries.EventQuery
 {
-    public class EventQueryValidator : IAsyncValidator<EventQuery>
+    public class EventQueryValidator : IAsyncValidator<GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
 
@@ -12,7 +12,7 @@ namespace Application.Events.Queries.EventQuery
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(EventQuery query)
+        public async Task<ValidationResult> ValidationAsync(GetEventQuery query)
         {
             if (query.StartEvent == null)
             {

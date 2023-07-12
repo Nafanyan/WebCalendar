@@ -1,6 +1,6 @@
 ﻿namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UserPasswordUpdateCommand
+    public class UpdateUserPasswordCommand
     {
         public long Id { get; init; }
         public string OldPasswordHash { get; init; }

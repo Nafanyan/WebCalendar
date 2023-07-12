@@ -2,18 +2,18 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Events.Commands.UpdateEvent
+namespace Application.Events.Commands.CreateEvent
 {
-    public class EventUpdateCommandValidator : IAsyncValidator<EventUpdateCommand>
+    public class EventCreateCommandValidator : IAsyncValidator<CreateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public EventUpdateCommandValidator(IEventRepository eventRepository)
+        public EventCreateCommandValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(EventUpdateCommand command)
+        public async Task<ValidationResult> ValidationAsync(CreateEventCommand command)
         {
             if (command.Name == null || command.Name == String.Empty)
             {
@@ -35,12 +35,12 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail("The event must occur within one day");
             }
 
-            if (command.StartEvent > command.EndEvent)
+            if (command.StartEvent >= command.EndEvent)
             {
                 return ValidationResult.Fail("The start date cannot be later than the end date");
             }
 
-            if (!await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
+            if (await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
             {
                 return ValidationResult.Fail("This event is superimposed on the existing event in time");
             }

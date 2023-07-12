@@ -7,32 +7,32 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.QueryUserById
 {
-    public class UserQueryHandlerById : IQueryHandler<UserQueryByIdDto, UserQueryById>
+    public class UserQueryHandlerById : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<UserQueryById> _userByIdQueryValidator;
+        private readonly IAsyncValidator<GetUserByIdQuery> _userByIdQueryValidator;
 
-        public UserQueryHandlerById(IUserRepository userRepository, IAsyncValidator<UserQueryById> validator)
+        public UserQueryHandlerById(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
         {
             _userRepository = userRepository;
             _userByIdQueryValidator = validator;
         }
 
-        public async Task<QueryResult<UserQueryByIdDto>> HandleAsync(UserQueryById getUserByIdQuery)
+        public async Task<QueryResult<GetUserByIdQueryDto>> HandleAsync(GetUserByIdQuery getUserByIdQuery)
         {
             ValidationResult validationResult = await _userByIdQueryValidator.ValidationAsync(getUserByIdQuery);
             if (validationResult.IsFail)
             {
-                return new QueryResult<UserQueryByIdDto>(validationResult);
+                return new QueryResult<GetUserByIdQueryDto>(validationResult);
             }
 
             User user = await _userRepository.GetByIdAsync(getUserByIdQuery.Id);
-            UserQueryByIdDto getUserByIdQueryDto = new UserQueryByIdDto
+            GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
             {
                 Id = user.Id,
                 Login = user.Login
             };
-            return new QueryResult<UserQueryByIdDto>(getUserByIdQueryDto);
+            return new QueryResult<GetUserByIdQueryDto>(getUserByIdQueryDto);
         }
     }
 }

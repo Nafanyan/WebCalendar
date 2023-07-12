@@ -5,9 +5,9 @@ namespace Presentation.Intranet.Api.Mappers.EventMappers
 {
     public static class UpdateEventCommandMapper
     {
-        public static EventUpdateCommand Map(this UpdateEventDto updateEventRequest, long userId)
+        public static UpdateEventCommand Map(this UpdateEventDto updateEventRequest, long userId)
         {
-            return new EventUpdateCommand
+            return new UpdateEventCommand
             {
                 UserId = userId,
                 Name = updateEventRequest.Name,

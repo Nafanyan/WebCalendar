@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
-    public class UserPasswordUpdateCommandValidator : IAsyncValidator<UserPasswordUpdateCommand>
+    public class UserPasswordUpdateCommandValidator : IAsyncValidator<UpdateUserPasswordCommand>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,7 +13,7 @@ namespace Application.Users.Commands.UpdateUserPassword
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UserPasswordUpdateCommand command)
+        public async Task<ValidationResult> ValidationAsync(UpdateUserPasswordCommand command)
         {
             if (!await _userRepository.ContainsAsync(user => user.Id == command.Id))
             {

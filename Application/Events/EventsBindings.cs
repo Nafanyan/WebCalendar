@@ -13,17 +13,17 @@ namespace WebCalendar.Application.Events
     {
         public static IServiceCollection AddEventsBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<EventCreateCommand>, EventCreateCommandHandler>();
-            services.AddScoped<ICommandHandler<EventUpdateCommand>, EventUpdateCommandHandler>();
-            services.AddScoped<ICommandHandler<EventDeleteCommand>, DeleteEventCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateEventCommand>, CreateEventCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateEventCommand>, UpdateEventCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteEventCommand>, DeleteEventCommandHandler>();
 
-            services.AddScoped<IQueryHandler<EventQueryDto, EventQuery>, EventQueryHandler>();
+            services.AddScoped<IQueryHandler<GetEventQueryDto, GetEventQuery>, GetEventQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<EventCreateCommand>, EventCreateCommandValidator>();
-            services.AddScoped<IAsyncValidator<EventDeleteCommand>, DeleteEventCommandValidator>();
-            services.AddScoped<IAsyncValidator<EventUpdateCommand>, EventUpdateCommandValidator>();
+            services.AddScoped<IAsyncValidator<CreateEventCommand>, CreateEventCommandValidator>();
+            services.AddScoped<IAsyncValidator<DeleteEventCommand>, DeleteEventCommandValidator>();
+            services.AddScoped<IAsyncValidator<UpdateEventCommand>, UpdateEventCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<EventQuery>, EventQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetEventQuery>, GetEventQueryValidator>();
             return services;
         }
     }

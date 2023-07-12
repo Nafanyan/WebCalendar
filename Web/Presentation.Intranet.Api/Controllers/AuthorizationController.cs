@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Application.Result;
 using Application.UserAuthorizationTokens.Commands.CreateToken;
-using Application.UserAuthorizationTokens.Commands.TokenVerification;
+using Application.UserAuthorizationTokens.Commands.VerificationToken;
 
 namespace Presentation.Intranet.Api.Controllers
 {
@@ -15,7 +15,7 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/[controller]")]
     public class AuthorizationController : ControllerBase
     {
-        private readonly ICommandHandler<TokenCreateCommand> _tokenCreateCommandHandler;
+        private readonly ICommandHandler<CreateTokenCommand> _tokenCreateCommandHandler;
         private readonly ICommandHandler<TokenVerificationCommand> _tokenVerificationCommandHandler;
         private readonly IConfiguration _configuration;
 
@@ -23,7 +23,7 @@ namespace Presentation.Intranet.Api.Controllers
         private string _accessToken;
 
         public AuthorizationController(
-             ICommandHandler<TokenCreateCommand> tokenCreateCommandHandler,
+             ICommandHandler<CreateTokenCommand> tokenCreateCommandHandler,
              ICommandHandler<TokenVerificationCommand> tokenVerificationCommandHandler,
              IConfiguration configuration
             )
@@ -60,7 +60,7 @@ namespace Presentation.Intranet.Api.Controllers
         public async Task<IActionResult> AuthorizationWithLogin([FromBody] long userId, string login, string passwordHash)
         {
             _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int tokenValidityInDay);
-            TokenCreateCommand tokenCreateCommand = new TokenCreateCommand
+            CreateTokenCommand tokenCreateCommand = new CreateTokenCommand
             {
                 UserId = userId,
                 Login = login,

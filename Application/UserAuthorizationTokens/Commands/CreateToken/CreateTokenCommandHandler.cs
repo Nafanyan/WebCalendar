@@ -7,22 +7,22 @@ using Domain.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.CreateToken
 {
-    public class TokenCreateCommandHandler : ICommandHandler<TokenCreateCommand>
+    public class TokenCreateCommandHandler : ICommandHandler<CreateTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
-        private readonly IAsyncValidator<TokenCreateCommand> _userAuthorizationTokenValidator;
+        private readonly IAsyncValidator<CreateTokenCommand> _userAuthorizationTokenValidator;
         private readonly IUnitOfWork _unitOfWork;
 
         public TokenCreateCommandHandler(
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
-            IAsyncValidator<TokenCreateCommand> validator,
+            IAsyncValidator<CreateTokenCommand> validator,
             IUnitOfWork unitOfWork)
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
             _userAuthorizationTokenValidator = validator;
             _unitOfWork = unitOfWork;
         }
-        public async Task<CommandResult> HandleAsync(TokenCreateCommand command)
+        public async Task<CommandResult> HandleAsync(CreateTokenCommand command)
         {
             ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync(command);
 

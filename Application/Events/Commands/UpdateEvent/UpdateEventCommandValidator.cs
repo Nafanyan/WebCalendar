@@ -1,19 +1,25 @@
 ﻿using Application.Validation;
+using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Events.Commands.DeleteEvent
+namespace Application.Events.Commands.UpdateEvent
 {
-    public class DeleteEventCommandValidator :  IAsyncValidator<EventDeleteCommand>
+    public class EventUpdateCommandValidator : IAsyncValidator<UpdateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public DeleteEventCommandValidator(IEventRepository eventRepository)
+        public EventUpdateCommandValidator(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(EventDeleteCommand command)
+        public async Task<ValidationResult> ValidationAsync(UpdateEventCommand command)
         {
+            if (command.Name == null || command.Name == String.Empty)
+            {
+                return ValidationResult.Fail("The name of event cannot be empty/cannot be null");
+            }
+
             if (command.StartEvent == null)
             {
                 return ValidationResult.Fail("The start date cannot be empty/cannot be null");

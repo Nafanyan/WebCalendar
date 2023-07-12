@@ -2,7 +2,7 @@
 using Application.Result;
 using Application.Validation;
 
-namespace Application.UserAuthorizationTokens.Commands.TokenVerification
+namespace Application.UserAuthorizationTokens.Commands.VerificationToken
 {
     public class TokenVerificationCommandHandler : ICommandHandler<TokenVerificationCommand>
     {

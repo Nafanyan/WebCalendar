@@ -1,4 +1,4 @@
-﻿namespace Application.UserAuthorizationTokens.Commands.TokenVerification
+﻿namespace Application.UserAuthorizationTokens.Commands.VerificationToken
 {
     public class TokenVerificationCommand
     {

@@ -7,28 +7,28 @@ using Application.Events.DTOs;
 
 namespace Application.Events.Queries.EventQuery
 {
-    public class EventQueryHandler : IQueryHandler<EventQueryDto, EventQuery>
+    public class EventQueryHandler : IQueryHandler<GetEventQueryDto, GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IAsyncValidator<EventQuery> _eventQueryValidator;
+        private readonly IAsyncValidator<GetEventQuery> _eventQueryValidator;
 
-        public EventQueryHandler(IEventRepository eventRepository, IAsyncValidator<EventQuery> validator)
+        public EventQueryHandler(IEventRepository eventRepository, IAsyncValidator<GetEventQuery> validator)
         {
             _eventRepository = eventRepository;
             _eventQueryValidator = validator;
         }
 
-        public async Task<QueryResult<EventQueryDto>> HandleAsync(EventQuery getEventQuery)
+        public async Task<QueryResult<GetEventQueryDto>> HandleAsync(GetEventQuery getEventQuery)
         {
             ValidationResult validationResult = await _eventQueryValidator.ValidationAsync(getEventQuery);
             if (validationResult.IsFail)
             {
-                return new QueryResult<EventQueryDto>(validationResult);
+                return new QueryResult<GetEventQueryDto>(validationResult);
             }
 
             Event foundEvent = await _eventRepository.GetEventAsync(getEventQuery.UserId,
                 getEventQuery.StartEvent, getEventQuery.EndEvent);
-            EventQueryDto getEventQueryDto = new EventQueryDto
+            GetEventQueryDto getEventQueryDto = new GetEventQueryDto
             {
                 UserId = foundEvent.UserId,
                 Name = foundEvent.Name,
@@ -37,7 +37,7 @@ namespace Application.Events.Queries.EventQuery
                 EndEvent = foundEvent.EndEvent
             };
 
-            return new QueryResult<EventQueryDto>(getEventQueryDto);
+            return new QueryResult<GetEventQueryDto>(getEventQueryDto);
         }
     }
 }

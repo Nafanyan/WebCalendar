@@ -3,7 +3,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.QueryUserById
 {
-    public class UserQueryValidatorById : IAsyncValidator<UserQueryById>
+    public class UserQueryValidatorById : IAsyncValidator<GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
 
@@ -12,7 +12,7 @@ namespace Application.Users.Queries.QueryUserById
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UserQueryById query)
+        public async Task<ValidationResult> ValidationAsync(GetUserByIdQuery query)
         {
             if (!await _userRepository.ContainsAsync(user => user.Id == query.Id))
             {

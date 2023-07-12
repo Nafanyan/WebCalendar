@@ -17,20 +17,20 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly ICommandHandler<UserCreateCommand> _createUserCommandHandler;
-        private readonly ICommandHandler<UserDeleteCommand> _deleteUserCommandHandler;
-        private readonly ICommandHandler<UserLoginUpdateCommand> _updateUserLoginCommandHandler;
-        private readonly ICommandHandler<UserPasswordUpdateCommand> _updateUserPasswordCommandHandler;
-        private readonly IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery> _eventQueryHandler;
-        private readonly IQueryHandler<UserQueryByIdDto, UserQueryById> _userByIdQueryHandler;
+        private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
+        private readonly ICommandHandler<DeleteUserCommand> _deleteUserCommandHandler;
+        private readonly ICommandHandler<UpdateUserLoginCommand> _updateUserLoginCommandHandler;
+        private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
+        private readonly IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> _eventQueryHandler;
+        private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _userByIdQueryHandler;
 
         public UsersController(
-            ICommandHandler<UserCreateCommand> createUserCommandHandler,
-            ICommandHandler<UserDeleteCommand> deleteUserCommandHandler,
-            ICommandHandler<UserLoginUpdateCommand> updateUserLoginCommandHandler,
-            ICommandHandler<UserPasswordUpdateCommand> updateUserPasswordCommandHandler,
-            IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery> eventQueryHandler,
-            IQueryHandler<UserQueryByIdDto, UserQueryById> userByIdQueryHandler)
+            ICommandHandler<CreateUserCommand> createUserCommandHandler,
+            ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
+            ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
+            ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
+            IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> eventQueryHandler,
+            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> userByIdQueryHandler)
         {
             _createUserCommandHandler = createUserCommandHandler;
             _deleteUserCommandHandler = deleteUserCommandHandler;
@@ -43,11 +43,11 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id)
         {
-            UserQueryById getUserByIdQuery = new UserQueryById
+            GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
             {
                 Id = id
             };
-            QueryResult<UserQueryByIdDto> queryResult = await _userByIdQueryHandler.HandleAsync(getUserByIdQuery);
+            QueryResult<GetUserByIdQueryDto> queryResult = await _userByIdQueryHandler.HandleAsync(getUserByIdQuery);
 
             if (queryResult.ValidationResult.IsFail)
             {
@@ -59,13 +59,13 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{id}/Event")]
         public async Task<IActionResult> GetEvents([FromRoute] long id, DateTime startEvent, DateTime endEvent)
         {
-            EventsQuery getEventsQuery = new EventsQuery
+            GetEventsQuery getEventsQuery = new GetEventsQuery
             {
                 UserId = id,
                 StartEvent = startEvent,
                 EndEvent = endEvent
             };
-            QueryResult<IReadOnlyList<EventsQueryDto>> queryResult = await _eventQueryHandler.HandleAsync(getEventsQuery);
+            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _eventQueryHandler.HandleAsync(getEventsQuery);
             
             if (queryResult.ValidationResult.IsFail)
             {

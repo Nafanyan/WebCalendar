@@ -16,16 +16,16 @@ namespace Presentation.Intranet.Api.Controllers
     [Route("api/Users")]
     public class EventsController : ControllerBase
     {
-        private readonly ICommandHandler<EventCreateCommand> _createEventCommandHandler;
-        private readonly ICommandHandler<EventDeleteCommand> _deleteEventCommandHandler;
-        private readonly ICommandHandler<EventUpdateCommand> _updateEventCommandHandler;
-        private readonly IQueryHandler<EventQueryDto, EventQuery> _eventQueryHandler;
+        private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
+        private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
+        private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
+        private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _eventQueryHandler;
 
         public EventsController(
-            ICommandHandler<EventCreateCommand> createEventCommandHandler,
-            ICommandHandler<EventDeleteCommand> deleteEventCommandHandler,
-            ICommandHandler<EventUpdateCommand> updateEventCommandHandler,
-            IQueryHandler<EventQueryDto, EventQuery> getEventQueryHandler)
+            ICommandHandler<CreateEventCommand> createEventCommandHandler,
+            ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
+            ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
+            IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler)
         {
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
@@ -36,14 +36,14 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{userId:long}/[controller]")]
         public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
-            EventQuery getEventQuery = new EventQuery
+            GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = userId,
                 StartEvent = startEvent,
                 EndEvent = endEvent
             };
 
-            QueryResult<EventQueryDto> queryResult = await _eventQueryHandler.HandleAsync(getEventQuery);
+            QueryResult<GetEventQueryDto> queryResult = await _eventQueryHandler.HandleAsync(getEventQuery);
             if (queryResult.ValidationResult.IsFail)
             {
                 return BadRequest(queryResult);

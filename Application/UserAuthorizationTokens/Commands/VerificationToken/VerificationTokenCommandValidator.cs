@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.UserAuthorizationTokens.Commands.TokenVerification
+namespace Application.UserAuthorizationTokens.Commands.VerificationToken
 {
     public class TokenVerificationCommandValidator : IAsyncValidator<TokenVerificationCommand>
     {

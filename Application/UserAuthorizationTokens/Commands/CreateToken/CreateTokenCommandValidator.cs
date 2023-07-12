@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.UserAuthorizationTokens.Commands.CreateToken
 {
-    public class TokenCreateCommandValidator : IAsyncValidator<TokenCreateCommand>
+    public class TokenCreateCommandValidator : IAsyncValidator<CreateTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IUserRepository _userRepository;
@@ -17,7 +17,7 @@ namespace Application.UserAuthorizationTokens.Commands.CreateToken
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(TokenCreateCommand command)
+        public async Task<ValidationResult> ValidationAsync(CreateTokenCommand command)
         {
             if (command.Login == null)
             {

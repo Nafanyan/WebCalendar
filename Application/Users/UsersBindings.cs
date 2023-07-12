@@ -15,21 +15,21 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<UserCreateCommand>, UserCreateCommandHandler>();
-            services.AddScoped<ICommandHandler<UserDeleteCommand>, UserDeleteCommandHandler>();
-            services.AddScoped<ICommandHandler<UserLoginUpdateCommand>, UserLoginUpdateCommandHandler>();
-            services.AddScoped<ICommandHandler<UserPasswordUpdateCommand>, UserPasswordUpdateCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateUserPasswordCommand>, UpdateUserPasswordCommandHandler>();
 
-            services.AddScoped<IQueryHandler<IReadOnlyList<EventsQueryDto>, EventsQuery>, EventsQueryHandler>();
-            services.AddScoped<IQueryHandler<UserQueryByIdDto, UserQueryById>, UserQueryHandlerById>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
+            services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<UserCreateCommand>, UserCreateCommandValidator>();
-            services.AddScoped<IAsyncValidator<UserDeleteCommand>, UserDeleteCommandValidator>();
-            services.AddScoped<IAsyncValidator<UserLoginUpdateCommand>, UserLoginUpdateCommandValidator>();
-            services.AddScoped<IAsyncValidator<UserPasswordUpdateCommand>, UserPasswordUpdateCommandValidator>();
+            services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidator>();
+            services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
+            services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidator>();
+            services.AddScoped<IAsyncValidator<UpdateUserPasswordCommand>, UpdateUserPasswordCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<EventsQuery>, EventsQueryValidator>();
-            services.AddScoped<IAsyncValidator<UserQueryById>, UserQueryValidatorById>();
+            services.AddScoped<IAsyncValidator<GetEventsQuery>, GetEventsQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidator>();
             return services;
         }
     }

@@ -5,9 +5,9 @@ namespace Presentation.Intranet.Api.Mappers.UserMappers
 {
     public static class CreateUserCommandMapper
     {
-        public static UserCreateCommand Map(this CreateUserDto createUserDto)
+        public static CreateUserCommand Map(this CreateUserDto createUserDto)
         {
-            return new UserCreateCommand
+            return new CreateUserCommand
             {
                 Login = createUserDto.Login,
                 PasswordHash = createUserDto.PasswordHash

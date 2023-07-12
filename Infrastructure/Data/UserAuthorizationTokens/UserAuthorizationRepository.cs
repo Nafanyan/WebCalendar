@@ -12,6 +12,11 @@ namespace Infrastructure.Data.UserAuthorizationTokens
         {
         }
 
+        public void Add(UserAuthorizationToken token)
+        {
+            Entities.AddAsync(token);
+        }
+
         public async Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate)
         {
             return await Entities.Where(predicate).FirstOrDefaultAsync() != null;

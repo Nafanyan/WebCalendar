@@ -36,7 +36,7 @@ namespace Application.UserAuthorizationTokens.Commands.CreateToken
 
                 if (token is null)
                 {
-                    await _userAuthorizationTokenRepository.AddAsync(newToken);
+                    _userAuthorizationTokenRepository.Add(newToken);
                 }
                 else
                 {

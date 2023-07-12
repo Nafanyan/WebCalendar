@@ -5,7 +5,7 @@ using Application.Interfaces;
 using Application.Validation;
 using Application.Events.DTOs;
 
-namespace Application.Events.Queries.EventQuery
+namespace Application.Events.Queries.GetEvent
 {
     public class GetEventQueryHandler : IQueryHandler<GetEventQueryDto, GetEventQuery>
     {

@@ -1,7 +1,7 @@
 ﻿using Application.Validation;
 using Domain.Repositories;
 
-namespace Application.Events.Queries.EventQuery
+namespace Application.Events.Queries.GetEvent
 {
     public class GetEventQueryValidator : IAsyncValidator<GetEventQuery>
     {

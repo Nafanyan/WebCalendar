@@ -3,11 +3,11 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.EventsQuery
 {
-    public class EventsQueryValidator : IAsyncValidator<GetEventsQuery>
+    public class GetEventsQueryValidator : IAsyncValidator<GetEventsQuery>
     {
         private readonly IUserRepository _userRepository;
 
-        public EventsQueryValidator(IUserRepository userRepository)
+        public GetEventsQueryValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

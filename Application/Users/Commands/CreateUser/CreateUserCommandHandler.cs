@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public class UserCreateCommandHandler : ICommandHandler<CreateUserCommand>
+    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<CreateUserCommand> _addUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserCreateCommandHandler(
+        public CreateUserCommandHandler(
             IUserRepository userRepository, 
             IAsyncValidator<CreateUserCommand> validator,
             IUnitOfWork unitOfWork) 

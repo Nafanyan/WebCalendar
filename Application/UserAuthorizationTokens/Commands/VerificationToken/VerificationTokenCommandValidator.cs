@@ -4,16 +4,16 @@ using Domain.Repositories;
 
 namespace Application.UserAuthorizationTokens.Commands.VerificationToken
 {
-    public class TokenVerificationCommandValidator : IAsyncValidator<TokenVerificationCommand>
+    public class VerificationTokenCommandValidator : IAsyncValidator<VerificationTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
 
-        public TokenVerificationCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
+        public VerificationTokenCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(TokenVerificationCommand command)
+        public async Task<ValidationResult> ValidationAsync(VerificationTokenCommand command)
         {
             UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByUserIdAsync(command.UserId);
             if (DateTime.Now > token.ExpiryDate)

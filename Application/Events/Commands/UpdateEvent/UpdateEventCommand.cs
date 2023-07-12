@@ -1,6 +1,6 @@
 ﻿namespace Application.Events.Commands.UpdateEvent
 {
-    public class EventUpdateCommand
+    public class UpdateEventCommand
     {
         public long UserId { get; init; }
         public string Name { get; init; }

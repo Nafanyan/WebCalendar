@@ -4,12 +4,12 @@ using Domain.Repositories;
 
 namespace Application.UserAuthorizationTokens.Commands.CreateToken
 {
-    public class TokenCreateCommandValidator : IAsyncValidator<CreateTokenCommand>
+    public class CreateTokenCommandValidator : IAsyncValidator<CreateTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IUserRepository _userRepository;
 
-        public TokenCreateCommandValidator(
+        public CreateTokenCommandValidator(
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository, 
             IUserRepository userRepository)
         {

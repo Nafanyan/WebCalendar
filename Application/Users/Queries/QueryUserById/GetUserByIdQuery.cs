@@ -1,6 +1,6 @@
 ﻿namespace Application.Users.Queries.QueryUserById
 {
-    public class UserQueryById
+    public class GetUserByIdQuery
     {
         public long Id { get; init; }
     }

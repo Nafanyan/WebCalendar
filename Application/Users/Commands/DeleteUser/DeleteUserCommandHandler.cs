@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class UserDeleteCommandHandler : ICommandHandler<DeleteUserCommand>
+    public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<DeleteUserCommand> _deleteUserCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserDeleteCommandHandler(
+        public DeleteUserCommandHandler(
             IUserRepository userRepository, 
             IAsyncValidator<DeleteUserCommand> validator,
             IUnitOfWork unitOfWork)

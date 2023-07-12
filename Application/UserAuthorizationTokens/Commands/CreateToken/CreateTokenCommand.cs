@@ -1,6 +1,6 @@
 ﻿namespace Application.UserAuthorizationTokens.Commands.CreateToken
 {
-    public class TokenCreateCommand
+    public class CreateTokenCommand
     {
         public long UserId { get; init; }
         public string Login { get; init; }

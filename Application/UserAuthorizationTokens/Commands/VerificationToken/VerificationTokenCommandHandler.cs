@@ -4,16 +4,16 @@ using Application.Validation;
 
 namespace Application.UserAuthorizationTokens.Commands.VerificationToken
 {
-    public class TokenVerificationCommandHandler : ICommandHandler<TokenVerificationCommand>
+    public class VerificationTokenCommandHandler : ICommandHandler<VerificationTokenCommand>
     {
-        private readonly IAsyncValidator<TokenVerificationCommand> _userAuthorizationTokenValidator;
+        private readonly IAsyncValidator<VerificationTokenCommand> _userAuthorizationTokenValidator;
 
-        public TokenVerificationCommandHandler(IAsyncValidator<TokenVerificationCommand> validator)
+        public VerificationTokenCommandHandler(IAsyncValidator<VerificationTokenCommand> validator)
         {
             _userAuthorizationTokenValidator = validator;
         }
 
-        public async Task<CommandResult> HandleAsync(TokenVerificationCommand command)
+        public async Task<CommandResult> HandleAsync(VerificationTokenCommand command)
         {
             ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync(command);
 

@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {
-    public class UserLoginUpdateCommandHandler : ICommandHandler<UpdateUserLoginCommand>
+    public class UpdateUserLoginCommandHandler : ICommandHandler<UpdateUserLoginCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<UpdateUserLoginCommand> _updateUserLoginCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserLoginUpdateCommandHandler(
+        public UpdateUserLoginCommandHandler(
             IUserRepository userRepository, 
             IAsyncValidator<UpdateUserLoginCommand> validator,
             IUnitOfWork unitOfWork)

@@ -8,13 +8,13 @@ using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.UpdateEvent
 {
-    public class EventUpdateCommandHandler : ICommandHandler<UpdateEventCommand>
+    public class UpdateEventCommandHandler : ICommandHandler<UpdateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<UpdateEventCommand> _updateEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EventUpdateCommandHandler(
+        public UpdateEventCommandHandler(
             IEventRepository eventRepository, 
             IAsyncValidator<UpdateEventCommand> validator,
             IUnitOfWork unitOfWork) 

@@ -7,13 +7,13 @@ using Domain.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.CreateToken
 {
-    public class TokenCreateCommandHandler : ICommandHandler<CreateTokenCommand>
+    public class CreateTokenCommandHandler : ICommandHandler<CreateTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IAsyncValidator<CreateTokenCommand> _userAuthorizationTokenValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TokenCreateCommandHandler(
+        public CreateTokenCommandHandler(
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
             IAsyncValidator<CreateTokenCommand> validator,
             IUnitOfWork unitOfWork)

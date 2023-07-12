@@ -7,12 +7,12 @@ using Domain.Repositories;
 
 namespace Application.Users.Queries.QueryUserById
 {
-    public class UserQueryHandlerById : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
+    public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<GetUserByIdQuery> _userByIdQueryValidator;
 
-        public UserQueryHandlerById(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
+        public GetUserByIdQueryHandler(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
         {
             _userRepository = userRepository;
             _userByIdQueryValidator = validator;

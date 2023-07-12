@@ -16,7 +16,7 @@ namespace Presentation.Intranet.Api.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly ICommandHandler<CreateTokenCommand> _tokenCreateCommandHandler;
-        private readonly ICommandHandler<TokenVerificationCommand> _tokenVerificationCommandHandler;
+        private readonly ICommandHandler<VerificationTokenCommand> _tokenVerificationCommandHandler;
         private readonly IConfiguration _configuration;
 
         private string _refreshToken;
@@ -24,7 +24,7 @@ namespace Presentation.Intranet.Api.Controllers
 
         public AuthorizationController(
              ICommandHandler<CreateTokenCommand> tokenCreateCommandHandler,
-             ICommandHandler<TokenVerificationCommand> tokenVerificationCommandHandler,
+             ICommandHandler<VerificationTokenCommand> tokenVerificationCommandHandler,
              IConfiguration configuration
             )
         {
@@ -36,7 +36,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AuthorizationWithToken([FromBody] long userId)
         {
-            TokenVerificationCommand tokenVerificationCommand = new TokenVerificationCommand
+            VerificationTokenCommand tokenVerificationCommand = new VerificationTokenCommand
             {
                 UserId = userId,
                 RefreshToken = _refreshToken

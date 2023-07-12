@@ -7,15 +7,15 @@ using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {
-    public class EventCreateCommandHandler : ICommandHandler<EventCreateCommand>
+    public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IAsyncValidator<EventCreateCommand> _createEventCommandValidator;
+        private readonly IAsyncValidator<CreateEventCommand> _createEventCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EventCreateCommandHandler(
+        public CreateEventCommandHandler(
             IEventRepository eventRepository, 
-            IAsyncValidator<EventCreateCommand> validator,
+            IAsyncValidator<CreateEventCommand> validator,
             IUnitOfWork unitOfWork)
         {
             _eventRepository = eventRepository;
@@ -23,7 +23,7 @@ namespace Application.Events.Commands.CreateEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(EventCreateCommand createEventCommand)
+        public async Task<CommandResult> HandleAsync(CreateEventCommand createEventCommand)
         {
             ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync(createEventCommand);
             if (!validationResult.IsFail)

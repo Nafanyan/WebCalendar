@@ -7,12 +7,12 @@ using Application.Events.DTOs;
 
 namespace Application.Events.Queries.EventQuery
 {
-    public class EventQueryHandler : IQueryHandler<GetEventQueryDto, GetEventQuery>
+    public class GetEventQueryHandler : IQueryHandler<GetEventQueryDto, GetEventQuery>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IAsyncValidator<GetEventQuery> _eventQueryValidator;
 
-        public EventQueryHandler(IEventRepository eventRepository, IAsyncValidator<GetEventQuery> validator)
+        public GetEventQueryHandler(IEventRepository eventRepository, IAsyncValidator<GetEventQuery> validator)
         {
             _eventRepository = eventRepository;
             _eventQueryValidator = validator;

@@ -24,7 +24,7 @@ namespace Application.Events.Commands.DeleteEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
+        public async Task<AuthorizationCommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
         {
             ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
             if (!validationResult.IsFail)
@@ -34,7 +34,7 @@ namespace Application.Events.Commands.DeleteEvent
                 await _eventRepository.DeleteAsync(foundEvent);
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new AuthorizationCommandResult(validationResult);
         }
     }
 }

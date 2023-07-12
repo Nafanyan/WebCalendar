@@ -24,7 +24,7 @@ namespace Application.Events.Commands.UpdateEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateEventCommand updateEventCommand)
+        public async Task<AuthorizationCommandResult> HandleAsync(UpdateEventCommand updateEventCommand)
         {
             ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
             if (!validationResult.IsFail)
@@ -36,7 +36,7 @@ namespace Application.Events.Commands.UpdateEvent
                 oldEvent.SetDateEvent(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new AuthorizationCommandResult(validationResult);
         }
     }
 }

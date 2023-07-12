@@ -22,6 +22,11 @@ namespace Infrastructure.Data.UserAuthorizationTokens
             return await Entities.Where(predicate).FirstOrDefaultAsync() != null;
         }
 
+        public async Task<UserAuthorizationToken> GetTokenByRefreshTokenAsync(string refreshToken)
+        {
+            return await Entities.Where(ua => ua.RefreshToken == refreshToken).FirstOrDefaultAsync();
+        }
+
         public async Task<UserAuthorizationToken> GetTokenByUserIdAsync(long userId)
         {
             return await Entities.Where(ua => ua.UserId == userId).FirstOrDefaultAsync();

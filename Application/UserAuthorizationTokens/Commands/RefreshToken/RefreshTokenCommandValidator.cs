@@ -2,20 +2,26 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.UserAuthorizationTokens.Commands.VerificationToken
+namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 {
-    public class VerificationTokenCommandValidator : IAsyncValidator<VerificationTokenCommand>
+    public class RefreshTokenCommandValidator : IAsyncValidator<RefreshTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
 
-        public VerificationTokenCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
+        public RefreshTokenCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(VerificationTokenCommand command)
+        public async Task<ValidationResult> ValidationAsync(RefreshTokenCommand command)
         {
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByUserIdAsync(command.UserId);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByRefreshTokenAsync(command.RefreshToken);
+
+            if (token is null)
+            {
+                return ValidationResult.Fail("Authorization required");
+            }
+
             if (DateTime.Now > token.ExpiryDate)
             {
                 return ValidationResult.Fail("Token expired");

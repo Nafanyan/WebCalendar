@@ -23,7 +23,7 @@ namespace Application.Users.Commands.DeleteUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteUserCommand deleteUserCommand)
+        public async Task<AuthorizationCommandResult> HandleAsync(DeleteUserCommand deleteUserCommand)
         {
             ValidationResult validationResult = await _deleteUserCommandValidator.ValidationAsync(deleteUserCommand);
             if (!validationResult.IsFail)
@@ -32,7 +32,7 @@ namespace Application.Users.Commands.DeleteUser
                 await _userRepository.DeleteAsync(user);
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new AuthorizationCommandResult(validationResult);
         }
     }
 }

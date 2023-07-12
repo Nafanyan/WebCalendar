@@ -3,6 +3,7 @@ using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Application;
 using System.Diagnostics;
+using Presentation.Intranet.Api.TokenCreator;
 
 namespace Presentation.Intranet.Api
 {
@@ -27,6 +28,7 @@ namespace Presentation.Intranet.Api
 
             builder.Services.AddApplicationBindings();
             builder.Services.AddInfrastructureBindings();
+            builder.Services.AddTokenCreatorBindings();
 
             var app = builder.Build();
 

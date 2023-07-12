@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
-using Application.UserAuthorizationTokens.Commands.CreateToken;
-using Application.UserAuthorizationTokens.Commands.VerificationToken;
+using Application.UserAuthorizationTokens.Commands;
+using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
+using Application.UserAuthorizationTokens.Commands.RefreshToken;
+using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,11 +12,11 @@ namespace Application.UserAuthorizationTokens
     {
         public static IServiceCollection AddUserAuthorizationTokenBindings(this IServiceCollection services)
         {
-            services.AddScoped<ICommandHandler<CreateTokenCommand>, CreateTokenCommandHandler>();
-            services.AddScoped<ICommandHandler<VerificationTokenCommand>, VerificationTokenCommandHandler>();
+            services.AddScoped<IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>, AuthenticateUserCommandHandler>();
+            services.AddScoped<IAuthorizationCommandHandler<RefreshTokenCommandDto, RefreshTokenCommand>, RefreshTokenCommandHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateTokenCommand>, CreateTokenCommandValidator>();
-            services.AddScoped<IAsyncValidator<VerificationTokenCommand>, VerificationTokenCommandValidator>();
+            services.AddScoped<IAsyncValidator<AuthenticateUserCommand>, AuthenticateUserCommandValidator>();
+            services.AddScoped<IAsyncValidator<RefreshTokenCommand>, RefreshTokenCommandValidator>();
 
             return services;
         }

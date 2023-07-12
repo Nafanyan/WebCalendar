@@ -23,7 +23,7 @@ namespace Application.Users.Commands.UpdateUserLogin
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateUserLoginCommand updateUserLoginCommand)
+        public async Task<AuthorizationCommandResult> HandleAsync(UpdateUserLoginCommand updateUserLoginCommand)
         {
             ValidationResult validationResult= await _updateUserLoginCommandValidator.ValidationAsync(updateUserLoginCommand);
             if (!validationResult.IsFail)
@@ -32,7 +32,7 @@ namespace Application.Users.Commands.UpdateUserLogin
                 user.SetLogin(updateUserLoginCommand.Login);
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new AuthorizationCommandResult(validationResult);
         }
     }
 }

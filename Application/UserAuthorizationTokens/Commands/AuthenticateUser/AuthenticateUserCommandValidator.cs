@@ -2,14 +2,14 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.UserAuthorizationTokens.Commands.CreateToken
+namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 {
-    public class CreateTokenCommandValidator : IAsyncValidator<CreateTokenCommand>
+    public class AuthenticateUserCommandValidator : IAsyncValidator<AuthenticateUserCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IUserRepository _userRepository;
 
-        public CreateTokenCommandValidator(
+        public AuthenticateUserCommandValidator(
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository, 
             IUserRepository userRepository)
         {
@@ -17,7 +17,7 @@ namespace Application.UserAuthorizationTokens.Commands.CreateToken
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(CreateTokenCommand command)
+        public async Task<ValidationResult> ValidationAsync(AuthenticateUserCommand command)
         {
             if (command.Login == null)
             {
@@ -29,7 +29,7 @@ namespace Application.UserAuthorizationTokens.Commands.CreateToken
                 return ValidationResult.Fail("Invalid username or password");
             }
 
-            User user = await _userRepository.GetByIdAsync(command.UserId);
+            User user = await _userRepository.GetByLoginAsync(command.Login);
             if (user.PasswordHash != command.PasswordHash)
             {
                 return ValidationResult.Fail("Invalid username or password");

@@ -2,11 +2,11 @@
 
 namespace Application.Result
 {
-    public class CommandResult
+    public class AuthorizationCommandResult
     {
         public ValidationResult ValidationResult { get; private set; }
 
-        public CommandResult(ValidationResult validationResult)
+        public AuthorizationCommandResult(ValidationResult validationResult)
         {
             ValidationResult = validationResult;
         }

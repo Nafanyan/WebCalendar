@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface ICommandHandler<TCommand> where TCommand : class
     {
-        Task<CommandResult> HandleAsync(TCommand command);
+        Task<AuthorizationCommandResult> HandleAsync(TCommand command);
     }
 }

@@ -3,13 +3,13 @@ namespace Domain.Entities
 {
     public class UserAuthorizationToken
     {
-        public string RefreshToken { get; init; }
         public long UserId { get; init; }
+        public string RefreshToken { get; init; }
         public DateTime ExpiryDate { get; init; }
-        public UserAuthorizationToken (string refreshToken, long userId, DateTime expiryDate)
+        public UserAuthorizationToken (long userId, string refreshToken,  DateTime expiryDate)
         {
-            RefreshToken = refreshToken;
             UserId = userId;
+            RefreshToken = refreshToken;
             ExpiryDate = expiryDate;
         }
     }

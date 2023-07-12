@@ -7,6 +7,7 @@ namespace Domain.Repositories
     public interface IUserRepository : IAddedRepository<User>, IRemovableRepository<User>
     {
         Task<User> GetByIdAsync(long id);
+        Task<User> GetByLoginAsync(string login);
         Task<bool> ContainsAsync(Expression<Func<User, bool>> predicate); 
         Task<IReadOnlyList<Event>> GetEventsAsync(long id, DateTime startPeriod, DateTime endPeriod);
     }

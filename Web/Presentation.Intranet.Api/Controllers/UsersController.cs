@@ -21,8 +21,8 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<DeleteUserCommand> _deleteUserCommandHandler;
         private readonly ICommandHandler<UpdateUserLoginCommand> _updateUserLoginCommandHandler;
         private readonly ICommandHandler<UpdateUserPasswordCommand> _updateUserPasswordCommandHandler;
-        private readonly IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> _eventQueryHandler;
-        private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _userByIdQueryHandler;
+        private readonly IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> _getEventQueryHandler;
+        private readonly IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> _getUserByIdQueryHandler;
 
         public UsersController(
             ICommandHandler<CreateUserCommand> createUserCommandHandler,
@@ -36,8 +36,8 @@ namespace Presentation.Intranet.Api.Controllers
             _deleteUserCommandHandler = deleteUserCommandHandler;
             _updateUserLoginCommandHandler = updateUserLoginCommandHandler;
             _updateUserPasswordCommandHandler = updateUserPasswordCommandHandler;
-            _eventQueryHandler = eventQueryHandler;
-            _userByIdQueryHandler = userByIdQueryHandler;
+            _getEventQueryHandler = eventQueryHandler;
+            _getUserByIdQueryHandler = userByIdQueryHandler;
         }
 
         [HttpGet("{id}")]
@@ -47,7 +47,7 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 Id = id
             };
-            QueryResult<GetUserByIdQueryDto> queryResult = await _userByIdQueryHandler.HandleAsync(getUserByIdQuery);
+            QueryResult<GetUserByIdQueryDto> queryResult = await _getUserByIdQueryHandler.HandleAsync(getUserByIdQuery);
 
             if (queryResult.ValidationResult.IsFail)
             {
@@ -65,7 +65,7 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = startEvent,
                 EndEvent = endEvent
             };
-            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _eventQueryHandler.HandleAsync(getEventsQuery);
+            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
             
             if (queryResult.ValidationResult.IsFail)
             {

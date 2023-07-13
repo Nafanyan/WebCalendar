@@ -19,7 +19,7 @@ namespace Presentation.Intranet.Api.Controllers
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
         private readonly ICommandHandler<DeleteEventCommand> _deleteEventCommandHandler;
         private readonly ICommandHandler<UpdateEventCommand> _updateEventCommandHandler;
-        private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _eventQueryHandler;
+        private readonly IQueryHandler<GetEventQueryDto, GetEventQuery> _getEventQueryHandler;
 
         public EventsController(
             ICommandHandler<CreateEventCommand> createEventCommandHandler,
@@ -30,7 +30,7 @@ namespace Presentation.Intranet.Api.Controllers
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
             _updateEventCommandHandler = updateEventCommandHandler;
-            _eventQueryHandler = getEventQueryHandler;
+            _getEventQueryHandler = getEventQueryHandler;
         }
 
         [HttpGet("{userId:long}/[controller]")]
@@ -43,7 +43,7 @@ namespace Presentation.Intranet.Api.Controllers
                 EndEvent = endEvent
             };
 
-            QueryResult<GetEventQueryDto> queryResult = await _eventQueryHandler.HandleAsync(getEventQuery);
+            QueryResult<GetEventQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
             if (queryResult.ValidationResult.IsFail)
             {
                 return BadRequest(queryResult);

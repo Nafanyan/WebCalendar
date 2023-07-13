@@ -29,15 +29,15 @@ namespace Presentation.Intranet.Api.Controllers
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
-            IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> eventQueryHandler,
-            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> userByIdQueryHandler)
+            IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> getEventQueryHandler,
+            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler)
         {
             _createUserCommandHandler = createUserCommandHandler;
             _deleteUserCommandHandler = deleteUserCommandHandler;
             _updateUserLoginCommandHandler = updateUserLoginCommandHandler;
             _updateUserPasswordCommandHandler = updateUserPasswordCommandHandler;
-            _getEventQueryHandler = eventQueryHandler;
-            _getUserByIdQueryHandler = userByIdQueryHandler;
+            _getEventQueryHandler = getEventQueryHandler;
+            _getUserByIdQueryHandler = getUserByIdQueryHandler;
         }
 
         [HttpGet("{id}")]

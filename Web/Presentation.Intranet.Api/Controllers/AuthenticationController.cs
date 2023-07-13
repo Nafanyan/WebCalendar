@@ -50,14 +50,14 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost("authentication-with-token")]
-        public async Task<IActionResult> AuthenticationWithToken([FromQuery] string refreshToken)
+        public async Task<IActionResult> AuthenticationWithToken([FromBody] AuthenticationWithTokenDto authenticationWithTokenDto)
         {
             _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int tokenValidityInDay);
             DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(tokenValidityInDay);
 
             RefreshTokenCommand verifyTokenCommand = new RefreshTokenCommand
             {
-                RefreshToken = refreshToken,
+                RefreshToken = authenticationWithTokenDto.RefreshToken,
                 RefreshTokenExpiryDate = refreshTokenExpiryDate
             };
 

@@ -37,11 +37,7 @@ namespace Presentation.Intranet.Api.TokenCreator
 
         public string CreateRefreshToken()
         {
-            var randomNumber = new byte[64];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-
-            return Convert.ToBase64String(randomNumber);
+            return Guid.NewGuid().ToString();
         }
     }
 }

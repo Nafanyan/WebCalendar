@@ -2,6 +2,8 @@ using Infrastructure;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Application;
+using System.Diagnostics;
+using Presentation.Intranet.Api.TokenCreator;
 
 namespace Presentation.Intranet.Api
 {
@@ -10,10 +12,12 @@ namespace Presentation.Intranet.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("WebCalendar"); // for release
-            //var connectionString = builder.Configuration.GetConnectionString("WebCalendarLocal"); for debug
+            // for release
+            //var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
+            //for debug
+            var connectionString = builder.Configuration.GetConnectionString("WebCalendarLocal");
 
-            builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
+           builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("Infrastructure.Migration")));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -24,6 +28,7 @@ namespace Presentation.Intranet.Api
 
             builder.Services.AddApplicationBindings();
             builder.Services.AddInfrastructureBindings();
+            builder.Services.AddTokenCreatorBindings();
 
             var app = builder.Build();
 

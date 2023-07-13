@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    class CreateUserCommandValidator : IAsyncValidator<CreateUserCommand>
+    public class CreateUserCommandValidator : IAsyncValidator<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
 

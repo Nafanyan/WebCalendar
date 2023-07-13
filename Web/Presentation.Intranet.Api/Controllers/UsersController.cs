@@ -1,5 +1,4 @@
-﻿using Application.Events.Queries.GetEvent;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Result;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.DeleteUser;

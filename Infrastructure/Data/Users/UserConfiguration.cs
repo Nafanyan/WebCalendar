@@ -15,7 +15,15 @@ namespace Infrastructure.Data.Users
             builder.Property(u => u.Login).HasMaxLength(100).IsRequired();
             builder.Property(u => u.PasswordHash).HasMaxLength(100).IsRequired();
 
-            builder.HasMany<Event>().WithOne().HasForeignKey(e => e.UserId).IsRequired();
+            builder.HasMany<Event>()
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
+
+            builder.HasOne<UserAuthorizationToken>()
+                .WithOne()
+                .HasForeignKey<UserAuthorizationToken>(ua => ua.UserId)
+                .IsRequired();
         }
     }
 }

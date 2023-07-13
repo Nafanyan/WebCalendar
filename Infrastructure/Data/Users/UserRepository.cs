@@ -30,5 +30,9 @@ namespace Infrastructure.Data.Users
                 .ToListAsync();
         }
 
+        public async Task<User> GetByLoginAsync(string login)
+        {
+            return await Entities.Where(u => u.Login == login).FirstOrDefaultAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.UserAuthorizationTokens;
+using Microsoft.Extensions.DependencyInjection;
 using WebCalendar.Application.Events;
 using WebCalendar.Application.Users;
 
@@ -10,6 +11,7 @@ namespace Application
         {
             services.AddEventsBindings();
             services.AddUsersBindings();
+            services.AddUserAuthorizationTokenBindings();
 
             return services;
         }

@@ -23,7 +23,7 @@ namespace Application.Users.Commands.CreateUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<AuthorizationCommandResult> HandleAsync(CreateUserCommand addUserCommand)
+        public async Task<CommandResult> HandleAsync(CreateUserCommand addUserCommand)
         {
             ValidationResult validationResult = await _addUserCommandValidator.ValidationAsync(addUserCommand);
             if (!validationResult.IsFail)
@@ -32,7 +32,7 @@ namespace Application.Users.Commands.CreateUser
                 await _userRepository.AddAsync(user);
                 await _unitOfWork.CommitAsync();
             }
-            return new AuthorizationCommandResult(validationResult);
+            return new CommandResult(validationResult);
         }
     }
 }

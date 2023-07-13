@@ -77,7 +77,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost()]
         public async Task<IActionResult> AddAsync([FromBody] CreateUserDto createUserDto)
         {
-            AuthorizationCommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
+            CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
 
             if (commandResult.ValidationResult.IsFail)
             {
@@ -89,7 +89,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpDelete()]
         public async Task<IActionResult> DeleteAsync([FromBody] DeleteUserDto deleteUserDto)
         {
-            AuthorizationCommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserDto.Map());
+            CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserDto.Map());
 
             if (commandResult.ValidationResult.IsFail)
             {
@@ -101,7 +101,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("Update-login")]
         public async Task<IActionResult> UpdateLogin([FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
-            AuthorizationCommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginDto.Map());
+            CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginDto.Map());
 
             if (commandResult.ValidationResult.IsFail)
             {
@@ -113,7 +113,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("Update-password")]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
-            AuthorizationCommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());
+            CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordDto.Map());
             
             if (commandResult.ValidationResult.IsFail)
             {

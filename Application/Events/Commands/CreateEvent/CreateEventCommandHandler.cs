@@ -23,7 +23,7 @@ namespace Application.Events.Commands.CreateEvent
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<AuthorizationCommandResult> HandleAsync(CreateEventCommand createEventCommand)
+        public async Task<CommandResult> HandleAsync(CreateEventCommand createEventCommand)
         {
             ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync(createEventCommand);
             if (!validationResult.IsFail)
@@ -34,7 +34,7 @@ namespace Application.Events.Commands.CreateEvent
                 await _eventRepository.AddAsync(newEvent);
                 await _unitOfWork.CommitAsync();
             }
-            return new AuthorizationCommandResult(validationResult);
+            return new CommandResult(validationResult);
         }
     }
 }

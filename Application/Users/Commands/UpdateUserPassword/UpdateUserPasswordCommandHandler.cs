@@ -23,7 +23,7 @@ namespace Application.Users.Commands.UpdateUserPassword
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<AuthorizationCommandResult> HandleAsync(UpdateUserPasswordCommand updateUserPasswordCommand)
+        public async Task<CommandResult> HandleAsync(UpdateUserPasswordCommand updateUserPasswordCommand)
         {
             ValidationResult validationResult = await _updateUserPasswordCommandValidator.ValidationAsync(updateUserPasswordCommand);
             if (!validationResult.IsFail)
@@ -32,7 +32,7 @@ namespace Application.Users.Commands.UpdateUserPassword
                 user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
                 await _unitOfWork.CommitAsync();
             }
-            return new AuthorizationCommandResult(validationResult);
+            return new CommandResult(validationResult);
         }
     }
 }

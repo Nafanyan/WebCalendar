@@ -39,7 +39,7 @@ namespace Presentation.Intranet.Api.Controllers
         [Route("registrate")]
         public async Task<IActionResult> Registrate([FromBody] CreateUserDto createUserDto)
         {
-            AuthorizationCommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
+            CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserDto.Map());
 
             if (commandResult.ValidationResult.IsFail)
             {

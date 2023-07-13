@@ -54,7 +54,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost("{userId:long}/[controller]")]
         public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventRequest)
         {
-            AuthorizationCommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
+            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
@@ -65,7 +65,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpDelete("{userId:long}/[controller]")]
         public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventDto deleteEventRequest)
         {
-            AuthorizationCommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
+            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
@@ -76,7 +76,7 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("{userId:long}/[controller]")]
         public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest)
         {
-            AuthorizationCommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventRequest.Map(userId));
+            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventRequest.Map(userId));
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);

@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Repositories.BasicRepositories;
-using System.Linq.Expressions;
 
 namespace Domain.Repositories
 {

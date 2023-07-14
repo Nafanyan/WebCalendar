@@ -1,6 +1,4 @@
-﻿using Application.Interfaces;
-using Application.UserAuthorizationTokens.Commands;
-using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
+﻿using Application.UserAuthorizationTokens.Commands;
 using Application.UserAuthorizationTokens.Commands.RefreshToken;
 using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;

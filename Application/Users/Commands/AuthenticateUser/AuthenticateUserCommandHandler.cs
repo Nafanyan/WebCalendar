@@ -46,7 +46,6 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 
             string accessToken = _tokenCreator.CreateAccessToken(user.Id);
             string refreshToken = _tokenCreator.CreateRefreshToken();
-
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 user.Id,
                 refreshToken,
@@ -60,7 +59,6 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
-
             return new AuthorizationCommandResult<AuthenticateUserCommandDto>(authenticateUserCommandResult);
         }
     }

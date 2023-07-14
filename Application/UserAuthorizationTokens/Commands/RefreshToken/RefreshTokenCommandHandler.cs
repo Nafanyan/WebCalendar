@@ -34,8 +34,8 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
                 return new AuthorizationCommandResult<RefreshTokenCommandDto>(validationResult);
             }
 
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByRefreshTokenAsync(command.RefreshToken);
-            await _userAuthorizationTokenRepository.DeleteAsync(token);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
+            _userAuthorizationTokenRepository.Delete(token);
 
             string accessToken = _tokenCreator.CreateAccessToken(token.UserId);
             string refreshToken = _tokenCreator.CreateRefreshToken();
@@ -43,18 +43,18 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 token.UserId,
                 refreshToken,
-                command.RefreshTokenExpiryDate);
+                command.NewRefreshTokenExpiryDate);
             _userAuthorizationTokenRepository.Add(newToken);
 
             await _unitOfWork.CommitAsync();
 
-            RefreshTokenCommandDto verifyTokenCommandDto = new RefreshTokenCommandDto
+            RefreshTokenCommandDto refreshTokenCommandResult = new RefreshTokenCommandDto
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
 
-            return new AuthorizationCommandResult<RefreshTokenCommandDto>(verifyTokenCommandDto);
+            return new AuthorizationCommandResult<RefreshTokenCommandDto>(refreshTokenCommandResult);
         }
     }
 }

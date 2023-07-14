@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
+using Application.UserAuthorizationTokens.Commands;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
@@ -15,6 +17,7 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
+            services.AddScoped<IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>, AuthenticateUserCommandHandler>();
             services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
@@ -23,6 +26,7 @@ namespace WebCalendar.Application.Users
             services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
             services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
+            services.AddScoped<IAsyncValidator<AuthenticateUserCommand>, AuthenticateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidator>();

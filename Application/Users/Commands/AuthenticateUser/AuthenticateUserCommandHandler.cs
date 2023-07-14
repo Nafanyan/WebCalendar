@@ -1,4 +1,4 @@
-﻿using Application.UserAuthorizationTokens.DTOs;
+﻿using Application.Users.DTOs;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
@@ -38,30 +38,30 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
             }
 
             User user = await _userRepository.GetByLoginAsync(command.Login);
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByUserIdAsync(user.Id);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByUserIdAsync(user.Id);
             if (token is not null)
             {
-                await _userAuthorizationTokenRepository.DeleteAsync(token);
+                _userAuthorizationTokenRepository.Delete(token);
             }
 
-            string accessToken = _tokenCreator.CreateAccessToken(token.UserId);
+            string accessToken = _tokenCreator.CreateAccessToken(user.Id);
             string refreshToken = _tokenCreator.CreateRefreshToken();
 
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 user.Id,
                 refreshToken,
-                command.RefreshTokenExpiryDate);
+                command.NewRefreshTokenExpiryDate);
             _userAuthorizationTokenRepository.Add(newToken);
 
             await _unitOfWork.CommitAsync();
 
-            AuthenticateUserCommandDto authenticateUserCommandDto = new AuthenticateUserCommandDto
+            AuthenticateUserCommandDto authenticateUserCommandResult = new AuthenticateUserCommandDto
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
 
-            return new AuthorizationCommandResult<AuthenticateUserCommandDto>(authenticateUserCommandDto);
+            return new AuthorizationCommandResult<AuthenticateUserCommandDto>(authenticateUserCommandResult);
         }
     }
 }

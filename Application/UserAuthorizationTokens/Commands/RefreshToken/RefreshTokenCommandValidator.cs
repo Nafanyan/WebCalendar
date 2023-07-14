@@ -15,7 +15,7 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 
         public async Task<ValidationResult> ValidationAsync(RefreshTokenCommand command)
         {
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetTokenByRefreshTokenAsync(command.RefreshToken);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
 
             if (token is null)
             {
@@ -25,11 +25,6 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
             if (DateTime.Now > token.ExpiryDate)
             {
                 return ValidationResult.Fail("Token expired");
-            }
-
-            if (token.RefreshToken != command.RefreshToken)
-            {
-                return ValidationResult.Fail("Token is not valid");
             }
 
             return ValidationResult.Ok();

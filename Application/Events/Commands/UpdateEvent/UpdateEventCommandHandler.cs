@@ -1,5 +1,4 @@
-﻿using Application.Events.Commands.DeleteEvent;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Result;
 using Application.Validation;
 using Domain.Entities;

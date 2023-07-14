@@ -1,5 +1,4 @@
 ﻿using Application.Validation;
-using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Events.Commands.CreateEvent

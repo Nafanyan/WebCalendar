@@ -1,5 +1,4 @@
-﻿
-namespace Application.Users.DTOs
+﻿namespace Application.Users.DTOs
 {
     public class GetEventsQueryDto
     {

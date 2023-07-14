@@ -29,7 +29,7 @@ namespace Application.Users.Commands.DeleteUser
             if (!validationResult.IsFail)
             {
                 User user = _userRepository.GetByIdAsync(deleteUserCommand.Id).Result;
-                await _userRepository.DeleteAsync(user);
+                _userRepository.Delete(user);
                 await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);

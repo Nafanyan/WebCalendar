@@ -12,22 +12,17 @@ namespace Infrastructure.Data.UserAuthorizationTokens
         {
         }
 
-        public void Add(UserAuthorizationToken token)
-        {
-            Entities.AddAsync(token);
-        }
-
         public async Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate)
         {
             return await Entities.Where(predicate).FirstOrDefaultAsync() != null;
         }
 
-        public async Task<UserAuthorizationToken> GetTokenByRefreshTokenAsync(string refreshToken)
+        public async Task<UserAuthorizationToken> GetByRefreshTokenAsync(string refreshToken)
         {
             return await Entities.Where(ua => ua.RefreshToken == refreshToken).FirstOrDefaultAsync();
         }
 
-        public async Task<UserAuthorizationToken> GetTokenByUserIdAsync(long userId)
+        public async Task<UserAuthorizationToken> GetByUserIdAsync(long userId)
         {
             return await Entities.Where(ua => ua.UserId == userId).FirstOrDefaultAsync();
         }

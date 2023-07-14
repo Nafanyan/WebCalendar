@@ -6,14 +6,10 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 {
     public class AuthenticateUserCommandValidator : IAsyncValidator<AuthenticateUserCommand>
     {
-        private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IUserRepository _userRepository;
 
-        public AuthenticateUserCommandValidator(
-            IUserAuthorizationTokenRepository userAuthorizationTokenRepository, 
-            IUserRepository userRepository)
+        public AuthenticateUserCommandValidator(IUserRepository userRepository)
         {
-            _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
             _userRepository = userRepository;
         }
 
@@ -24,13 +20,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
-            if (!await _userRepository.ContainsAsync(user => user.Login == command.Login))
-            {
-                return ValidationResult.Fail("Invalid username or password");
-            }
-
-            User user = await _userRepository.GetByLoginAsync(command.Login);
-            if (user.PasswordHash != command.PasswordHash)
+            if (!await _userRepository.ContainsAsync(user => user.Login == command.Login && user.PasswordHash == command.PasswordHash))
             {
                 return ValidationResult.Fail("Invalid username or password");
             }

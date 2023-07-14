@@ -8,12 +8,12 @@ using Application.Result;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.EventRequest;
-using Presentation.Intranet.Api.Mappers.EventMappers;
 
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route("api/Users")]
+    [TokenValidation]
     public class EventsController : ControllerBase
     {
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
@@ -33,9 +33,14 @@ namespace Presentation.Intranet.Api.Controllers
             _getEventQueryHandler = getEventQueryHandler;
         }
 
-        [HttpGet("{userId:long}/[controller]")]
+        [HttpGet("{userId}/[controller]")]
         public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
+            if (!TokenIsValid())
+            {
+                return BadRequest(StatusCodes.Status401Unauthorized);
+            }
+
             GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = userId,
@@ -51,10 +56,24 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok(queryResult);
         }
 
-        [HttpPost("{userId:long}/[controller]")]
+        [HttpPost("{userId}/[controller]")]
         public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventRequest)
         {
-            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventRequest.Map(userId));
+            if (!TokenIsValid())
+            {
+                return BadRequest(StatusCodes.Status401Unauthorized);
+            }
+
+            CreateEventCommand createEventCommand = new CreateEventCommand
+            {
+                UserId = userId,
+                Name = createEventRequest.Name,
+                Description = createEventRequest.Description,
+                StartEvent = createEventRequest.StartEvent,
+                EndEvent = createEventRequest.EndEvent
+            };
+            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventCommand);
+
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
@@ -62,10 +81,22 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("{userId:long}/[controller]")]
-        public async Task<IActionResult> DeleteEvent([FromRoute]long userId, [FromBody] DeleteEventDto deleteEventRequest)
+        [HttpDelete("{userId}/[controller]")]
+        public async Task<IActionResult> DeleteEvent([FromRoute] long userId, [FromBody] DeleteEventDto deleteEventRequest)
         {
-            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventRequest.Map(userId));
+            if (!TokenIsValid())
+            {
+                return BadRequest(StatusCodes.Status401Unauthorized);
+            }
+
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
+            {
+                UserId = userId,
+                StartEvent = deleteEventRequest.StartEvent,
+                EndEvent = deleteEventRequest.EndEvent
+            };
+            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventCommand);
+
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
@@ -73,15 +104,37 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{userId:long}/[controller]")]
+        [HttpPut("{userId}/[controller]")]
         public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest)
         {
-            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventRequest.Map(userId));
+            if (!TokenIsValid())
+            {
+                return BadRequest(StatusCodes.Status401Unauthorized);
+            }
+
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
+            {
+                UserId = userId,
+                Name = updateEventRequest.Name,
+                Description = updateEventRequest.Description,
+                StartEvent = updateEventRequest.StartEvent,
+                EndEvent = updateEventRequest.EndEvent
+            };
+            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventCommand);
+
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult.ValidationResult);
             }
             return Ok();
+        }
+
+        private bool TokenIsValid()
+        {
+            TokenValidationAttribute tokenValidationAttribute =
+                (TokenValidationAttribute)Attribute.GetCustomAttribute(typeof(EventsController), typeof(TokenValidationAttribute));
+
+            return tokenValidationAttribute.TokenIsValid(this);
         }
     }
 }

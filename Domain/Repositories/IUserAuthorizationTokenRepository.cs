@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public interface IUserAuthorizationTokenRepository : IRemovableRepository<UserAuthorizationToken>
+    public interface IUserAuthorizationTokenRepository : 
+        IAddedRepository<UserAuthorizationToken>, 
+        IRemovableRepository<UserAuthorizationToken>,
+        ISearchRepository<UserAuthorizationToken>
     {
-        void Add(UserAuthorizationToken token);
-        Task<UserAuthorizationToken> GetTokenByUserIdAsync(long userId);
-        Task<UserAuthorizationToken> GetTokenByRefreshTokenAsync(string refreshToken);
-        Task<bool> ContainsAsync(Expression<Func<UserAuthorizationToken, bool>> predicate);
+        Task<UserAuthorizationToken> GetByUserIdAsync(long userId);
+        Task<UserAuthorizationToken> GetByRefreshTokenAsync(string refreshToken);
     }
 }

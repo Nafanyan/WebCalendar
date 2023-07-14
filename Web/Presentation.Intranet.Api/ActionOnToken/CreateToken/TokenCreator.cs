@@ -2,10 +2,9 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace Presentation.Intranet.Api.TokenCreator
+namespace Presentation.Intranet.Api.ActionOnToken.CreateToken
 {
     public class TokenCreator : ITokenCreator
     {
@@ -27,7 +26,7 @@ namespace Presentation.Intranet.Api.TokenCreator
             _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes).AddHours(DateTime.Now.Hour - DateTime.UtcNow.Hour),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

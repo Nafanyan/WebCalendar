@@ -4,6 +4,6 @@
     {
         public string Login { get; init; }
         public string PasswordHash { get; init; }
-        public DateTime RefreshTokenExpiryDate { get; init; }
+        public DateTime NewRefreshTokenExpiryDate { get; init; }
     }
 }

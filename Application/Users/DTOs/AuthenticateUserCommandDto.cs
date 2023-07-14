@@ -1,4 +1,4 @@
-﻿namespace Application.UserAuthorizationTokens.DTOs
+﻿namespace Application.Users.DTOs
 {
     public class AuthenticateUserCommandDto
     {

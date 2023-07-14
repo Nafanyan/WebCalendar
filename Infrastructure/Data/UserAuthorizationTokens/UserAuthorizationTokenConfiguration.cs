@@ -12,7 +12,7 @@ namespace Infrastructure.Data.UserAuthorizationTokens
                 .HasKey(ua => ua.UserId);
 
             builder.Property(ua => ua.UserId).IsRequired();
-            builder.Property(ua => ua.RefreshToken).IsRequired();
+            builder.Property(ua => ua.RefreshToken).IsRequired().HasMaxLength(40);
             builder.Property(ua => ua.ExpiryDate).IsRequired();
         }
     }

@@ -29,7 +29,7 @@ namespace Application.Users.Commands.CreateUser
             if (!validationResult.IsFail)
             {
                 User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);
-                await _userRepository.AddAsync(user);
+                _userRepository.Add(user);
                 await _unitOfWork.CommitAsync();
             }
             return new CommandResult(validationResult);

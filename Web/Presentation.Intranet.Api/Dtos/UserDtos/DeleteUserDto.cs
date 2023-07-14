@@ -2,7 +2,6 @@
 {
     public class DeleteUserDto
     {
-        public long Id { get; init; }
         public string PasswordHash { get; init; }
     }
 }

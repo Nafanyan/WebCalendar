@@ -12,10 +12,7 @@ namespace Application.UserAuthorizationTokens
     {
         public static IServiceCollection AddUserAuthorizationTokenBindings(this IServiceCollection services)
         {
-            services.AddScoped<IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>, AuthenticateUserCommandHandler>();
             services.AddScoped<IAuthorizationCommandHandler<RefreshTokenCommandDto, RefreshTokenCommand>, RefreshTokenCommandHandler>();
-
-            services.AddScoped<IAsyncValidator<AuthenticateUserCommand>, AuthenticateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<RefreshTokenCommand>, RefreshTokenCommandValidator>();
 
             return services;

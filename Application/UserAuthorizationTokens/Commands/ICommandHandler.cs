@@ -1,5 +1,4 @@
-﻿using Application.Result;
-
+﻿
 namespace Application.UserAuthorizationTokens.Commands
 {
     public interface ICommandHandler<TResult, TCommand>

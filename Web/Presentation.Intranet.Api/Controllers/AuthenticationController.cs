@@ -58,7 +58,7 @@ namespace Presentation.Intranet.Api.Controllers
         {
             DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
             string refreshTokenFromCookie = Request.Cookies["RefreshToken"];
-
+            
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
                 RefreshToken = refreshTokenFromCookie,

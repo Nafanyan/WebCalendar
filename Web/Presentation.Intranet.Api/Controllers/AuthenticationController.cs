@@ -17,19 +17,19 @@ namespace Presentation.Intranet.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
-        private readonly IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> _authorizationCommandHandler;
-        private readonly IAuthorizationCommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> _refreshTokenCommandHandler;
+        private readonly ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> _authenticateCommandHandler;
+        private readonly ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> _refreshTokenCommandHandler;
         private readonly IConfiguration _configuration;
 
         public AuthenticationController(
             ICommandHandler<CreateUserCommand> createUserCommandHandler,
-            IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> authorizationCommandHandler,
-            IAuthorizationCommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> refreshTokenCommandHandler,
+            ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> authenticateCommandHandler,
+            ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> refreshTokenCommandHandler,
             IConfiguration configuration
             )
         {
             _createUserCommandHandler = createUserCommandHandler;
-            _authorizationCommandHandler = authorizationCommandHandler;
+            _authenticateCommandHandler = authenticateCommandHandler;
             _refreshTokenCommandHandler = refreshTokenCommandHandler;
             _configuration = configuration;
         }
@@ -65,17 +65,12 @@ namespace Presentation.Intranet.Api.Controllers
                 RefreshToken = refreshTokenFromCookie,
                 NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
             };
-            AuthorizationCommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync(refreshTokenCommand);
+            CommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync(refreshTokenCommand);
 
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
             }
-
-            //Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
-            //{
-            //    Expires = newRefreshTokenExpiryDate
-            //});
 
             return Ok(commandResult);
         }
@@ -91,18 +86,12 @@ namespace Presentation.Intranet.Api.Controllers
                 PasswordHash = authenticationDto.PasswordHash,
                 NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
             };
-            AuthorizationCommandResult<AuthenticateUserCommandDto> commandResult = await _authorizationCommandHandler.HandleAsync(authenticateUserCommand);
+            CommandResult<AuthenticateUserCommandDto> commandResult = await _authenticateCommandHandler.HandleAsync(authenticateUserCommand);
 
             if (commandResult.ValidationResult.IsFail)
             {
                 return BadRequest(commandResult);
             }
-
-            //Response.Cookies.Delete("RefreshToken");
-            //Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
-            //{
-            //    Expires = newRefreshTokenExpiryDate
-            //});
 
             return Ok(commandResult);
         }

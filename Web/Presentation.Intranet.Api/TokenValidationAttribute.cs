@@ -43,7 +43,6 @@ namespace Presentation.Intranet.Api
             {
                 return false;
             }
-
             return true;
         }
 

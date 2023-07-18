@@ -37,7 +37,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetById([FromRoute] long userId)
+        public async Task<IActionResult> GetUserById([FromRoute] long userId)
         {
             if (!TokenIsValid())
             {
@@ -102,7 +102,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("Update-login/{userId}")]
+        [HttpPut("update-login/{userId}")]
         public async Task<IActionResult> UpdateLogin([FromRoute] long userId, [FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
             if (!TokenIsValid())
@@ -125,7 +125,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("Update-password/{userId}")]
+        [HttpPut("update-password/{userId}")]
         public async Task<IActionResult> UpdatePassword([FromRoute] long userId, [FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
             if (!TokenIsValid())

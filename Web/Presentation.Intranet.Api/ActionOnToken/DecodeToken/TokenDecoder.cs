@@ -8,8 +8,8 @@ namespace Presentation.Intranet.Api.ActionOnToken.DecodeToken
         {
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(accessToken);
-            JwtSecurityToken tokenS = jsonToken as JwtSecurityToken;
-            return tokenS;
+            JwtSecurityToken token = jsonToken as JwtSecurityToken;
+            return token;
         }
     }
 }

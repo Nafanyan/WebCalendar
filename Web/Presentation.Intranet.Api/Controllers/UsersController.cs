@@ -37,7 +37,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] long userId)
+        public async Task<IActionResult> GetById([FromRoute] long userId)
         {
             if (!TokenIsValid())
             {
@@ -81,7 +81,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] long userId, [FromBody] DeleteUserDto deleteUserDto)
+        public async Task<IActionResult> Delete([FromRoute] long userId, [FromBody] DeleteUserDto deleteUserDto)
         {
             if (!TokenIsValid())
             {

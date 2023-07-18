@@ -38,9 +38,10 @@ namespace Presentation.Intranet.Api
                 app.UseSwaggerUI();
             }
             app.UseCors(builder => {
-                builder.AllowAnyOrigin();
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
+                builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
             });
 
             app.UseAuthorization();

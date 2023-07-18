@@ -54,26 +54,28 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost("Refresh-token")]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto authenticationWithTokenDto)
+        public async Task<IActionResult> RefreshToken()
         {
             DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
+            string refreshTokenFromCookie = Request.Cookies["RefreshToken"];
+            var s = HttpContext;
 
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
-                RefreshToken = authenticationWithTokenDto.RefreshToken,
+                RefreshToken = refreshTokenFromCookie,
                 NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
             };
             AuthorizationCommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync(refreshTokenCommand);
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
 
-            Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
-            {
-                Expires = newRefreshTokenExpiryDate
-            });
+            //Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
+            //{
+            //    Expires = newRefreshTokenExpiryDate
+            //});
 
             return Ok(commandResult);
         }
@@ -93,13 +95,14 @@ namespace Presentation.Intranet.Api.Controllers
 
             if (commandResult.ValidationResult.IsFail)
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest(commandResult);
             }
 
-            Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
-            {
-                Expires = newRefreshTokenExpiryDate
-            });
+            //Response.Cookies.Delete("RefreshToken");
+            //Response.Cookies.Append("RefreshToken", commandResult.ObjResult.RefreshToken, new CookieOptions
+            //{
+            //    Expires = newRefreshTokenExpiryDate
+            //});
 
             return Ok(commandResult);
         }

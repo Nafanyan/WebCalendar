@@ -13,9 +13,15 @@ namespace Presentation.Intranet.Api
 
         public bool TokenIsValid(ControllerBase controller)
         {
-            string accessToken = controller.Request.Headers["Access-token"];
+            string accessToken = controller.Request.Headers["Access-Token"];
             IConfiguration configuration = controller.HttpContext.RequestServices.GetService<IConfiguration>();
 
+            if (accessToken is null)
+            {
+                return false;
+            }
+
+            accessToken = accessToken.Replace("\"", "");
             if (!VerifySignature(accessToken, configuration["JWT:Secret"]))
             {
                 return false;
@@ -23,8 +29,9 @@ namespace Presentation.Intranet.Api
 
             TokenDecoder tokenDecoder = new TokenDecoder();
             JwtSecurityToken token = tokenDecoder.DecodeToken(accessToken);
+            DateTime expDate = new DateTime(1970, 1, 1).AddSeconds((token.Payload.Exp.Value)).AddHours(3);
 
-            if (token.ValidTo < DateTime.Now)
+            if (DateTime.Now > expDate)
             {
                 return false;
             }

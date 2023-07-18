@@ -26,7 +26,7 @@ namespace Presentation.Intranet.Api.ActionOnToken.CreateToken
             _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes).AddHours(DateTime.Now.Hour - DateTime.UtcNow.Hour),
+                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

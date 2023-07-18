@@ -67,9 +67,9 @@ namespace Presentation.Intranet.Api
         private string Base64UrlEncode(byte[] input)
         {
             var output = Convert.ToBase64String(input);
-            output = output.Split('=')[0]; // Remove any trailing '='s
-            output = output.Replace('+', '-'); // 62nd char of encoding
-            output = output.Replace('/', '_'); // 63rd char of encoding
+            output = output.Split('=')[0]; 
+            output = output.Replace('+', '-');
+            output = output.Replace('/', '_'); 
             return output;
         }
     }

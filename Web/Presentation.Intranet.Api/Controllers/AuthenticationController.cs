@@ -35,7 +35,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost]
-        [Route("Registrate")]
+        [Route("registrate")]
         public async Task<IActionResult> Registrate([FromBody] RegistrateUserDto registrateUserDto)
         {
             CreateUserCommand createUserCommand = new CreateUserCommand
@@ -53,7 +53,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("Refresh-token")]
+        [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
             DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
@@ -75,7 +75,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok(commandResult);
         }
 
-        [HttpPost("Authentication")]
+        [HttpPost("authentication")]
         public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
         {
             DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
@@ -86,7 +86,8 @@ namespace Presentation.Intranet.Api.Controllers
                 PasswordHash = authenticationDto.PasswordHash,
                 NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
             };
-            CommandResult<AuthenticateUserCommandDto> commandResult = await _authenticateCommandHandler.HandleAsync(authenticateUserCommand);
+            CommandResult<AuthenticateUserCommandDto> commandResult = await _authenticateCommandHandler
+                .HandleAsync(authenticateUserCommand);
 
             if (commandResult.ValidationResult.IsFail)
             {

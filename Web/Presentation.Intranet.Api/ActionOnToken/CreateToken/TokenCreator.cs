@@ -28,8 +28,7 @@ namespace Presentation.Intranet.Api.ActionOnToken.CreateToken
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
                 claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

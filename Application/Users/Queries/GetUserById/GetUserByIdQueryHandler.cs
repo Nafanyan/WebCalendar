@@ -10,17 +10,17 @@ namespace Application.Users.Queries.GetUserById
     public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAsyncValidator<GetUserByIdQuery> getUuserByIdQueryValidator;
+        private readonly IAsyncValidator<GetUserByIdQuery> _getUuserByIdQueryValidator;
 
         public GetUserByIdQueryHandler(IUserRepository userRepository, IAsyncValidator<GetUserByIdQuery> validator)
         {
             _userRepository = userRepository;
-            getUuserByIdQueryValidator = validator;
+            _getUuserByIdQueryValidator = validator;
         }
 
         public async Task<QueryResult<GetUserByIdQueryDto>> HandleAsync(GetUserByIdQuery getUserByIdQuery)
         {
-            ValidationResult validationResult = await getUuserByIdQueryValidator.ValidationAsync(getUserByIdQuery);
+            ValidationResult validationResult = await _getUuserByIdQueryValidator.ValidationAsync(getUserByIdQuery);
             if (validationResult.IsFail)
             {
                 return new QueryResult<GetUserByIdQueryDto>(validationResult);

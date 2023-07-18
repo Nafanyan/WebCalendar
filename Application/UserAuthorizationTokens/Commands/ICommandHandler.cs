@@ -2,10 +2,10 @@
 
 namespace Application.UserAuthorizationTokens.Commands
 {
-    public interface IAuthorizationCommandHandler<TResult, TCommand>
+    public interface ICommandHandler<TResult, TCommand>
         where TResult : class
         where TCommand : class
     {
-        Task<AuthorizationCommandResult<TResult>> HandleAsync(TCommand command);
+        Task<CommandResult<TResult>> HandleAsync(TCommand command);
     }
 }

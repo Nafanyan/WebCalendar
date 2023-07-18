@@ -15,7 +15,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 
         public async Task<ValidationResult> ValidationAsync(AuthenticateUserCommand command)
         {
-            if (command.Login == null)
+            if (command.Login == null || command.Login == String.Empty)
             {
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }

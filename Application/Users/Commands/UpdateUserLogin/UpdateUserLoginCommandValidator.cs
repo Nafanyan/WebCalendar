@@ -15,7 +15,7 @@ namespace Application.Users.Commands.UpdateUserLogin
 
         public async Task<ValidationResult> ValidationAsync(UpdateUserLoginCommand command)
         {
-            if (command.Login == null)
+            if (command.Login == null || command.Login == String.Empty)
             {
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }

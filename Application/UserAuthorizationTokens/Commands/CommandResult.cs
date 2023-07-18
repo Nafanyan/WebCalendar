@@ -2,18 +2,18 @@
 
 namespace Application.UserAuthorizationTokens.Commands
 {
-    public class AuthorizationCommandResult<TCommandResultData> where TCommandResultData : class
+    public class CommandResult<TCommandResultData> where TCommandResultData : class
     {
         public ValidationResult ValidationResult { get; private set; }
         public TCommandResultData ObjResult { get; private set; }
 
-        public AuthorizationCommandResult(TCommandResultData objResult)
+        public CommandResult(TCommandResultData objResult)
         {
             ObjResult = objResult;
             ValidationResult = ValidationResult.Ok();
         }
 
-        public AuthorizationCommandResult(ValidationResult validationResult)
+        public CommandResult(ValidationResult validationResult)
         {
             ValidationResult = validationResult;
         }

@@ -6,7 +6,7 @@ using Domain.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 {
-    public class AuthenticateUserCommandHandler : IAuthorizationCommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>
+    public class AuthenticateUserCommandHandler : ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IUserRepository _userRepository;
@@ -28,13 +28,13 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
             _tokenCreator = tokenCreator;
         }
 
-        public async Task<AuthorizationCommandResult<AuthenticateUserCommandDto>> HandleAsync(AuthenticateUserCommand command)
+        public async Task<CommandResult<AuthenticateUserCommandDto>> HandleAsync(AuthenticateUserCommand command)
         {
             ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync(command);
 
             if (validationResult.IsFail)
             {
-                return new AuthorizationCommandResult<AuthenticateUserCommandDto>(validationResult);
+                return new CommandResult<AuthenticateUserCommandDto>(validationResult);
             }
 
             User user = await _userRepository.GetByLoginAsync(command.Login);
@@ -59,7 +59,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
-            return new AuthorizationCommandResult<AuthenticateUserCommandDto>(authenticateUserCommandResult);
+            return new CommandResult<AuthenticateUserCommandDto>(authenticateUserCommandResult);
         }
     }
 }

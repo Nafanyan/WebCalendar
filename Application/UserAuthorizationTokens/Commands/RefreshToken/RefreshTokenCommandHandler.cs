@@ -6,7 +6,7 @@ using Domain.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 {
-    public class RefreshTokenCommandHandler : IAuthorizationCommandHandler<RefreshTokenCommandDto, RefreshTokenCommand>
+    public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand>
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
         private readonly IAsyncValidator<RefreshTokenCommand> _userAuthorizationTokenValidator;
@@ -25,13 +25,13 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
             _tokenCreator = tokenCreator;
         }
 
-        public async Task<AuthorizationCommandResult<RefreshTokenCommandDto>> HandleAsync(RefreshTokenCommand command)
+        public async Task<CommandResult<RefreshTokenCommandDto>> HandleAsync(RefreshTokenCommand command)
         {
             ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync(command);
 
             if (validationResult.IsFail)
             {
-                return new AuthorizationCommandResult<RefreshTokenCommandDto>(validationResult);
+                return new CommandResult<RefreshTokenCommandDto>(validationResult);
             }
 
             UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
@@ -54,7 +54,7 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
                 RefreshToken = refreshToken
             };
 
-            return new AuthorizationCommandResult<RefreshTokenCommandDto>(refreshTokenCommandResult);
+            return new CommandResult<RefreshTokenCommandDto>(refreshTokenCommandResult);
         }
     }
 }

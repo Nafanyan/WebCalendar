@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Users.DTOs;
 using Application.Validation;

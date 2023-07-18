@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Application.Result;
-using Application.Interfaces;
+using Application.CQRSInterfaces;
 using Application.Validation;
 using Application.Events.DTOs;
 

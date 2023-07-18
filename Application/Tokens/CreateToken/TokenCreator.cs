@@ -1,16 +1,15 @@
-﻿using Application.UserAuthorizationTokens;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Presentation.Intranet.Api.ActionOnToken.CreateToken
+namespace Application.Tokens.CreateToken
 {
-    public class TokenCreator : ITokenCreator
+    public class TokenCreator
     {
-        private readonly IConfiguration _configuration;
+        private readonly ITokenConfiguration _configuration;
 
-        public TokenCreator(IConfiguration configuration)
+        public TokenCreator(ITokenConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -22,8 +21,8 @@ namespace Presentation.Intranet.Api.ActionOnToken.CreateToken
                 new Claim(nameof(userId), userId.ToString())
             };
 
-            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
+            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSecret()));
+            _ = int.TryParse(_configuration.GetAccessTokenValidityInMinutes(), out int tokenValidityInMinutes);
 
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),

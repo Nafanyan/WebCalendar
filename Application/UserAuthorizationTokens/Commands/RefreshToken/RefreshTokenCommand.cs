@@ -3,6 +3,5 @@
     public class RefreshTokenCommand
     {
         public string RefreshToken { get; init; }
-        public DateTime NewRefreshTokenExpiryDate { get; init; }
     }
 }

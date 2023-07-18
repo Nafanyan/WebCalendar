@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.CQRSInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Application.Result;
 using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
@@ -13,25 +13,22 @@ using Application.Users.DTOs;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("api/")]
+    [Route("api/Users")]
     public class AuthenticationController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
         private readonly ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> _authenticateCommandHandler;
         private readonly ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> _refreshTokenCommandHandler;
-        private readonly IConfiguration _configuration;
 
         public AuthenticationController(
             ICommandHandler<CreateUserCommand> createUserCommandHandler,
             ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand> authenticateCommandHandler,
-            ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> refreshTokenCommandHandler,
-            IConfiguration configuration
+            ICommandHandler<RefreshTokenCommandDto, RefreshTokenCommand> refreshTokenCommandHandler
             )
         {
             _createUserCommandHandler = createUserCommandHandler;
             _authenticateCommandHandler = authenticateCommandHandler;
             _refreshTokenCommandHandler = refreshTokenCommandHandler;
-            _configuration = configuration;
         }
 
         [HttpPost]
@@ -56,13 +53,11 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
-            DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
             string refreshTokenFromCookie = Request.Cookies["RefreshToken"];
             
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
                 RefreshToken = refreshTokenFromCookie,
-                NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
             };
             CommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync(refreshTokenCommand);
 
@@ -77,13 +72,10 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost("authentication")]
         public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
         {
-            DateTime newRefreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"]));
-
             AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand
             {
                 Login = authenticationDto.Login,
-                PasswordHash = authenticationDto.PasswordHash,
-                NewRefreshTokenExpiryDate = newRefreshTokenExpiryDate
+                PasswordHash = authenticationDto.PasswordHash
             };
             CommandResult<AuthenticateUserCommandDto> commandResult = await _authenticateCommandHandler
                 .HandleAsync(authenticateUserCommand);

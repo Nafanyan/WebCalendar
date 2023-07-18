@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
@@ -13,7 +13,7 @@ namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [TokenValidation]
+    [JwtAuthorization]
     public class UsersController : ControllerBase
     {
         private readonly ICommandHandler<DeleteUserCommand> _deleteUserCommandHandler;
@@ -39,11 +39,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserById([FromRoute] long userId)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
             {
                 Id = userId
@@ -60,11 +55,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{userId}/Event")]
         public async Task<IActionResult> GetEvents([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             GetEventsQuery getEventsQuery = new GetEventsQuery
             {
                 UserId = userId,
@@ -83,11 +73,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete([FromRoute] long userId, [FromBody] DeleteUserDto deleteUserDto)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             DeleteUserCommand deleteUserCommand = new DeleteUserCommand
             {
                 Id = userId,
@@ -105,11 +90,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("update-login/{userId}")]
         public async Task<IActionResult> UpdateLogin([FromRoute] long userId, [FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             UpdateUserLoginCommand updateUserLoginCommand = new UpdateUserLoginCommand
             {
                 Id = userId,
@@ -128,11 +108,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("update-password/{userId}")]
         public async Task<IActionResult> UpdatePassword([FromRoute] long userId, [FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             UpdateUserPasswordCommand updateUserPasswordCommand = new UpdateUserPasswordCommand
             {
                 Id = userId,
@@ -146,14 +121,6 @@ namespace Presentation.Intranet.Api.Controllers
                 return BadRequest(commandResult);
             }
             return Ok();
-        }
-
-        private bool TokenIsValid()
-        {
-            TokenValidationAttribute tokenValidationAttribute =
-                (TokenValidationAttribute)Attribute.GetCustomAttribute(typeof(UsersController), typeof(TokenValidationAttribute));
-
-            return tokenValidationAttribute.TokenIsValid(this);
         }
     }
 }

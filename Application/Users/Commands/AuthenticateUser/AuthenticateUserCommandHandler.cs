@@ -1,4 +1,6 @@
-﻿using Application.Users.DTOs;
+﻿using Application.Tokens.CreateToken;
+using Application.Tokens;
+using Application.Users.DTOs;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
@@ -12,20 +14,22 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
         private readonly IUserRepository _userRepository;
         private readonly IAsyncValidator<AuthenticateUserCommand> _userAuthorizationTokenValidator;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ITokenCreator _tokenCreator;
+        private readonly ITokenConfiguration _tokenConfiguration;
+        private readonly TokenCreator _tokenCreator;
 
         public AuthenticateUserCommandHandler(
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
             IUserRepository userRepository,
             IAsyncValidator<AuthenticateUserCommand> validator,
             IUnitOfWork unitOfWork,
-            ITokenCreator tokenCreator)
+            ITokenConfiguration tokenConfiguration)
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
             _userRepository = userRepository;
             _userAuthorizationTokenValidator = validator;
             _unitOfWork = unitOfWork;
-            _tokenCreator = tokenCreator;
+            _tokenConfiguration = tokenConfiguration;
+            _tokenCreator = new TokenCreator(tokenConfiguration);
         }
 
         public async Task<CommandResult<AuthenticateUserCommandDto>> HandleAsync(AuthenticateUserCommand command)
@@ -46,10 +50,13 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 
             string accessToken = _tokenCreator.CreateAccessToken(user.Id);
             string refreshToken = _tokenCreator.CreateRefreshToken();
+
+            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_tokenConfiguration.GetRefreshTokenValidityInDays()));
+
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 user.Id,
                 refreshToken,
-                command.NewRefreshTokenExpiryDate);
+                refreshTokenExpiryDate);
             _userAuthorizationTokenRepository.Add(newToken);
 
             await _unitOfWork.CommitAsync();

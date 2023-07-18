@@ -3,7 +3,7 @@ using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
 using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
-using Application.Interfaces;
+using Application.CQRSInterfaces;
 using Application.Result;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route("api/Users")]
-    [TokenValidation]
+    [JwtAuthorization]
     public class EventsController : ControllerBase
     {
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;
@@ -36,11 +36,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpGet("{userId}/[controller]")]
         public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = userId,
@@ -59,11 +54,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPost("{userId}/[controller]")]
         public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventRequest)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 UserId = userId,
@@ -84,11 +74,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpDelete("{userId}/[controller]")]
         public async Task<IActionResult> DeleteEvent([FromRoute] long userId, [FromBody] DeleteEventDto deleteEventRequest)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = userId,
@@ -107,11 +92,6 @@ namespace Presentation.Intranet.Api.Controllers
         [HttpPut("{userId}/[controller]")]
         public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest)
         {
-            if (!TokenIsValid())
-            {
-                return BadRequest(StatusCodes.Status401Unauthorized);
-            }
-
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = userId,
@@ -129,12 +109,12 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        private bool TokenIsValid()
-        {
-            TokenValidationAttribute tokenValidationAttribute =
-                (TokenValidationAttribute)Attribute.GetCustomAttribute(typeof(EventsController), typeof(TokenValidationAttribute));
+        //private bool TokenIsValid()
+        //{
+        //    JwtAuthorizationAttribute tokenValidationAttribute =
+        //        (JwtAuthorizationAttribute)Attribute.GetCustomAttribute(typeof(EventsController), typeof(JwtAuthorizationAttribute));
 
-            return tokenValidationAttribute.TokenIsValid(this);
-        }
+        //    return tokenValidationAttribute.TokenIsValid(this);
+        //}
     }
 }

@@ -7,7 +7,7 @@ namespace Domain.Entities
         public string RefreshToken { get; init; }
         public DateTime ExpiryDate { get; init; }
 
-        public UserAuthorizationToken (long userId, string refreshToken,  DateTime expiryDate)
+        public UserAuthorizationToken (long userId, string refreshToken, DateTime expiryDate)
         {
             UserId = userId;
             RefreshToken = refreshToken;

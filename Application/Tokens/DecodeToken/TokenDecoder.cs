@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 
-namespace Presentation.Intranet.Api.ActionOnToken.DecodeToken
+namespace Application.Tokens.DecodeToken
 {
     public class TokenDecoder
     {

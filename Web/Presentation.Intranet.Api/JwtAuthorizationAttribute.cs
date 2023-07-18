@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Presentation.Intranet.Api.ActionOnToken.DecodeToken;
+﻿using Application.Tokens.DecodeToken;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
@@ -7,24 +8,24 @@ using ValidationResult = Application.Validation.ValidationResult;
 
 namespace Presentation.Intranet.Api
 {
-    public class TokenValidationAttribute : Attribute
+    public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
     {
         public ValidationResult TokenValidationResult { get; private set; }
 
-        public bool TokenIsValid(ControllerBase controller)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            string accessToken = controller.Request.Headers["Access-Token"];
-            IConfiguration configuration = controller.HttpContext.RequestServices.GetService<IConfiguration>();
+            string accessToken = context.HttpContext.Request.Headers["Access-Token"];
+            IConfiguration configuration = context.HttpContext.RequestServices.GetService<IConfiguration>();
 
             if (accessToken is null)
             {
-                return false;
+                context.Result = new ForbidResult();
             }
 
             accessToken = accessToken.Replace("\"", "");
             if (!VerifySignature(accessToken, configuration["JWT:Secret"]))
             {
-                return false;
+                context.Result = new ForbidResult();
             }
 
             TokenDecoder tokenDecoder = new TokenDecoder();
@@ -33,17 +34,16 @@ namespace Presentation.Intranet.Api
 
             if (DateTime.Now > expDate)
             {
-                return false;
+                context.Result = new ForbidResult();
             }
 
-            long requestId = (long)Convert.ToDouble(controller.Request.RouteValues["userId"]);
+            long requestId = (long)Convert.ToDouble(context.HttpContext.Request.RouteValues["userId"]);
             long tokenId = (long)Convert.ToDouble(token.Payload["userId"]);
 
             if (requestId != tokenId)
             {
-                return false;
+                context.Result = new ForbidResult();
             }
-            return true;
         }
 
         private bool VerifySignature(string accessToken, string secret)

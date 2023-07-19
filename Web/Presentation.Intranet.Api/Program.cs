@@ -15,7 +15,7 @@ namespace Presentation.Intranet.Api
             // for release
             //var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
             //for debug
-            string connectionString = new DBConfiguration().GetConnectionString("WebCalendarLocal");
+            string connectionString = new DataBaseConfiguration().GetConnectionString("WebCalendarLocal");
 
            builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("Infrastructure.Migration")));
@@ -28,7 +28,6 @@ namespace Presentation.Intranet.Api
 
             builder.Services.AddApplicationBindings();
             builder.Services.AddInfrastructureBindings();
-            builder.Services.AddConfigurationUtilsBindings();
 
             var app = builder.Build();
 

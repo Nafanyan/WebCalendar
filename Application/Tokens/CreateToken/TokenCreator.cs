@@ -7,11 +7,11 @@ namespace Application.Tokens.CreateToken
 {
     public class TokenCreator
     {
-        private readonly ITokenConfiguration _configuration;
+        private readonly ITokenConfiguration _tokenConfiguration;
 
         public TokenCreator(ITokenConfiguration configuration)
         {
-            _configuration = configuration;
+            _tokenConfiguration = configuration;
         }
 
         public string CreateAccessToken(long userId)
@@ -21,8 +21,8 @@ namespace Application.Tokens.CreateToken
                 new Claim(nameof(userId), userId.ToString())
             };
 
-            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSecret()));
-            _ = int.TryParse(_configuration.GetAccessTokenValidityInMinutes(), out int tokenValidityInMinutes);
+            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfiguration.GetSecret()));
+            _ = int.TryParse(_tokenConfiguration.GetAccessTokenValidityInMinutes(), out int tokenValidityInMinutes);
 
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),

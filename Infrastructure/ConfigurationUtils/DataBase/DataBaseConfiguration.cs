@@ -2,10 +2,10 @@
 
 namespace Infrastructure.ConfigurationUtils.DataBase
 {
-    public class DBConfiguration : IDBConfiguration
+    public class DataBaseConfiguration
     {
         private readonly string _configuration;
-        public DBConfiguration()
+        public DataBaseConfiguration()
         {
             _configuration = File.ReadAllText("../../Infrastructure/appsettings.json");
         }

@@ -9,7 +9,6 @@ namespace Infrastructure.ConfigurationUtils
     {
         public static IServiceCollection AddConfigurationUtilsBindings(this IServiceCollection services)
         {
-            services.AddScoped<IDBConfiguration, DBConfiguration>();
             services.AddScoped<ITokenConfiguration, TokenConfiguration>();
             return services;
         }

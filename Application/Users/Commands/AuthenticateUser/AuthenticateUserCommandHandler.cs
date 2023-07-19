@@ -51,7 +51,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
             string accessToken = _tokenCreator.CreateAccessToken(user.Id);
             string refreshToken = _tokenCreator.CreateRefreshToken();
 
-            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_tokenConfiguration.GetRefreshTokenValidityInDays()));
+            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(_tokenConfiguration.GetRefreshTokenValidityInDays());
 
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 user.Id,

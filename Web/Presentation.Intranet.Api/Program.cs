@@ -2,7 +2,8 @@ using Infrastructure;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Application;
-using Presentation.Intranet.Api.ConfigurationUtils;
+using Infrastructure.ConfigurationUtils;
+using Infrastructure.ConfigurationUtils.DataBase;
 
 namespace Presentation.Intranet.Api
 {
@@ -14,7 +15,7 @@ namespace Presentation.Intranet.Api
             // for release
             //var connectionString = builder.Configuration.GetConnectionString("WebCalendar");
             //for debug
-            var connectionString = builder.Configuration.GetConnectionString("WebCalendarLocal");
+            string connectionString = new DBConfiguration().GetConnectionString("WebCalendarLocal");
 
            builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                 db => db.MigrationsAssembly("Infrastructure.Migration")));
@@ -25,9 +26,9 @@ namespace Presentation.Intranet.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddConfigurationUtilsBindings();
             builder.Services.AddApplicationBindings();
             builder.Services.AddInfrastructureBindings();
+            builder.Services.AddConfigurationUtilsBindings();
 
             var app = builder.Build();
 

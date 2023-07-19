@@ -26,7 +26,7 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
             _userAuthorizationTokenValidator = validator;
             _unitOfWork = unitOfWork;
             _tokenConfiguration = tokenConfiguration;
-            _tokenCreator = new TokenCreator(tokenConfiguration);
+            _tokenCreator = new TokenCreator(_tokenConfiguration);
 
         }
 
@@ -44,7 +44,7 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 
             string accessToken = _tokenCreator.CreateAccessToken(token.UserId);
             string refreshToken = _tokenCreator.CreateRefreshToken();
-            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(int.Parse(_tokenConfiguration.GetRefreshTokenValidityInDays()));
+            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(_tokenConfiguration.GetRefreshTokenValidityInDays());
 
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 token.UserId,

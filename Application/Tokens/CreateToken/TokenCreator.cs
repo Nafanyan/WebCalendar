@@ -22,10 +22,9 @@ namespace Application.Tokens.CreateToken
             };
 
             SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfiguration.GetSecret()));
-            _ = int.TryParse(_tokenConfiguration.GetAccessTokenValidityInMinutes(), out int tokenValidityInMinutes);
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+                expires: DateTime.Now.AddMinutes(_tokenConfiguration.GetAccessTokenValidityInMinutes()),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 

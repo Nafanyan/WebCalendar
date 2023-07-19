@@ -47,7 +47,7 @@ namespace Presentation.Intranet.Api.Controllers
                 return BadRequest(commandResult);
             }
 
-            return Ok();
+            return Ok(commandResult);
         }
 
         [HttpPost("refresh-token")]

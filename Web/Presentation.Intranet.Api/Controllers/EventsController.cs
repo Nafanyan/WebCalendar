@@ -5,7 +5,6 @@ using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
 using Application.CQRSInterfaces;
 using Application.Result;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.EventRequest;
 
@@ -108,13 +107,5 @@ namespace Presentation.Intranet.Api.Controllers
             }
             return Ok();
         }
-
-        //private bool TokenIsValid()
-        //{
-        //    JwtAuthorizationAttribute tokenValidationAttribute =
-        //        (JwtAuthorizationAttribute)Attribute.GetCustomAttribute(typeof(EventsController), typeof(JwtAuthorizationAttribute));
-
-        //    return tokenValidationAttribute.TokenIsValid(this);
-        //}
     }
 }

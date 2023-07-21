@@ -7,12 +7,13 @@ using Application.CQRSInterfaces;
 using Application.Result;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.EventRequest;
+using Infrastructure.JwtAuthorizations;
 
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route("api/Users")]
-    [JwtAuthorization]
+    [JwtAuthorization()]
     public class EventsController : ControllerBase
     {
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;

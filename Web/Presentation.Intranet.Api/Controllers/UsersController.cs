@@ -6,6 +6,7 @@ using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.DTOs;
 using Application.Users.Queries.GetEvents;
 using Application.Users.Queries.GetUserById;
+using Infrastructure.JwtAuthorizations;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Intranet.Api.Dtos.UserDtos;
 

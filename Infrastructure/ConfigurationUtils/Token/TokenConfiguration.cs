@@ -9,7 +9,7 @@ namespace Infrastructure.ConfigurationUtils.Token
 
         public TokenConfiguration()
         {
-            _configuration = File.ReadAllText("../../Infrastructure/appsettings.json");
+            _configuration = File.ReadAllText("../../Infrastructure/appsettings.Production.json");
         }
 
         public int GetAccessTokenValidityInMinutes()

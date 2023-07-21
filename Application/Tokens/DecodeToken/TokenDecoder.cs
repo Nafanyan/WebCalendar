@@ -6,9 +6,8 @@ namespace Application.Tokens.DecodeToken
     {
         public JwtSecurityToken DecodeToken(string accessToken)
         {
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(accessToken);
-            JwtSecurityToken token = jsonToken as JwtSecurityToken;
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.ReadToken(accessToken) as JwtSecurityToken;
             return token;
         }
     }

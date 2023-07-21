@@ -43,9 +43,9 @@ namespace Infrastructure.JwtAuthorizations
                 context.Result = new ForbidResult();
             }
 
-            long requestId = (long)Convert.ToDouble(context.HttpContext.Request.RouteValues["userId"]);
-            long tokenId = (long)Convert.ToDouble(token.Payload["userId"]);
-            if (requestId != tokenId)
+            long requestUserId = (long)Convert.ToDouble(context.HttpContext.Request.RouteValues["userId"]);
+            long tokenUserId = (long)Convert.ToDouble(token.Payload["userId"]);
+            if (requestUserId != tokenUserId)
             {
                 context.Result = new ForbidResult();
             }

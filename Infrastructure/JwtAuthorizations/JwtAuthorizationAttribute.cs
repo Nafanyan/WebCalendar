@@ -28,7 +28,7 @@ namespace Infrastructure.JwtAuthorizations
                 context.Result = new ForbidResult();
             }
 
-            VerifySignatureToken verifySignatureToken = new VerifySignatureToken(accessToken, _configuration.GetSecret());
+            TokenSignatureVerifycator verifySignatureToken = new TokenSignatureVerifycator(accessToken, _configuration.GetSecret());
             if (!verifySignatureToken.TokenIsValid)
             {
                 context.Result = new ForbidResult();
@@ -45,7 +45,6 @@ namespace Infrastructure.JwtAuthorizations
 
             long requestId = (long)Convert.ToDouble(context.HttpContext.Request.RouteValues["userId"]);
             long tokenId = (long)Convert.ToDouble(token.Payload["userId"]);
-
             if (requestId != tokenId)
             {
                 context.Result = new ForbidResult();

@@ -10,6 +10,7 @@ namespace Infrastructure.ConfigurationUtils.DataBase
         {
             _configuration = File.ReadAllText("../../Infrastructure/appsettings.Development.json");
         }
+
         public string GetConnectionString()
         {
             string result = (string)JObject.Parse(_configuration)["ConnectionString"];

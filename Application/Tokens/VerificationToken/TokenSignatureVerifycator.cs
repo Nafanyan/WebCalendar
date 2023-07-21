@@ -3,14 +3,14 @@ using System.Text;
 
 namespace Application.Tokens.VerificationToken
 {
-    public class VerifySignatureToken
+    public class TokenSignatureVerifycator
     {
         public bool TokenIsValid;
 
         private readonly string _accessToken;
         private readonly string _secret;
 
-        public VerifySignatureToken(string accessToken, string secret)
+        public TokenSignatureVerifycator(string accessToken, string secret)
         {
             _accessToken = accessToken.Replace("\"", "");
             _secret = secret;
@@ -34,6 +34,7 @@ namespace Application.Tokens.VerificationToken
 
             TokenIsValid = signature == computedSignature;
         }
+
         private string Base64UrlEncode(byte[] input)
         {
             var output = Convert.ToBase64String(input);

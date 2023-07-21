@@ -28,8 +28,8 @@ namespace Infrastructure.JwtAuthorizations
                 context.Result = new ForbidResult();
             }
 
-            TokenSignatureVerifycator tokenSignatureVerifycator = new TokenSignatureVerifycator(accessToken, _configuration.GetSecret());
-            if (!tokenSignatureVerifycator.TokenIsValid)
+            TokenSignatureVerificator tokenSignatureVerificator = new TokenSignatureVerificator(accessToken, _configuration.GetSecret());
+            if (!tokenSignatureVerificator.TokenIsValid)
             {
                 context.Result = new ForbidResult();
             }

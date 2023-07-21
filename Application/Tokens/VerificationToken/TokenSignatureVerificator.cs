@@ -3,14 +3,14 @@ using System.Text;
 
 namespace Application.Tokens.VerificationToken
 {
-    public class TokenSignatureVerifycator
+    public class TokenSignatureVerificator
     {
         public bool TokenIsValid;
 
         private readonly string _accessToken;
         private readonly string _secret;
 
-        public TokenSignatureVerifycator(string accessToken, string secret)
+        public TokenSignatureVerificator(string accessToken, string secret)
         {
             _accessToken = accessToken.Replace("\"", "");
             _secret = secret;

@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Users.DTOs;
 using Application.Validation;
@@ -21,22 +21,23 @@ namespace Application.Users.Queries.GetEvents
         public async Task<QueryResult<IReadOnlyList<GetEventsQueryDto>>> HandleAsync(GetEventsQuery getEventsQuery)
         {
             ValidationResult validationResult = await _getEventsQueryValidator.ValidationAsync(getEventsQuery);
-            if (!validationResult.IsFail)
+            if (validationResult.IsFail)
             {
-                IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
-                    getEventsQuery.StartEvent, getEventsQuery.EndEvent);
-
-                List<GetEventsQueryDto> getEventsQueryDtos = events.Select(e => new GetEventsQueryDto
-                {
-                    UserId = e.UserId,
-                    Name = e.Name,
-                    Description = e.Description,
-                    StartEvent = e.StartEvent,
-                    EndEvent = e.EndEvent
-                }).ToList();
-                return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(getEventsQueryDtos);
+                return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(validationResult);
             }
-            return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(validationResult);
+
+            IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
+                getEventsQuery.StartEvent, getEventsQuery.EndEvent);
+
+            List<GetEventsQueryDto> getEventsQueryDtos = events.Select(e => new GetEventsQueryDto
+            {
+                UserId = e.UserId,
+                Name = e.Name,
+                Description = e.Description,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            }).ToList();
+            return new QueryResult<IReadOnlyList<GetEventsQueryDto>>(getEventsQueryDtos);
         }
     }
 }

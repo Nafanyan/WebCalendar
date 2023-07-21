@@ -1,6 +1,6 @@
-﻿namespace Presentation.Intranet.Api.Dtos.UserDtos
+﻿namespace Presentation.Intranet.Api.Dtos.AuthenticationDtos
 {
-    public class CreateUserDto
+    public class AuthenticationDto
     {
         public string Login { get; init; }
         public string PasswordHash { get; init; }

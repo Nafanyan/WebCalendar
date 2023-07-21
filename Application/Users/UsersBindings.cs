@@ -1,15 +1,14 @@
-﻿using Application.Interfaces;
-using Application.Users.Commands;
+﻿using Application.CQRSInterfaces;
+using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
+using Application.UserAuthorizationTokens.Commands;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
 using Application.Users.Commands.UpdateUserPassword;
 using Application.Users.DTOs;
-using Application.Users.Queries;
 using Application.Users.Queries.GetEvents;
 using Application.Users.Queries.GetUserById;
 using Application.Validation;
-using Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WebCalendar.Application.Users
@@ -18,6 +17,7 @@ namespace WebCalendar.Application.Users
     {
         public static IServiceCollection AddUsersBindings(this IServiceCollection services)
         {
+            services.AddScoped<ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>, AuthenticateUserCommandHandler>();
             services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserLoginCommand>, UpdateUserLoginCommandHandler>();
@@ -26,6 +26,7 @@ namespace WebCalendar.Application.Users
             services.AddScoped<IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery>, GetEventsQueryHandler>();
             services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
+            services.AddScoped<IAsyncValidator<AuthenticateUserCommand>, AuthenticateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<CreateUserCommand>, CreateUserCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateUserLoginCommand>, UpdateUserLoginCommandValidator>();

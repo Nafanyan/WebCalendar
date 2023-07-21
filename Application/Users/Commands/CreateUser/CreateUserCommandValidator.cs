@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
-    class CreateUserCommandValidator : IAsyncValidator<CreateUserCommand>
+    public class CreateUserCommandValidator : IAsyncValidator<CreateUserCommand>
     {
         private readonly IUserRepository _userRepository;
 
@@ -15,7 +15,7 @@ namespace Application.Users.Commands.CreateUser
 
         public async Task<ValidationResult> ValidationAsync(CreateUserCommand command)
         {
-            if (command.Login == null)
+            if (command.Login == null || command.Login == String.Empty)
             {
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }

@@ -15,11 +15,11 @@ namespace Infrastructure.Data
             DBContext = dbContext;
         }
 
-        public async Task AddAsync(TEntity entity)
+        public void Add(TEntity entity)
         {
-            await Entities.AddAsync(entity);
+            Entities.Add(entity);
         }
-        public async Task DeleteAsync(TEntity entity)
+        public void Delete(TEntity entity)
         {
             Entities.Remove(entity);
         }

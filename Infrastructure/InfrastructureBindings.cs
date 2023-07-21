@@ -1,7 +1,9 @@
-﻿
+﻿using Application.Tokens;
 using Domain.Repositories;
 using Domain.UnitOfWork;
+using Infrastructure.ConfigurationUtils.Token;
 using Infrastructure.Data.Events;
+using Infrastructure.Data.UserAuthorizationTokens;
 using Infrastructure.Data.Users;
 using Infrastructure.Foundation;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,9 @@ namespace Infrastructure
         {
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITokenConfiguration, TokenConfiguration>();
             return services;
         }
     }

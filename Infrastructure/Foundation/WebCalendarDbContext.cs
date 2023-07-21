@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data.Events;
+using Infrastructure.Data.UserAuthorizationTokens;
 using Infrastructure.Data.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace Infrastructure.Foundation
         {
             modelBuilder.ApplyConfiguration(new EventConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserAuthorizationTokenConfiguration());
         }
     }
 }

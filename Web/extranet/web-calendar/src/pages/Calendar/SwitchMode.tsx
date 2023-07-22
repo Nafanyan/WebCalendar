@@ -83,7 +83,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
 
     return (
         <>
-            {mode === "weeks" &&
+            {mode === "Weeks" &&
                 <Nav.Item>
                     <ButtonGroup >
                         <Button id={'week-change-group'} onClick={event => previousWeek(event)}> {"◀"} </Button>
@@ -99,7 +99,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
                 </Nav.Item>
             }
 
-            {mode === "days" &&
+            {mode === "Days" &&
                 <Nav.Item>
                     <ButtonGroup >
                         <Button id={'day-change-group'} onClick={event => previousDay(event)}>{"◀"}</Button>
@@ -115,7 +115,7 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
                 </Nav.Item>
             }
 
-            {mode === "months" &&
+            {mode === "Months" &&
                 <Nav.Item>
                     <ButtonGroup >
                         <Button id={'year-change-group'} onClick={event => previousYear(event)}>{"◀"}</Button>
@@ -146,10 +146,10 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
 export const SwitchModeContain: FunctionComponent = () => {
     const location = useLocation();
 
-    if (location.pathname === "/weeks") {
+    if (location.pathname === "/Weeks") {
         return <WeekCalendar/>
     }
-    else if (location.pathname === "/days") {
+    else if (location.pathname === "/Days") {
         return <DayCalendar />
     }
     else {

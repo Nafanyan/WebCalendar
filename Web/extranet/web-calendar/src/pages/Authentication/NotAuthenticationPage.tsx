@@ -1,10 +1,8 @@
 import { FunctionComponent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const NotAuthenticationPage: FunctionComponent = () => {
-    const navigate = useNavigate();
     useEffect ( () => {
-        navigate("/Authentication")
+        window.location.href = '/Authentication'
     }, [])
     return (
         <div></div>

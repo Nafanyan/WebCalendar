@@ -16,21 +16,21 @@ export const RegistrationPage: FunctionComponent = () => {
     })
 
     const registration = async () => {
-        const service: UserService = new UserService();
+        console.log(password)
+        console.log(confirmPassword)
+        if (password != confirmPassword) {
+            setValidationResult({ isFail: true, error: "Password mismatch" })
+            return;
+        }
 
+        const service: UserService = new UserService();
         let result: IValidationResult = await service.registrate({
             Login: login,
             PasswordHash: password
         });
+
         setValidationResult(result)
-
-        if (password != confirmPassword) {
-            setValidationResult({ isFail: true, error: "Password mismatch" })
-        }
-
-        if (!result.isFail) {
-            navigate("/Authentication");
-        }
+        navigate("/Authentication");
     }
 
     return <div>

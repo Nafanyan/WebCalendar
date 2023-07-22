@@ -8,6 +8,7 @@ export class AuthenticationService {
     async refreshToken(): Promise<ITokenCommandResult> {
         const cookies = new Cookies();
         AxiosBases.defaults.withCredentials = true;
+        
         let response: ITokenCommandResult = await AxiosBases.post("api/Users/refresh-token")
             .then((response) => {
                 localStorage.removeItem("access-token")

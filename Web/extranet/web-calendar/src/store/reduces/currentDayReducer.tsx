@@ -1,7 +1,8 @@
+import { TokenDecoder } from "../../custom-utils/TokenDecoder"
 import { CurrentDayState, CurrentDayAction, CurrentDayActionType } from "../../models/type/currentDay"
 
 const initialState: CurrentDayState = {
-    userId: 4,
+    userId: localStorage.getItem('access-token') != null ? TokenDecoder(localStorage.getItem('access-token') + "").userId : 0,
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
     day: new Date().getDate(),
@@ -21,6 +22,10 @@ export const currentDayReducer = (state = initialState, action: CurrentDayAction
         case CurrentDayActionType.FORCED_DEPENDENCY_RENDER:
             return {
                 ...state, reRender: action.reRender
+            }
+        case CurrentDayActionType.CHANGE_USER_ID:
+            return {
+                ...state, userId: action.userId
             }
         default:
             return state

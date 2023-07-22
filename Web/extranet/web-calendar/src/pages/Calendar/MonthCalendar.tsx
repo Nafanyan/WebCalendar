@@ -4,7 +4,7 @@ import { shortDaysWeek } from "../../constants/DayOfWeek"
 import { UserService } from "../../services/UserService"
 import AddEvent from "./actions-with-events/addEvent"
 import "../../css/calendar/month-calendar.css"
-import { TimeToStringRequest } from "../../custom-function/TimeToString"
+import { TimeToStringRequest } from "../../custom-utils/TimeToString"
 import { useTypedSelector } from "../../hooks/UseTypeSelector"
 import { IEvent } from "../../models/IEvent"
 import { IDay } from "../../models/IEventArray"
@@ -19,6 +19,7 @@ export const MonthCalendar: FunctionComponent = () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, month, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, month, monthDaysCount, 23, 59));
+            console.log(userId)
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillState();
@@ -60,7 +61,7 @@ export const MonthCalendar: FunctionComponent = () => {
         let monthDaysCount: number = new Date(year, month + 1, 0).getDate();
 
         dataInitialization();
-    }, [userId, year, month, reRender])
+    }, [year, month, reRender])
 
     return (<div>
         <Table striped bordered hover>

@@ -8,7 +8,8 @@ export interface CurrentDayState {
 
 export enum CurrentDayActionType{
     CHANGE_CURRENT_DAY = "CHANGE_CURRENT_DAY",
-    FORCED_DEPENDENCY_RENDER = "FORCED_RENDER"
+    FORCED_DEPENDENCY_RENDER = "FORCED_RENDER",
+    CHANGE_USER_ID = "CHANGE_USER_ID"
 }
 
 interface ChangeCurrentDay{
@@ -24,4 +25,9 @@ interface ForcedDependencyRender{
     reRender: boolean;
 }
 
-export type CurrentDayAction =  ChangeCurrentDay | ForcedDependencyRender;
+interface ChangeUserId{
+    type: CurrentDayActionType.CHANGE_USER_ID;
+    userId: number;
+}
+
+export type CurrentDayAction =  ChangeCurrentDay | ForcedDependencyRender | ChangeUserId;

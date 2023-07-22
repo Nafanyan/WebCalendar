@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
-import { IEventQueryResult } from "../../../models/query/IEventQuery"
-import { TimeToString } from "../../../custom-function/TimeToString"
+import { IEventQueryResult } from "../../../models/query/Events/IEventQuery"
+import { TimeToString } from "../../../custom-utils/TimeToString"
 
 interface ShowEventInfoProps {
     event: IEventQueryResult

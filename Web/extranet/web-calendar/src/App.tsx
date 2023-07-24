@@ -5,10 +5,7 @@ import MainCalendar from './pages/MainCalendar';
 import { AuthenticationPage } from './pages/Authentication/AuthenticationPage';
 import { useEffect, useState } from 'react';
 import { RegistrationPage } from './pages/Authentication/RegistrationPage';
-import { TokenDecoder } from './custom-utils/TokenDecoder';
-import NotAuthenticationPage from './pages/Authentication/NotAuthenticationPage';
-import { AuthenticationService } from './services/AuthenticationService';
-import NotFoundPage from './pages/NotFoundPage';
+import GoTheAuthenticationPage from './pages/Authentication/GoTheAuthenticationPage';
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean>(Boolean(localStorage.getItem("token-is-valid")));
@@ -24,19 +21,19 @@ function App() {
         {userAuth ?
           <>
             <Route path="/" element={<Layout />} >
-              <Route index element={<MainCalendar mode="Months" />} />
-              <Route path="/" element={<MainCalendar mode="Months" />} />
-              <Route path="/Months" element={<MainCalendar mode="Months" />} />
-              <Route path="/Weeks" element={<MainCalendar mode="Weeks" />} />
-              <Route path="/Days" element={<MainCalendar mode="Days" />} />
+              <Route index element={<MainCalendar mode="months" />} />
+              <Route path="/" element={<MainCalendar mode="months" />} />
+              <Route path="/months" element={<MainCalendar mode="months" />} />
+              <Route path="/weeks" element={<MainCalendar mode="weeks" />} />
+              <Route path="/days" element={<MainCalendar mode="days" />} />
             </Route>
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<GoTheAuthenticationPage />} />
           </>
           :
           <>
-            <Route path="/Registration" element={<RegistrationPage />} />
-            <Route path="/Authentication" element={<AuthenticationPage />} />
-            <Route path="*" element={<NotAuthenticationPage />} />
+            <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="/authentication" element={<AuthenticationPage />} />
+            <Route path="*" element={<GoTheAuthenticationPage />} />
           </>
         }
       </Routes>

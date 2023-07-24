@@ -13,7 +13,7 @@ using Presentation.Intranet.Api.Dtos.UserDtos;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     [JwtAuthorization]
     public class UsersController : ControllerBase
     {
@@ -88,7 +88,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("update-login/{userId}")]
+        [HttpPut("Update-Login/{userId}")]
         public async Task<IActionResult> UpdateLogin([FromRoute] long userId, [FromBody] UpdateUserLoginDto updateUserLoginDto)
         {
             UpdateUserLoginCommand updateUserLoginCommand = new UpdateUserLoginCommand
@@ -106,7 +106,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("update-password/{userId}")]
+        [HttpPut("Update-Password/{userId}")]
         public async Task<IActionResult> UpdatePassword([FromRoute] long userId, [FromBody] UpdateUserPasswordDto updateUserPasswordDto)
         {
             UpdateUserPasswordCommand updateUserPasswordCommand = new UpdateUserPasswordCommand

@@ -9,15 +9,15 @@ import { TokenDecoder } from "../../custom-utils/TokenDecoder";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
 export const AuthenticationPage: FunctionComponent = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [login, setLogin] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
+    const [login, setLogin] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const [validationResult, setValidationResult] = useState<IValidationResult>({
         error: "",
         isFail: false
-    })
+    });
 
     const authenticationWithLogin = async () => {
         const service: AuthenticationService = new AuthenticationService();
@@ -26,19 +26,19 @@ export const AuthenticationPage: FunctionComponent = () => {
             Login: login,
             PasswordHash: password
         });
-        setValidationResult(result.validationResult)
+        setValidationResult(result.validationResult);
 
         if (!result.validationResult.isFail) {
             dispatch({
                 type: CurrentDayActionType.CHANGE_USER_ID,
                 userId: TokenDecoder(localStorage.getItem('access-token') + "").userId
-            })
+            });
 
-            localStorage.removeItem("token-is-valid")
-            localStorage.setItem("token-is-valid", JSON.stringify(true))
-            window.location.href = '/Months'
+            localStorage.removeItem("token-is-valid");
+            localStorage.setItem("token-is-valid", JSON.stringify(true));
+            window.location.href = '/months';
         }
-    }
+    };
 
     return (
         <Container>
@@ -77,7 +77,7 @@ export const AuthenticationPage: FunctionComponent = () => {
                                     <div className="mt-3">
                                         <p className="mb-0  text-center">
                                             Нет аккаунта?{" "}
-                                            <a href="/Registration" className="text-primary fw-bold">
+                                            <a href="/registration" className="text-primary fw-bold">
                                                 Зарегистрируйся
                                             </a>
                                         </p>
@@ -91,23 +91,3 @@ export const AuthenticationPage: FunctionComponent = () => {
         </Container>
     );
 }
-
-{/* <h1>Аунтефикация</h1>
-
-        {authWithToken &&
-            <>
-                <h2>Это ваш аккаунт? {login}</h2>
-
-                <input type="submit" value="Да, войти" onClick={() => authenticationWithToken()} />
-                <input type="submit" value="Нет" onClick={() => clearCookie()} />
-            </>
-        }
-
-        <h2>Введите логин и пароль</h2>
-
-        <p><input type="text" name="login" value={login} onChange={l => setLogin(l.target.value)} /></p>
-        <p><input type="password" name="password" value={password} onChange={l => setPassword(l.target.value)} /></p>
-
-        <input type="submit" value="Аунтефикация" onClick={() => authenticationWithLogin()} />
-        <input type="submit" value="Регистрация" onClick={() => navigate("/registration")} />
-        <h2>{validationResult.error}</h2> */}

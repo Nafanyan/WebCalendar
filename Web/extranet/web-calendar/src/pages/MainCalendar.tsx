@@ -17,19 +17,19 @@ export const MainCalendar: FunctionComponent<MainCalendarProps> = ({ mode }) => 
                 <Card.Header className='nav-card-header'>
                     <Nav variant="tabs" defaultActiveKey={"/" + mode}>
                         <Nav.Item className='nav-link-months-year'>
-                            <Nav.Link href="/Months" >
+                            <Nav.Link href="/months" >
                                 Месяц
                             </Nav.Link>
                         </Nav.Item>
 
                         <Nav.Item className='nav-link-week'>
-                            <Nav.Link href="/Weeks" >
+                            <Nav.Link href="/weeks" >
                                 Неделя
                             </Nav.Link>
                         </Nav.Item>
 
                         <Nav.Item className='nav-link-day'>
-                            <Nav.Link href="/Days" >
+                            <Nav.Link href="/days" >
                                 День
                             </Nav.Link>
                         </Nav.Item>

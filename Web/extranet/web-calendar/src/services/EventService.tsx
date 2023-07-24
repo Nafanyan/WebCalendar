@@ -11,8 +11,8 @@ export class EventService {
         await CheckToken();
 
         let response: IEventQueryResult = await AxiosBases.get<IEventQueryResult>(
-            "api/Users/" + id + "/Events?startEvent=" + startPeriod + "&endEvent=" + endPeriod,
-            { headers: { "Access-Token": localStorage.getItem('access-token')?.toString() } })
+            "Api/Users/" + id + "/Events?startEvent=" + startPeriod + "&endEvent=" + endPeriod,
+            { headers: { "Access-Token": (localStorage.getItem('access-token') + "").replaceAll("\"", "") } })
             .then((response) => {
                 return response.data;
             }).catch(error => {
@@ -24,8 +24,8 @@ export class EventService {
     async addEvent(id: number, date: IAddEvent): Promise<IValidationResult> {
         await CheckToken();
 
-        let response: IValidationResult = await AxiosBases.post("api/Users/" + id + "/Events", date,
-            { headers: { "Access-Token": localStorage.getItem('access-token')?.toString() } })
+        let response: IValidationResult = await AxiosBases.post("Api/Users/" + id + "/Events", date,
+            { headers: { "Access-Token": (localStorage.getItem('access-token') + "").replaceAll("\"", "") } })
             .then((response) => {
                 return response.data;
             }).catch(error => {
@@ -37,8 +37,8 @@ export class EventService {
     async delete(id: number, date: IDeleteEvent): Promise<IValidationResult> {
         await CheckToken();
 
-        let response: IValidationResult = await AxiosBases.delete("api/Users/" + id + "/Events",
-            { data: date, headers: { "Access-Token": localStorage.getItem('access-token')?.toString() } })
+        let response: IValidationResult = await AxiosBases.delete("Api/Users/" + id + "/Events",
+            { data: date, headers: { "Access-Token": (localStorage.getItem('access-token') + "").replaceAll("\"", "") } })
             .then((response) => {
                 return response.data;
             }).catch(error => {
@@ -50,8 +50,8 @@ export class EventService {
     async updateEvent(id: number, date: IUpdateEvent): Promise<IValidationResult> {
         await CheckToken();
         
-        let response: IValidationResult = await AxiosBases.put("api/Users/" + id + "/Events", date,
-            { headers: { "Access-Token": localStorage.getItem('access-token')?.toString() } })
+        let response: IValidationResult = await AxiosBases.put("Api/Users/" + id + "/Events", date,
+            { headers: { "Access-Token": (localStorage.getItem('access-token') + "").replaceAll("\"", "") } })
             .then((response) => {
                 return response.data;
             }).catch(error => {

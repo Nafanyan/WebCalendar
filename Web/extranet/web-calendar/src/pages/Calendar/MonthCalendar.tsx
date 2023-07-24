@@ -1,14 +1,14 @@
-import { FunctionComponent, useState, useEffect } from "react"
-import { Table, Card } from "react-bootstrap"
-import { shortDaysWeek } from "../../constants/DayOfWeek"
-import { UserService } from "../../services/UserService"
-import AddEvent from "./actions-with-events/addEvent"
-import "../../css/calendar/month-calendar.css"
-import { TimeToStringRequest } from "../../custom-utils/TimeToString"
-import { useTypedSelector } from "../../hooks/UseTypeSelector"
-import { IEvent } from "../../models/IEvent"
-import { IDay } from "../../models/IEventArray"
-import { EventInfo } from "./actions-with-events/eventInfo"
+import { FunctionComponent, useState, useEffect } from "react";
+import { Table, Card } from "react-bootstrap";
+import { shortDaysWeek } from "../../constants/DayOfWeek";
+import { UserService } from "../../services/UserService";
+import AddEvent from "./actions-with-events/addEvent";
+import "../../css/calendar/month-calendar.css";
+import { TimeToStringRequest } from "../../custom-utils/TimeToString";
+import { useTypedSelector } from "../../hooks/UseTypeSelector";
+import { IEvent } from "../../models/IEvent";
+import { IDay } from "../../models/IDay";
+import { EventInfo } from "./actions-with-events/eventInfo";
 
 export const MonthCalendar: FunctionComponent = () => {
     const { userId, year, month, reRender } = useTypedSelector(state => state.currentDay);
@@ -19,7 +19,6 @@ export const MonthCalendar: FunctionComponent = () => {
             const service: UserService = new UserService();
             let startEventStr: string = TimeToStringRequest(new Date(year, month, 1, 0, 0));
             let endEventStr: string = TimeToStringRequest(new Date(year, month, monthDaysCount, 23, 59));
-            console.log(userId)
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillState();

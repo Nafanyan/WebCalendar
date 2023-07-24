@@ -13,7 +13,7 @@ using Application.Users.DTOs;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("api/Users")]
+    [Route("Api/Users")]
     public class AuthenticationController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
@@ -32,7 +32,7 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost]
-        [Route("registrate")]
+        [Route("Registrate")]
         public async Task<IActionResult> Registrate([FromBody] RegistrateUserDto registrateUserDto)
         {
             CreateUserCommand createUserCommand = new CreateUserCommand
@@ -50,7 +50,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok(commandResult);
         }
 
-        [HttpPost("refresh-token")]
+        [HttpPost("Refresh-Token")]
         public async Task<IActionResult> RefreshToken()
         {
             string refreshTokenFromCookie = Request.Cookies["RefreshToken"];
@@ -69,7 +69,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok(commandResult);
         }
 
-        [HttpPost("authentication")]
+        [HttpPost("Authentication")]
         public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
         {
             AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand

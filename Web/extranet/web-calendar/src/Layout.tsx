@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import './css/layout.css';
 import { Cookies } from "react-cookie";
@@ -8,19 +8,23 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Layout: FunctionComponent = () => {
+    const [userLogin, setUserLogin] = useState<string>("");
+
+    useEffect(() => {
+        setUserLogin((localStorage.getItem('user-name') + "").replaceAll("\"", ""))
+    }, [])
+
     const exit = () => {
-        localStorage.removeItem("token-is-valid")
-        const cookies = new Cookies()
-        cookies.remove("RefreshToken")
-        window.location.href = '/Authentication';
+        localStorage.removeItem("token-is-valid");
+        localStorage.removeItem("user-name");
+        const cookies = new Cookies();
+        cookies.remove("RefreshToken");
+        window.location.href = '/authentication';
     }
 
     return (
         <>
             <header>
-                {/* <nav>
-                    <a href="/" className="home-link">Web-Calendar</a>
-                </nav> */}
                 <Navbar expand="lg">
                     <Container fluid>
                         <Navbar.Brand href="/" className="home-link">Web-Calendar</Navbar.Brand>
@@ -28,7 +32,7 @@ const Layout: FunctionComponent = () => {
                             <Nav>
                                 <NavDropdown
                                     id="nav-dropdown-dark-example"
-                                    title="Опции"
+                                    title={userLogin}
                                 >
                                     <NavDropdown.Item onClick={() => exit()}>Выйти</NavDropdown.Item>
                                 </NavDropdown>
@@ -39,9 +43,6 @@ const Layout: FunctionComponent = () => {
             </header>
             <Outlet />
             <footer>
-                {/* <p>
-                    <input type="submit" value="Выйти" onClick={} />
-                </p> */}
             </footer>
         </>
     )

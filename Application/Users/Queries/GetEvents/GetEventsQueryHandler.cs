@@ -29,7 +29,9 @@ namespace Application.Users.Queries.GetEvents
             IReadOnlyList<Event> events = await _userRepository.GetEventsAsync(getEventsQuery.UserId,
                 getEventsQuery.StartEvent, getEventsQuery.EndEvent);
 
-            List<GetEventsQueryDto> getEventsQueryDtos = events.Select(e => new GetEventsQueryDto
+            IReadOnlyList<Event> sortEvents = events.OrderBy(e => e.StartEvent).ToList();
+
+            List<GetEventsQueryDto> getEventsQueryDtos = sortEvents.Select(e => new GetEventsQueryDto
             {
                 UserId = e.UserId,
                 Name = e.Name,

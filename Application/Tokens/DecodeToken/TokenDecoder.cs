@@ -7,7 +7,7 @@ namespace Application.Tokens.DecodeToken
         public JwtSecurityToken DecodeToken(string accessToken)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken token = handler.ReadToken(accessToken.Replace("\"", "")) as JwtSecurityToken;
+            JwtSecurityToken token = handler.ReadToken(accessToken) as JwtSecurityToken;
             return token;
         }
     }

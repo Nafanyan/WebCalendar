@@ -26,8 +26,11 @@ export const RegistrationPage: FunctionComponent = () => {
             PasswordHash: password
         });
 
+        if(!result.isFail)
+        {
+            navigate("/authentication");
+        }
         setValidationResult(result);
-        navigate("/authentication");
     };
 
     return <div>

@@ -12,7 +12,7 @@ using Infrastructure.JwtAuthorizations;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("api/Users")]
+    [Route("Api/Users")]
     [JwtAuthorization()]
     public class EventsController : ControllerBase
     {

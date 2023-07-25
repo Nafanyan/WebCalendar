@@ -8,7 +8,8 @@ export class AuthenticationService {
     async refreshToken(): Promise<ITokenCommandResult> {
         const cookies = new Cookies();
         AxiosBases.defaults.withCredentials = true;
-        let response: ITokenCommandResult = await AxiosBases.post("api/Users/refresh-token")
+        
+        let response: ITokenCommandResult = await AxiosBases.post("Api/Users/Refresh-Token")
             .then((response) => {
                 localStorage.removeItem("access-token")
                 localStorage.setItem("access-token", JSON.stringify(response.data.objResult.accessToken))
@@ -22,11 +23,13 @@ export class AuthenticationService {
     }
 
     async authentication(body: IAuthentication): Promise<ITokenCommandResult> {
+        localStorage.removeItem("user-name")
+        localStorage.setItem("user-name", JSON.stringify(body.Login));
+
         const cookies = new Cookies();
-        let response: ITokenCommandResult = await AxiosBases.post("api/Users/authentication", body).then((response) => {
+        let response: ITokenCommandResult = await AxiosBases.post("Api/Users/Authentication", body).then((response) => {
             localStorage.removeItem("access-token")
             localStorage.setItem("access-token", JSON.stringify(response.data.objResult.accessToken))
-            console.log(response.data.objResult.refreshToken)
             cookies.set("RefreshToken", response.data.objResult.refreshToken)
             return response.data;
         }).catch(error => {

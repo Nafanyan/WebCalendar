@@ -6,32 +6,32 @@ import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
 export const RegistrationPage: FunctionComponent = () => {
     const navigate = useNavigate();
-
-    const [login, setLogin] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
-    const [confirmPassword, setConfirmPassword] = useState<string>("")
+    const [login, setLogin] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [validationResult, setValidationResult] = useState<IValidationResult>({
         error: "",
         isFail: false
-    })
+    });
 
     const registration = async () => {
-        const service: UserService = new UserService();
+        if (password != confirmPassword) {
+            setValidationResult({ isFail: true, error: "Password mismatch" });
+            return;
+        }
 
+        const service: UserService = new UserService();
         let result: IValidationResult = await service.registrate({
             Login: login,
             PasswordHash: password
         });
-        setValidationResult(result)
 
-        if (password != confirmPassword) {
-            setValidationResult({ isFail: true, error: "Password mismatch" })
+        if(!result.isFail)
+        {
+            navigate("/authentication");
         }
-
-        if (!result.isFail) {
-            navigate("/Authentication");
-        }
-    }
+        setValidationResult(result);
+    };
 
     return <div>
         <Container>
@@ -67,7 +67,7 @@ export const RegistrationPage: FunctionComponent = () => {
                                             className="mb-3"
                                             controlId="formBasicPasswordConfirm"
                                         >
-                                            <Form.Label>Повтори пароль</Form.Label>
+                                            <Form.Label>Пожалуйста повторите пароль</Form.Label>
                                             <Form.Control type="password" placeholder="Пароль" onChange={l => setConfirmPassword(l.target.value)} />
                                         </Form.Group>
                                         <Form.Group
@@ -84,8 +84,8 @@ export const RegistrationPage: FunctionComponent = () => {
                                     <div className="mt-3">
                                         <p className="mb-0  text-center">
                                             Уже есть аккаунт?{" "}
-                                            <a href="/Authentication" className="text-primary fw-bold">
-                                                Войди
+                                            <a href="/authentication" className="text-primary fw-bold">
+                                                Войти
                                             </a>
                                         </p>
                                     </div>
@@ -98,14 +98,3 @@ export const RegistrationPage: FunctionComponent = () => {
         </Container>
     </div>
 }
-
-{/* <h1>Регистрация</h1>
-<h2>Введите логин и пароль</h2>
-
-<p><input type="text" name="login" value={login} onChange={l => setLogin(l.target.value)} /></p>
-<p><input type="password" name="password" value={password} onChange={l => setPassword(l.target.value)} /></p>
-
-<input type="submit" value="Регистрация" onClick={() => registration()} />
-<input type="submit" value="Аунтефикация" onClick={() => navigate("/authentication")} />
-
-<h2>{validationResult.error}</h2> */}

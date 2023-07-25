@@ -51,7 +51,7 @@
 
 #event-info {
     border-color: #ffffff00;
-    width: 362px;
+    width: 405px;
     height: 70px;
     border: 1px solid #000000;
     border-radius: 8px;
@@ -100,3 +100,21 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
     background-color: #4286f400;
   }
+
+  .flexbox-container {
+    display: flex;
+    flex-direction: row;
+    height: 30rem;
+}
+
+.div-chart-events{
+    width: 70rem;
+    height: 25rem;
+    padding-left: 26rem;
+}
+
+.name-diagram{
+    font-family: 'Oswald';
+    font-weight: 400;
+    font-size: 36px;
+}

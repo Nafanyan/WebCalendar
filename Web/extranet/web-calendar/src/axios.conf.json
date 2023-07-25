@@ -1,0 +1,6 @@
+{
+    // for debug
+    // "baseURL": "http://localhost:24395/"
+    // for release
+    "baseURL": ""
+}

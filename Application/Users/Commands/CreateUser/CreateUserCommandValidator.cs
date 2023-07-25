@@ -20,6 +20,11 @@ namespace Application.Users.Commands.CreateUser
                 return ValidationResult.Fail("The login cannot be empty/cannot be null");
             }
 
+            if (command.Login.Length > 28)
+            {
+                return ValidationResult.Fail("Login must be less than 28 characters");
+            }
+
             if (await _userRepository.ContainsAsync(user => user.Login == command.Login))
             {
                 return ValidationResult.Fail("A user with this login already exists");

@@ -1,9 +1,9 @@
 import { FunctionComponent, useState } from "react"
-import { Modal, Button, Form } from "react-bootstrap"
+import { Modal, Button, Form, Spinner } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { EventService } from "../../../services/EventService"
 import "../../../css/calendar/actions-with-events/add-event.css"
-import { TimeToStringCommand } from "../../../custom-function/TimeToString"
+import { TimeToStringCommand } from "../../../custom-utils/TimeToString"
 import { useTypedSelector } from "../../../hooks/UseTypeSelector"
 import { IValidationResult } from "../../../models/IValidationResult"
 import { CurrentDayActionType } from "../../../models/type/currentDay"
@@ -15,6 +15,7 @@ export interface AddEventProps {
 export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
     const { userId, reRender } = useTypedSelector(state => state.currentDay);
     const dispatch = useDispatch();
+
     const [show, setShow] = useState<boolean>(false);
     const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
 
@@ -23,17 +24,20 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
     const [startEvent, setStartEvent] = useState<string>('00:00');
     const [endEvent, setEndEvent] = useState<string>('00:00');
 
+    const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
+
     const handleClose = () => {
         setShow(false)
         setNameEvent("")
         setDescriptionEvent("")
         setStartEvent('00:00')
         setEndEvent('00:00')
-        setResponse({error: "", isFail: false})
+        setResponse({ error: "", isFail: false })
     }
     const handleShow = () => setShow(true);
 
     const handleAdd = async () => {
+        setRequestInProgress(true)
         const service: EventService = new EventService();
         let startEventStr: string = TimeToStringCommand(new Date(day), startEvent);
         let endEventStr: string = TimeToStringCommand(new Date(day), endEvent);
@@ -49,6 +53,7 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
             dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
             handleClose();
         }
+        setRequestInProgress(false)
     }
 
     return (
@@ -62,11 +67,11 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
                 </Modal.Header>
 
                 <Modal.Body>
-                {response.isFail &&
-                    <div className="alert alert-danger" role="alert">
-                        {response.error}
-                    </div>
-                }
+                    {response.isFail &&
+                        <div className="alert alert-danger" role="alert">
+                            {response.error}
+                        </div>
+                    }
                     <Form>
                         <Form.Group
                             className="name-event"
@@ -117,9 +122,16 @@ export const AddEvent: FunctionComponent<AddEventProps> = ({ day }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Отмена
                     </Button>
-                    <Button variant="primary" onClick={handleAdd}>
-                        Добавить событие
-                    </Button>
+                    {requestInProgress ?
+                        <Button variant="primary" disabled>
+                            <Spinner size="sm" />
+                            Добавить событие
+                        </Button>
+                        :
+                        <Button variant="primary" onClick={handleAdd}>
+                            Добавить событие
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
         </>

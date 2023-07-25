@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 const NotAuthenticationPage: FunctionComponent = () => {
     return (
-        <div>404</div>
+        <h2>404</h2>
     );
 }
 

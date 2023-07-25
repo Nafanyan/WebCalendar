@@ -14,7 +14,7 @@ namespace Presentation.Intranet.Api
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json")
-            .Build();
+                .Build();
 
             string connectionString = configuration["ConnectionString"];
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,

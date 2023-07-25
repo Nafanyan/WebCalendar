@@ -5,7 +5,7 @@ import MainCalendar from './pages/MainCalendar';
 import { AuthenticationPage } from './pages/Authentication/AuthenticationPage';
 import { useEffect, useState } from 'react';
 import { RegistrationPage } from './pages/Authentication/RegistrationPage';
-import GoTheAuthenticationPage from './pages/Authentication/GoTheAuthenticationPage';
+import RedirectToAuthenticationPage from './pages/Authentication/RedirectToAuthenticationPage';
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean>(Boolean(localStorage.getItem("token-is-valid")));
@@ -27,13 +27,13 @@ function App() {
               <Route path="/weeks" element={<MainCalendar mode="weeks" />} />
               <Route path="/days" element={<MainCalendar mode="days" />} />
             </Route>
-            <Route path="*" element={<GoTheAuthenticationPage />} />
+            <Route path="*" element={<RedirectToAuthenticationPage />} />
           </>
           :
           <>
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/authentication" element={<AuthenticationPage />} />
-            <Route path="*" element={<GoTheAuthenticationPage />} />
+            <Route path="*" element={<RedirectToAuthenticationPage />} />
           </>
         }
       </Routes>

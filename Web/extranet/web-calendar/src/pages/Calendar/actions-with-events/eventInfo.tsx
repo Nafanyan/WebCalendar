@@ -62,7 +62,6 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
             StartEvent: startEventStr,
             EndEvent: endEventStr
         });
-        console.log(result)
         setResponse(result);
         if (!result.isFail) {
             dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });

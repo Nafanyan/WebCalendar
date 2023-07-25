@@ -30,7 +30,6 @@ export class AuthenticationService {
         let response: ITokenCommandResult = await AxiosBases.post("Api/Users/Authentication", body).then((response) => {
             localStorage.removeItem("access-token")
             localStorage.setItem("access-token", JSON.stringify(response.data.objResult.accessToken))
-            console.log(response.data.objResult.refreshToken)
             cookies.set("RefreshToken", response.data.objResult.refreshToken)
             return response.data;
         }).catch(error => {

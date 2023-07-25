@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from 'react';
 
-const GoTheAuthenticationPage: FunctionComponent = () => {
+const RedirectToAuthenticationPage: FunctionComponent = () => {
     useEffect ( () => {
         window.location.href = '/authentication';
     }, []);
@@ -9,4 +9,4 @@ const GoTheAuthenticationPage: FunctionComponent = () => {
     );
 }
 
-export default GoTheAuthenticationPage;
+export default RedirectToAuthenticationPage;

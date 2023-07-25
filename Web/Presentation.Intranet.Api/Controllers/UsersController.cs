@@ -1,5 +1,6 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
+using Application.Tokens;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
 using Application.Users.Commands.UpdateUserPassword;
@@ -28,7 +29,9 @@ namespace Presentation.Intranet.Api.Controllers
             ICommandHandler<UpdateUserLoginCommand> updateUserLoginCommandHandler,
             ICommandHandler<UpdateUserPasswordCommand> updateUserPasswordCommandHandler,
             IQueryHandler<IReadOnlyList<GetEventsQueryDto>, GetEventsQuery> getEventQueryHandler,
-            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler)
+            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler,
+            ITokenConfiguration configuration
+            )
         {
             _deleteUserCommandHandler = deleteUserCommandHandler;
             _updateUserLoginCommandHandler = updateUserLoginCommandHandler;

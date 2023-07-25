@@ -2,8 +2,6 @@ using Infrastructure;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Application;
-using Infrastructure.ConfigurationUtils.DataBase;
-using Infrastructure.ConfigurationUtils.CORS;
 
 namespace Presentation.Intranet.Api
 {
@@ -13,19 +11,14 @@ namespace Presentation.Intranet.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            string connectionString = String.Empty;
-            if (builder.Environment.IsDevelopment())
-            {
-                connectionString = new DataBaseConfigurationDevelopment().GetConnectionString();
-            }
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json")
+                .Build();
 
-            if (builder.Environment.IsProduction())
-            {
-                connectionString = new DataBaseConfigurationProduction().GetConnectionString();
-            }
-
-           builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
-                db => db.MigrationsAssembly("Infrastructure.Migration")));
+            string connectionString = configuration["ConnectionString"];
+            builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
+                 db => db.MigrationsAssembly("Infrastructure.Migration")));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             builder.Services.AddControllers();
@@ -43,27 +36,15 @@ namespace Presentation.Intranet.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                app.UseCors(builder => {
-                    builder.WithOrigins(new CorsConfigurationDevelopment().GetWithOrigins())
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-                });
             }
 
-            if (app.Environment.IsProduction())
+            app.UseCors(builder =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-
-                app.UseCors(builder => {
-                    builder.WithOrigins(new CorsConfigurationProduction().GetWithOrigins())
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-                });
-            }
+                builder.WithOrigins(configuration["CORS:WithOrigins:LocalHost"])
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+            });
 
             app.UseAuthorization();
 

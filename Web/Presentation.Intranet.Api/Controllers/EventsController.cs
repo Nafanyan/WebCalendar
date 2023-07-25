@@ -13,7 +13,7 @@ namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route("Api/Users")]
-    [JwtAuthorization()]
+    [JwtAuthorization]
     public class EventsController : ControllerBase
     {
         private readonly ICommandHandler<CreateEventCommand> _createEventCommandHandler;

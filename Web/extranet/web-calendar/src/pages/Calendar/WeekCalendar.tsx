@@ -1,14 +1,15 @@
-import { FunctionComponent, useState, useEffect } from "react"
-import { Table, Card, Button } from "react-bootstrap"
-import { shortDaysWeek } from "../../constants/DayOfWeek"
-import { UserService } from "../../services/UserService"
-import "../../css/calendar/week-calendar.css"
-import AddEvent from "./actions-with-events/addEvent"
-import EventInfo from "./actions-with-events/eventInfo"
-import { TimeToStringRequest } from "../../custom-function/TimeToString"
-import { useTypedSelector } from "../../hooks/UseTypeSelector"
-import { IEvent } from "../../models/IEvent"
-import { IDay } from "../../models/IEventArray"
+import { FunctionComponent, useState, useEffect } from "react";
+import { Table, Card, Button } from "react-bootstrap";
+import { shortDaysWeek } from "../../constants/DayOfWeek";
+import { UserService } from "../../services/UserService";
+import "../../css/calendar/week-calendar.css";
+import AddEvent from "./actions-with-events/addEvent";
+import EventInfo from "./actions-with-events/eventInfo";
+import { TimeToStringRequest } from "../../custom-utils/TimeToString";
+import { useTypedSelector } from "../../hooks/UseTypeSelector";
+import { IEvent } from "../../models/IEvent";
+import { IDay } from "../../models/IDay";
+import { ChartForWeek } from "./ChartForWeek";
 
 
 export const WeekCalendar: FunctionComponent = () => {
@@ -23,7 +24,7 @@ export const WeekCalendar: FunctionComponent = () => {
             events = await service.getEvent(userId, startEventStr, endEventStr);
 
             fillState();
-        }
+        };
 
         const fillState = () => {
             let daysOfMonth: IDay[] = [];
@@ -55,7 +56,7 @@ export const WeekCalendar: FunctionComponent = () => {
         }
 
         dataInitialization();
-    }, [userId, day, month, year, reRender])
+    }, [userId, day, month, year, reRender]);
 
     return (<div>
         <Table striped bordered hover>
@@ -106,6 +107,7 @@ export const WeekCalendar: FunctionComponent = () => {
                 )}
             </tbody>
         </Table>
+        <ChartForWeek weeks={days}/>
     </div>)
 }
 

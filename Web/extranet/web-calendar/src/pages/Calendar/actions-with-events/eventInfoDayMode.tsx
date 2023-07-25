@@ -1,13 +1,13 @@
 import { FunctionComponent, useState } from "react"
-import { Modal, Button, Form, Card } from "react-bootstrap"
+import { Modal, Button, Form, Card, Spinner } from "react-bootstrap"
 import { useDispatch } from "react-redux"
-import { IEventQueryResult } from "../../../models/query/IEventQuery"
+import { IEventQueryResult } from "../../../models/query/Events/IEventQuery"
 import { CurrentDayActionType } from "../../../models/type/currentDay"
 import { EventService } from "../../../services/EventService"
 import "../../../css/calendar/actions-with-events/event-info-day-mode.css"
 import { IEvent } from "../../../models/IEvent"
 import { CanEditEventInfo, ShowEventInfo } from "./eventInfoAction"
-import { TimeToStringRequest, TimeToStringCommand, TimeToString } from "../../../custom-function/TimeToString"
+import { TimeToStringRequest, TimeToStringCommand, TimeToString } from "../../../custom-utils/TimeToString"
 import { useTypedSelector } from "../../../hooks/UseTypeSelector"
 import { IValidationResult } from "../../../models/IValidationResult"
 
@@ -23,6 +23,7 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
     const [canEditEvent, setCanEditEvent] = useState<boolean>(false);
     const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
 
+    const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
     const [event, setEvent] = useState<IEventQueryResult>(
         {
@@ -52,6 +53,7 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
     };
 
     const deleteEvent = async () => {
+        setRequestInProgress(true);
         const service: EventService = new EventService();
         let startEventStr: string = TimeToStringCommand(new Date(eventDate.startEvent), TimeToString(eventDate.startEvent));
         let endEventStr: string = TimeToStringCommand(new Date(eventDate.endEvent), TimeToString(eventDate.endEvent));
@@ -63,9 +65,11 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
 
         dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
         handleClose();
+        setRequestInProgress(false);
     };
 
     const updateEvent = async () => {
+        setRequestInProgress(true);
         const service: EventService = new EventService();
         let startEventStr: string = TimeToStringCommand(new Date(eventDate.startEvent), TimeToString(event.objResult.startEvent));
         let endEventStr: string = TimeToStringCommand(new Date(eventDate.endEvent), TimeToString(event.objResult.endEvent));
@@ -82,17 +86,18 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
             handleClose();
             setCanEditEvent(false);
         }
+        setRequestInProgress(false);
     }
 
     return (
         <>
             <Button variant="outline-success" id={'event-info'} onClick={handleShow}>
                 <Card.Text className='event-name-time'>
-                    {" " + (eventDate.name.length > 16 ? eventDate.name.substring(0, 16) + "... " : eventDate.name + " ")}
+                    {" " + (eventDate.name.length > 20 ? eventDate.name.substring(0, 20) + "... " : eventDate.name + " ")}
                     {TimeToString(eventDate.startEvent) + " - " + TimeToString(eventDate.endEvent)}
                 </Card.Text>
                 <Card.Text className='event-description'>
-                    {eventDate.description != "" ? "\n" + eventDate.description : ""}
+                    {eventDate.description.length > 37 ? "\n" + eventDate.description.substring(0, 37) + "..." : eventDate.description}
                 </Card.Text>
             </Button>
 
@@ -120,19 +125,31 @@ export const EventInfoDayMode: FunctionComponent<EventInfoDayModeProps> = ({ eve
                             <Button variant="secondary" onClick={() => setCanEditEvent(false)}>
                                 Отменить
                             </Button>
-                            <Button variant="primary" onClick={updateEvent} >
-                                Сохранить
-                            </Button>
+                            {requestInProgress
+                                ?
+                                <Button variant="primary" disabled >
+                                    <Spinner size="sm" />
+                                    Сохранить
+                                </Button> :
+                                <Button variant="primary" onClick={updateEvent} >
+                                    Сохранить
+                                </Button>}
                         </>
-
                     ) : (
                         <>
                             <Button variant="secondary" onClick={() => setCanEditEvent(true)}>
                                 Изменить
                             </Button>
-                            <Button variant="primary" onClick={deleteEvent}>
-                                Удалить событие
-                            </Button>
+                            {requestInProgress
+                                ?
+                                <Button variant="primary" disabled>
+                                    <Spinner size="sm" />
+                                    Удалить событие
+                                </Button> :
+                                <Button variant="primary" onClick={deleteEvent}>
+                                    Удалить событие
+                                </Button>
+                            }
                         </>
                     )}
                 </Modal.Footer>

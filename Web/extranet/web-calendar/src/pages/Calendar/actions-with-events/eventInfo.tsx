@@ -1,13 +1,13 @@
 import { FunctionComponent, useState } from "react"
-import { Modal, Button, Form } from "react-bootstrap"
+import { Modal, Button, Spinner } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { IValidationResult } from "../../../models/IValidationResult"
-import { IEventQueryResult } from "../../../models/query/IEventQuery"
+import { IEventQueryResult } from "../../../models/query/Events/IEventQuery"
 import { CurrentDayActionType } from "../../../models/type/currentDay"
 import { EventService } from "../../../services/EventService"
 import "../../../css/calendar/actions-with-events/event-info.css"
 import { CanEditEventInfo, ShowEventInfo } from "./eventInfoAction"
-import { TimeToStringRequest, TimeToStringCommand, TimeToString } from "../../../custom-function/TimeToString"
+import { TimeToStringRequest, TimeToStringCommand, TimeToString } from "../../../custom-utils/TimeToString"
 import { useTypedSelector } from "../../../hooks/UseTypeSelector"
 
 export interface EventInfoProps {
@@ -23,6 +23,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
     const [canEditEvent, setCanEditEvent] = useState<boolean>(false);
     const [response, setResponse] = useState<IValidationResult>({ isFail: false, error: "" });
 
+    const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
     const [event, setEvent] = useState<IEventQueryResult>(
         {
@@ -52,6 +53,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
     };
 
     const deleteEvent = async () => {
+        setRequestInProgress(true);
         const service: EventService = new EventService();
         let startEventStr: string = TimeToStringCommand(new Date(startEvent), TimeToString(startEvent));
         let endEventStr: string = TimeToStringCommand(new Date(endEvent), TimeToString(endEvent));
@@ -60,15 +62,16 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
             StartEvent: startEventStr,
             EndEvent: endEventStr
         });
-
         setResponse(result);
         if (!result.isFail) {
             dispatch({ type: CurrentDayActionType.FORCED_DEPENDENCY_RENDER, reRender: !reRender });
             handleClose();
         }
+        setRequestInProgress(false);
     };
 
     const updateEvent = async () => {
+        setRequestInProgress(true);
         const service: EventService = new EventService();
         let startEventStr: string = TimeToStringCommand(new Date(startEvent), TimeToString(event.objResult.startEvent));
         let endEventStr: string = TimeToStringCommand(new Date(endEvent), TimeToString(event.objResult.endEvent));
@@ -85,6 +88,7 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
             handleClose();
             setCanEditEvent(false);
         }
+        setRequestInProgress(false);
     }
 
     return (
@@ -118,19 +122,31 @@ export const EventInfo: FunctionComponent<EventInfoProps> = ({ startEvent, endEv
                             <Button variant="secondary" onClick={() => setCanEditEvent(false)}>
                                 Отменить
                             </Button>
-                            <Button variant="primary" onClick={updateEvent} >
-                                Сохранить
-                            </Button>
+                            {requestInProgress
+                                ?
+                                <Button variant="primary" disabled >
+                                    <Spinner size="sm" />
+                                    Сохранить
+                                </Button> :
+                                <Button variant="primary" onClick={updateEvent} >
+                                    Сохранить
+                                </Button>}
                         </>
-
                     ) : (
                         <>
                             <Button variant="secondary" onClick={() => setCanEditEvent(true)}>
                                 Изменить
                             </Button>
-                            <Button variant="primary" onClick={deleteEvent}>
-                                Удалить событие
-                            </Button>
+                            {requestInProgress
+                                ?
+                                <Button variant="primary" disabled>
+                                    <Spinner size="sm" />
+                                    Удалить событие
+                                </Button> :
+                                <Button variant="primary" onClick={deleteEvent}>
+                                    Удалить событие
+                                </Button>
+                            }
                         </>
                     )}
                 </Modal.Footer>

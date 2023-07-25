@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Users
                 .HasKey(u => u.Id);
 
             builder.Property(u => u.Id).ValueGeneratedOnAdd();
-            builder.Property(u => u.Login).HasMaxLength(100).IsRequired();
+            builder.Property(u => u.Login).HasMaxLength(28).IsRequired();
             builder.Property(u => u.PasswordHash).HasMaxLength(100).IsRequired();
 
             builder.HasMany<Event>()

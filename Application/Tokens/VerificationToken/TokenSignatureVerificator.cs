@@ -12,7 +12,7 @@ namespace Application.Tokens.VerificationToken
 
         public TokenSignatureVerificator(string accessToken, string secret)
         {
-            _accessToken = accessToken.Replace("\"", "");
+            _accessToken = accessToken;
             _secret = secret;
             VerifySignature();
         }

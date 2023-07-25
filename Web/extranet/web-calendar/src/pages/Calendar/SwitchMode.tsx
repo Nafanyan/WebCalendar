@@ -1,47 +1,47 @@
-import { FunctionComponent, useState, useEffect } from "react"
-import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootstrap"
-import { useDispatch } from "react-redux"
-import { useLocation } from "react-router-dom"
-import "../../css/calendar/switch-mode.css"
-import DayCalendar from "./DayCalendar"
-import MonthCalendar from "./MonthCalendar"
-import WeekCalendar from "./WeekCalendar"
-import { months } from "../../constants/Montsh"
-import { CurrentDayActionType } from "../../models/type/currentDay"
-import { useTypedSelector } from "../../hooks/UseTypeSelector"
+import { FunctionComponent, useState, useEffect } from "react";
+import { Nav, ButtonGroup, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import "../../css/calendar/switch-mode.css";
+import DayCalendar from "./DayCalendar";
+import MonthCalendar from "./MonthCalendar";
+import WeekCalendar from "./WeekCalendar";
+import { months } from "../../constants/Montsh";
+import { CurrentDayActionType } from "../../models/type/currentDay";
+import { useTypedSelector } from "../../hooks/UseTypeSelector";
 
 
 export interface SwitchModeProps {
     mode: string
-}
+};
 
 export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
-    const currDay = useTypedSelector(state => state.currentDay)
-    const dispatch = useDispatch()
+    const currDay = useTypedSelector(state => state.currentDay);
+    const dispatch = useDispatch();
 
-    let nowDayWeek: number = new Date(currDay.year, currDay.month, currDay.day).getDay() - 1
+    let nowDayWeek: number = new Date(currDay.year, currDay.month, currDay.day).getDay() - 1;
     if (nowDayWeek == -1) {
         nowDayWeek = 6
-    }
+    };
 
-    const [nowYear, setNowYear] = useState<number>(currDay.year)
-    const [nowMonth, setNowMonth] = useState<number>(currDay.month)
-    const [nowDay, setNowDay] = useState<number>(currDay.day)
-    const [nowDate, setNowDate] = useState<Date>(new Date(nowYear, nowMonth, nowDay))
+    const [nowYear, setNowYear] = useState<number>(currDay.year);
+    const [nowMonth, setNowMonth] = useState<number>(currDay.month);
+    const [nowDay, setNowDay] = useState<number>(currDay.day);
+    const [nowDate, setNowDate] = useState<Date>(new Date(nowYear, nowMonth, nowDay));
 
     const [startWeekDay, setStartWeekDay] = useState<Date>(
-        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek))
+        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek));
     const [endWeekDay, setEndWeekDay] = useState<Date>(
-        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek + 6))
+        new Date(currDay.year, currDay.month, currDay.day - nowDayWeek + 6));
 
     useEffect(() => {
-        setNowDay(nowDate.getDate())
-        setNowMonth(nowDate.getMonth())
-        setNowYear(nowDate.getFullYear())
+        setNowDay(nowDate.getDate());
+        setNowMonth(nowDate.getMonth());
+        setNowYear(nowDate.getFullYear());
         setStartWeekDay(
-            new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek))
+            new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek));
         setEndWeekDay(
-            new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek + 6))
+            new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - nowDayWeek + 6));
 
         dispatch({
             type: CurrentDayActionType.CHANGE_CURRENT_DAY,
@@ -49,37 +49,37 @@ export const SwitchMode: FunctionComponent<SwitchModeProps> = ({ mode }) => {
             year: nowDate.getFullYear(),
             month: nowDate.getMonth(),
             day: nowDate.getDate()
-        })
+        });
 
-    }, [nowDate])
+    }, [nowDate]);
 
     const previousDay = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth, nowDay - 1))
-    }
+        setNowDate(new Date(nowYear, nowMonth, nowDay - 1));
+    };
 
     const nextDay = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth, nowDay + 1))
-    }
+        setNowDate(new Date(nowYear, nowMonth, nowDay + 1));
+    };
 
     const previousWeek = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth, nowDay - 7))
-    }
+        setNowDate(new Date(nowYear, nowMonth, nowDay - 7));
+    };
 
     const nextWeek = (event: React.MouseEvent<HTMLElement>) => {
-        setNowDate(new Date(nowYear, nowMonth, nowDay + 7))
-    }
+        setNowDate(new Date(nowYear, nowMonth, nowDay + 7));
+    };
 
     const previousYear = (event: React.MouseEvent<HTMLElement>) => {
-        currDay.year > 2000 ? setNowDate(new Date(nowYear - 1, nowMonth, nowDay)) : setNowYear(nowYear)
-    }
+        currDay.year > 2000 ? setNowDate(new Date(nowYear - 1, nowMonth, nowDay)) : setNowYear(nowYear);
+    };
 
     const nextYear = (event: React.MouseEvent<HTMLElement>) => {
-        nowYear <= new Date().getFullYear() + 15 ? setNowDate(new Date(nowYear + 1, nowMonth, nowDay)) : setNowYear(nowYear)
-    }
+        nowYear <= new Date().getFullYear() + 15 ? setNowDate(new Date(nowYear + 1, nowMonth, nowDay)) : setNowYear(nowYear);
+    };
 
     const changeMonth = (event: React.MouseEvent<HTMLElement>, numMonth: number) => {
-        setNowDate(new Date(nowYear, numMonth, nowDay))
-    }
+        setNowDate(new Date(nowYear, numMonth, nowDay));
+    };
 
     return (
         <>

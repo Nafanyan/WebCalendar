@@ -7,9 +7,6 @@ namespace Presentation.Intranet.Api
 {
     public class Program
     {
-        //public IConfiguration Configuration { get; set; }
-        //public IHostingEnvironment Environment { get; set; }
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +17,6 @@ namespace Presentation.Intranet.Api
             .Build();
 
             string connectionString = configuration["ConnectionString"];
-
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                  db => db.MigrationsAssembly("Infrastructure.Migration")));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

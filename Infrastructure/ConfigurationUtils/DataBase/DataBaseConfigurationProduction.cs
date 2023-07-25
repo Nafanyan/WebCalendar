@@ -8,7 +8,7 @@ namespace Infrastructure.ConfigurationUtils.DataBase
 
         public DataBaseConfigurationProduction()
         {
-            _configuration = File.ReadAllText("../../Infrastructure/appsettings.Production.json");
+            _configuration = File.ReadAllText("appsettings.Production.json");
         }
 
         public string GetConnectionString()

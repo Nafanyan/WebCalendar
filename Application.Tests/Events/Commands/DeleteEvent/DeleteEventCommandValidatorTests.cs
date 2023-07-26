@@ -1,5 +1,4 @@
-﻿using Application.Events.Commands.CreateEvent;
-using Application.Events.Commands.DeleteEvent;
+﻿using Application.Events.Commands.DeleteEvent;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
@@ -31,17 +30,17 @@ namespace Application.Tests.Events.Commands.DeleteEvent
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateAndsEndDateNotSameDay_Fail()
+        public async Task ValidationAsync_StartDateAndEndDateNotSameDay_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 StartEvent = new DateTime(2023, 11, 1),
                 EndEvent = new DateTime(2023, 11, 2)
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -51,24 +50,24 @@ namespace Application.Tests.Events.Commands.DeleteEvent
         public async Task ValidationAsync_StartDateLaterThenEndDate_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 StartEvent = new DateTime(1001),
                 EndEvent = new DateTime(1000)
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
                 StartEvent = new DateTime(1500),
@@ -76,17 +75,17 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
                 StartEvent = new DateTime(500),
@@ -94,17 +93,17 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_NewEventIncludedExistEvent_Fail()
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
                 StartEvent = new DateTime(100),
@@ -112,17 +111,17 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_ExistEventIncludedNewEvent_Fail()
+        public async Task ValidationAsync_ExistDateEventIncludedInputDateEvent_Fail()
         {
             // arrange
-            DeleteEventCommand command = new DeleteEventCommand
+            DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
                 StartEvent = new DateTime(1100),
@@ -130,7 +129,7 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);

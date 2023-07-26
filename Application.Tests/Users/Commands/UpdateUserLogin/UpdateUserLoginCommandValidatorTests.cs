@@ -66,7 +66,7 @@ namespace Application.Tests.Users.Commands.UpdateUserLogin
             // arrange
             UpdateUserLoginCommand updateUserLoginCommand = new UpdateUserLoginCommand
             {
-                Id = 1
+                Id = 0
             };
 
             // act

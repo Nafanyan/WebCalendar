@@ -33,13 +33,13 @@ namespace Application.Tests.Events.Commands.CreateEvent
         public async Task ValidationAsync_NameIsNull_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand commcreateEventCommandnd = new CreateEventCommand
             {
                 Name = null
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(commcreateEventCommandnd);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -49,23 +49,23 @@ namespace Application.Tests.Events.Commands.CreateEvent
         public async Task ValidationAsync_NameIsEmpty_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = ""
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateAndsEndDateNotSameDay_Fail()
+        public async Task ValidationAsync_StartDateAndEndDateNotSameDay_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
                 StartEvent = new DateTime(2023, 11, 1),
@@ -73,7 +73,7 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -83,7 +83,7 @@ namespace Application.Tests.Events.Commands.CreateEvent
         public async Task ValidationAsync_StartDateLaterThenEndDate_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
                 StartEvent = new DateTime(1001),
@@ -91,17 +91,17 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -111,17 +111,17 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -131,17 +131,17 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_NewEventIncludedExistEvent_Fail()
+        public async Task ValidationAsyncInputDatewEventIncludedExistDateEvent_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -151,17 +151,17 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_ExistEventIncludedNewEvent_Fail()
+        public async Task ValidationAsync_ExistDateEventIncludedInputDateEvent_Fail()
         {
             // arrange
-            CreateEventCommand command = new CreateEventCommand
+            CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -171,7 +171,7 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);

@@ -1,5 +1,4 @@
-﻿using Application.Users.Queries.GetEvents;
-using Application.Users.Queries.GetUserById;
+﻿using Application.Users.Queries.GetUserById;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
@@ -27,6 +26,22 @@ namespace Application.Tests.Users.Queries.GetUserById
             await InitData(userRepository, webCalendarDbContext);
 
             _validator = new GetUserByIdQueryValidator(userRepository);
+        }
+
+        [Test]
+        public async Task ValidationAsync_IdNoFound_Fail()
+        {
+            // arrange
+            GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
+            {
+                Id = 0
+            };
+
+            // act
+            ValidationResult result = await _validator.ValidationAsync(getUserByIdQuery);
+
+            // assert
+            Assert.IsTrue(result.IsFail);
         }
 
         [Test]

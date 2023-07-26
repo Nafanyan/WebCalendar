@@ -30,10 +30,10 @@ namespace Application.Tests.Events.Queries.GetEvent
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateAndsEndDateNotSameDay_Fail()
+        public async Task ValidationAsync_StartDateAndEndDateNotSameDay_Fail()
         {
             // arrange
-            GetEventQuery query = new GetEventQuery
+            GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = 0,
                 StartEvent = new DateTime(2023, 11, 1),
@@ -41,7 +41,7 @@ namespace Application.Tests.Events.Queries.GetEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(query);
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -51,7 +51,7 @@ namespace Application.Tests.Events.Queries.GetEvent
         public async Task ValidationAsync_StartDateLaterThenEndDate_Fail()
         {
             // arrange
-            GetEventQuery query = new GetEventQuery
+            GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = 0,
                 StartEvent = new DateTime(1001),
@@ -59,17 +59,17 @@ namespace Application.Tests.Events.Queries.GetEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(query);
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistEvent_Success()
+        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Success()
         {
             // arrange
-            GetEventQuery query = new GetEventQuery
+            GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = 1,
                 StartEvent = new DateTime(1500),
@@ -77,17 +77,17 @@ namespace Application.Tests.Events.Queries.GetEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(query);
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
 
             // assert
             Assert.IsFalse(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistEvent_Success()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Success()
         {
             // arrange
-            GetEventQuery query = new GetEventQuery
+            GetEventQuery getEventQuery = new GetEventQuery
             {
                 UserId = 1,
                 StartEvent = new DateTime(500),
@@ -95,11 +95,48 @@ namespace Application.Tests.Events.Queries.GetEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(query);
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
 
             // assert
             Assert.IsFalse(result.IsFail);
         }
+
+        [Test]
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Success()
+        {
+            // arrange
+            GetEventQuery getEventQuery = new GetEventQuery
+            {
+                UserId = 1,
+                StartEvent = new DateTime(100),
+                EndEvent = new DateTime(2500)
+            };
+
+            // act
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
+
+            // assert
+            Assert.IsFalse(result.IsFail);
+        }
+
+        [Test]
+        public async Task ValidationAsync_InpitDateEventNotIncludedExistDateEvents_Fail()
+        {
+            // arrange
+            GetEventQuery getEventQuery = new GetEventQuery
+            {
+                UserId = 1,
+                StartEvent = new DateTime(100),
+                EndEvent = new DateTime(500)
+            };
+
+            // act
+            ValidationResult result = await _validator.ValidationAsync(getEventQuery);
+
+            // assert
+            Assert.IsTrue(result.IsFail);
+        }
+
         private async Task InitData(IEventRepository eventRepository, WebCalendarDbContext webCalendarDbContext)
         {
             IUserRepository userRepository = new UserRepository(webCalendarDbContext);

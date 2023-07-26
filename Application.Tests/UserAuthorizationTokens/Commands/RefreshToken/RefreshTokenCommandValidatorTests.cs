@@ -72,7 +72,7 @@ namespace Application.Tests.UserAuthorizationTokens.Commands.RefreshToken
             UserAuthorizationToken userAuthorizationToken = new UserAuthorizationToken(
                 1,
                 "RefreshToken",
-                DateTime.Now.AddMinutes(5));
+                DateTime.Now.AddMinutes(1));
             userAuthorizationTokenRepository.Add(userAuthorizationToken);
 
             IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);

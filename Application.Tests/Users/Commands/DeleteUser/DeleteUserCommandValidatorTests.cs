@@ -34,7 +34,7 @@ namespace Application.Tests.Users.Commands.DeleteUser
             // arrange
             DeleteUserCommand deleteUserCommand = new DeleteUserCommand
             {
-                Id = 1
+                Id = 0
             };
 
             // act

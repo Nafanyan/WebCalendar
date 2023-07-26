@@ -34,7 +34,7 @@ namespace Application.Tests.Users.Commands.UpdateUserPassword
             // arrange
             UpdateUserPasswordCommand updateUserPasswordCommand = new UpdateUserPasswordCommand
             {
-                Id = 1
+                Id = 0
             };
 
             // act

@@ -1,5 +1,4 @@
-﻿using Application.Events.Commands.DeleteEvent;
-using Application.Events.Commands.UpdateEvent;
+﻿using Application.Events.Commands.UpdateEvent;
 using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
@@ -34,13 +33,13 @@ namespace Application.Tests.Events.Commands.UpdateEvent
         public async Task ValidationAsync_NameIsEmpty_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = ""
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -50,23 +49,23 @@ namespace Application.Tests.Events.Commands.UpdateEvent
         public async Task ValidationAsync_NameIsNull_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = null
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateAndsEndDateNotSameDay_Fail()
+        public async Task ValidationAsync_StartDateAndEndDateNotSameDay_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = "name",
                 StartEvent = new DateTime(2023, 11, 1),
@@ -74,7 +73,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
@@ -84,7 +83,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
         public async Task ValidationAsync_StartDateLaterThenEndDate_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = "name",
                 StartEvent = new DateTime(1001),
@@ -92,17 +91,17 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInDateExistEvent_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -111,17 +110,17 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -130,17 +129,17 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_NewEventIncludedExistEvent_Fail()
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -149,17 +148,17 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);
         }
 
         [Test]
-        public async Task ValidationAsync_ExistEventIncludedNewEvent_Fail()
+        public async Task ValidationAsync_ExistDateEventIncludedInputDateEvent_Fail()
         {
             // arrange
-            UpdateEventCommand command = new UpdateEventCommand
+            UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
@@ -168,7 +167,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(command);
+            ValidationResult result = await _validator.ValidationAsync(updateEventCommand);
 
             // assert
             Assert.IsTrue(result.IsFail);

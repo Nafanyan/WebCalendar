@@ -4,7 +4,7 @@ using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Data.UserAuthorizationTokens
+namespace Infrastructure.Entities.UserAuthorizationTokens
 {
     public class UserAuthorizationRepository : BaseRepository<UserAuthorizationToken>, IUserAuthorizationTokenRepository
     {

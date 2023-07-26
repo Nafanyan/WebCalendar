@@ -4,7 +4,6 @@ using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;
 using Application.Entities;
 using Application.Repositories;
-using Application.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 {

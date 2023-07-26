@@ -1,9 +1,8 @@
-﻿using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
+﻿using Application.Entities;
+using Application.Repositories;
+using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 

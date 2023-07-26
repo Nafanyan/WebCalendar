@@ -1,10 +1,9 @@
-﻿using Application.Events.Queries.GetEvent;
+﻿using Application.Entities;
+using Application.Events.Queries.GetEvent;
+using Application.Repositories;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
-using Infrastructure.Data.Events;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Events;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 

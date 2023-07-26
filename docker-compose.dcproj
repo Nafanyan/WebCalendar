@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>3041104a-7fd2-4619-a90d-684d95ca04a5</ProjectGuid>
+    <ProjectGuid>76151c77-59b3-4350-a7be-f6584f062b1d</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>presentation.intranet.api</DockerServiceName>

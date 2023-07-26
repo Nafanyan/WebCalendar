@@ -14,16 +14,6 @@ namespace Application.Events.Commands.DeleteEvent
 
         public async Task<ValidationResult> ValidationAsync(DeleteEventCommand command)
         {
-            if (command.StartEvent == null)
-            {
-                return ValidationResult.Fail("The start date cannot be empty/cannot be null");
-            }
-
-            if (command.EndEvent == null)
-            {
-                return ValidationResult.Fail("The end date cannot be empty/cannot be null");
-            }
-
             if (command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString())
             {
                 return ValidationResult.Fail("The event must occur within one day");

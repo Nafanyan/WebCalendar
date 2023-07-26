@@ -1,4 +1,4 @@
-﻿using Application.UnitOfWork;
+﻿using Application;
 
 namespace Infrastructure.Foundation
 {

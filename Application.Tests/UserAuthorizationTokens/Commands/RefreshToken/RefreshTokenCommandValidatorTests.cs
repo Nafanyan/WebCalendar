@@ -1,10 +1,9 @@
-﻿using Application.UserAuthorizationTokens.Commands.RefreshToken;
+﻿using Application.Entities;
+using Application.Repositories;
+using Application.UserAuthorizationTokens.Commands.RefreshToken;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
-using Infrastructure.Data.UserAuthorizationTokens;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.UserAuthorizationTokens;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,12 +1,12 @@
 ﻿using Application.Tokens;
 using Application.Repositories;
-using Application.UnitOfWork;
 using Infrastructure.ConfigurationUtils.Token;
 using Infrastructure.Entities.Events;
 using Infrastructure.Entities.UserAuthorizationTokens;
 using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.Extensions.DependencyInjection;
+using Application;
 
 namespace Infrastructure
 {

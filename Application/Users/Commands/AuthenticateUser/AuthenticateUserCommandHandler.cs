@@ -4,7 +4,6 @@ using Application.Users.DTOs;
 using Application.Validation;
 using Application.Entities;
 using Application.Repositories;
-using Application.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 {

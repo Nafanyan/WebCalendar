@@ -14,16 +14,6 @@ namespace Application.Events.Queries.GetEvent
 
         public async Task<ValidationResult> ValidationAsync(GetEventQuery query)
         {
-            if (query.StartEvent == null)
-            {
-                return ValidationResult.Fail("The start date cannot be empty/cannot be null");
-            }
-
-            if (query.EndEvent == null)
-            {
-                return ValidationResult.Fail("The end date cannot be empty/cannot be null");
-            }
-
             if (query.StartEvent > query.EndEvent)
             {
                 return ValidationResult.Fail("The start date cannot be later than the end date");

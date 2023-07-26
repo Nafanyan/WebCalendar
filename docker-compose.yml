@@ -6,3 +6,12 @@ services:
     build:
       context: .
       dockerfile: Web/Presentation.Intranet.Api/Dockerfile
+
+  client:
+    image: ${DOCKER_REGISTRY-}nafanyan/frontend
+    build:
+      context: Web/extranet/web-calendar
+      dockerfile: Dockerfile
+      
+  proxy:
+    image: nginx:mainline

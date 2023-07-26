@@ -3,7 +3,6 @@ using Application.CQRSInterfaces;
 using Application.Entities;
 using Application.Repositories;
 using Application.Validation;
-using Application.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {

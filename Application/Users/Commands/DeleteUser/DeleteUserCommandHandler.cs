@@ -3,7 +3,6 @@ using Application.Result;
 using Application.Validation;
 using Application.Entities;
 using Application.Repositories;
-using Application.UnitOfWork;
 
 namespace Application.Users.Commands.DeleteUser
 {

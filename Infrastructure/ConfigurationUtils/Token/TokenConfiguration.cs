@@ -1,6 +1,5 @@
 ﻿using Application.Tokens;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 
 namespace Infrastructure.ConfigurationUtils.Token
 {

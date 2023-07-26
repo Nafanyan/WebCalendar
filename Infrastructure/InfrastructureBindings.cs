@@ -2,9 +2,9 @@
 using Domain.Repositories;
 using Domain.UnitOfWork;
 using Infrastructure.ConfigurationUtils.Token;
-using Infrastructure.Data.Events;
-using Infrastructure.Data.UserAuthorizationTokens;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Events;
+using Infrastructure.Entities.UserAuthorizationTokens;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.Extensions.DependencyInjection;
 

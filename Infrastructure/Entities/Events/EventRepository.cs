@@ -3,7 +3,7 @@ using Domain.Repositories;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data.Events
+namespace Infrastructure.Entities.Events
 {
     public class EventRepository : BaseRepository<Event>, IEventRepository
     {
@@ -17,10 +17,10 @@ namespace Infrastructure.Data.Events
             if (events.Count > 0)
             {
                 return events.Where(e => (DateTime.Compare(e.StartEvent, startEvent) >= 0 && DateTime.Compare(e.EndEvent, endEvent) <= 0)
-                || (DateTime.Compare(startEvent, e.StartEvent) >= 0 && DateTime.Compare(endEvent, e.EndEvent) <= 0)
-                || (DateTime.Compare(e.StartEvent, startEvent) >= 0 && DateTime.Compare(e.StartEvent, endEvent) <= 0)
-                || (DateTime.Compare(e.EndEvent, startEvent) >= 0 && DateTime.Compare(e.EndEvent, endEvent) <= 0)).
-                FirstOrDefault() != null;
+                    || (DateTime.Compare(startEvent, e.StartEvent) >= 0 && DateTime.Compare(endEvent, e.EndEvent) <= 0)
+                    || (DateTime.Compare(e.StartEvent, startEvent) >= 0 && DateTime.Compare(e.StartEvent, endEvent) <= 0)
+                    || (DateTime.Compare(e.EndEvent, startEvent) >= 0 && DateTime.Compare(e.EndEvent, endEvent) <= 0))
+                    .FirstOrDefault() != null;
             }
             return false;
         }

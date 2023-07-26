@@ -2,7 +2,7 @@
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Entities
 {
     public abstract class BaseRepository<TEntity> : IAddedRepository<TEntity>,
         IRemovableRepository<TEntity> where TEntity : class

@@ -4,7 +4,7 @@ using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Data.Users
+namespace Infrastructure.Entities.Users
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {

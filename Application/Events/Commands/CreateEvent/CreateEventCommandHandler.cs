@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Repositories;
 using Application.Validation;
 using Domain.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Events.Commands.CreateEvent
 {
@@ -14,7 +15,7 @@ namespace Application.Events.Commands.CreateEvent
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateEventCommandHandler(
-            IEventRepository eventRepository, 
+            IEventRepository eventRepository,
             IAsyncValidator<CreateEventCommand> validator,
             IUnitOfWork unitOfWork)
         {
@@ -33,6 +34,7 @@ namespace Application.Events.Commands.CreateEvent
                 _eventRepository.Add(newEvent);
                 await _unitOfWork.CommitAsync();
             }
+
             return new CommandResult(validationResult);
         }
     }

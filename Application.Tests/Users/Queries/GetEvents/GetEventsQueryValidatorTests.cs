@@ -4,7 +4,7 @@ using Application.Validation;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.UnitOfWork;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 

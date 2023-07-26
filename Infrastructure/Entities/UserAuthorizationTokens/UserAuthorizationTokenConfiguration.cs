@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Data.UserAuthorizationTokens
+namespace Infrastructure.Entities.UserAuthorizationTokens
 {
     internal class UserAuthorizationTokenConfiguration : IEntityTypeConfiguration<UserAuthorizationToken>
     {

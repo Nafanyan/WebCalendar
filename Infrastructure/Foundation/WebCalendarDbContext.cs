@@ -1,6 +1,6 @@
-﻿using Infrastructure.Data.Events;
-using Infrastructure.Data.UserAuthorizationTokens;
-using Infrastructure.Data.Users;
+﻿using Infrastructure.Entities.UserAuthorizationTokens;
+using Infrastructure.Entities.Users;
+using Infrastructure.Entities.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Foundation

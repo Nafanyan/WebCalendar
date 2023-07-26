@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Data.Events
+namespace Infrastructure.Entities.Events
 {
     internal class EventConfiguration : IEntityTypeConfiguration<Event>
     {

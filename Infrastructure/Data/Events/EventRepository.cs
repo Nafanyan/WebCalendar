@@ -13,7 +13,16 @@ namespace Infrastructure.Data.Events
 
         public async Task<bool> ContainsAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
-            return await GetEventAsync(userId, startEvent, endEvent) != null;
+            IReadOnlyList<Event> events = await Entities.Where(e => e.UserId == userId).ToListAsync();
+            if (events.Count > 0)
+            {
+                return events.Where(e => (DateTime.Compare(e.StartEvent, startEvent) >= 0 && DateTime.Compare(e.EndEvent, endEvent) <= 0)
+                || (DateTime.Compare(startEvent, e.StartEvent) >= 0 && DateTime.Compare(endEvent, e.EndEvent) <= 0)
+                || (DateTime.Compare(e.StartEvent, startEvent) >= 0 && DateTime.Compare(e.StartEvent, endEvent) <= 0)
+                || (DateTime.Compare(e.EndEvent, startEvent) >= 0 && DateTime.Compare(e.EndEvent, endEvent) <= 0)).
+                FirstOrDefault() != null;
+            }
+            return false;
         }
         public async Task<Event> GetEventAsync(long userId, DateTime startEvent, DateTime endEvent)
         {
@@ -27,5 +36,7 @@ namespace Infrastructure.Data.Events
             }
             return null;
         }
+
+
     }
 }

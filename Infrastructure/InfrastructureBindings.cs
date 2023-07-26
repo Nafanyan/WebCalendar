@@ -1,6 +1,6 @@
 ﻿using Application.Tokens;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Repositories;
+using Application.UnitOfWork;
 using Infrastructure.ConfigurationUtils.Token;
 using Infrastructure.Entities.Events;
 using Infrastructure.Entities.UserAuthorizationTokens;

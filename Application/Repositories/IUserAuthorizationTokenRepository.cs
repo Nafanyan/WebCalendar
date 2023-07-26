@@ -1,9 +1,7 @@
-﻿using Domain.Entities;
-using Domain.Repositories.BasicRepositories;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using Application.Entities;
+using Application.Repositories.BasicRepositories;
 
-namespace Domain.Repositories
+namespace Application.Repositories
 {
     public interface IUserAuthorizationTokenRepository : 
         IAddedRepository<UserAuthorizationToken>, 

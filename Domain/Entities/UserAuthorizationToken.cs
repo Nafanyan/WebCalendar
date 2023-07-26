@@ -1,5 +1,5 @@
 ﻿
-namespace Domain.Entities
+namespace Application.Entities
 {
     public class UserAuthorizationToken
     {

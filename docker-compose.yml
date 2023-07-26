@@ -1,19 +1,8 @@
 version: '3.4'
 
 services:
-
   presentation.intranet.api:
-    image: ${DOCKER_REGISTRY-}nafanyan/backend
+    image: ${DOCKER_REGISTRY-}presentationintranetapi
     build:
       context: .
       dockerfile: Web/Presentation.Intranet.Api/Dockerfile
-
-  
-  client:
-    image: ${DOCKER_REGISTRY-}nafanyan/frontend
-    build:
-      context: Web/extranet/web-calendar
-      dockerfile: Dockerfile
-      
-  proxy:
-    image: nginx:mainline

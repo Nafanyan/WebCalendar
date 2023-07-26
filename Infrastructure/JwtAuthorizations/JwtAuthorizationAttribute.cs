@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
-using ValidationResult = Application.Validation.ValidationResult;
 
 namespace Infrastructure.JwtAuthorizations
 {

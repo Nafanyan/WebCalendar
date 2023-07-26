@@ -1,5 +1,5 @@
 ﻿using Application.Validation;
-using Domain.Repositories;
+using Application.Repositories;
 
 namespace Application.Users.Queries.GetUserById
 {

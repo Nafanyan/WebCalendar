@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Repositories;
+﻿using Application.Entities;
+using Application.Repositories;
 using Application.Result;
 using Application.CQRSInterfaces;
 using Application.Validation;

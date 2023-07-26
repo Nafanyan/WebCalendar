@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Domain.Repositories.BasicRepositories
+namespace Application.Repositories.BasicRepositories
 {
     public interface ISearchRepository<TEntity> where TEntity : class
     {

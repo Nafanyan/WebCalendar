@@ -1,9 +1,9 @@
 ﻿using Application.Result;
 using Application.CQRSInterfaces;
-using Domain.Entities;
-using Domain.Repositories;
+using Application.Entities;
+using Application.Repositories;
 using Application.Validation;
-using Domain.UnitOfWork;
+using Application.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {

@@ -1,6 +1,6 @@
 ﻿using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Users.Commands.UpdateUserLogin
 {

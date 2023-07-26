@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
-using Domain.Repositories.BasicRepositories;
+﻿using Application.Entities;
+using Application.Repositories.BasicRepositories;
 
-namespace Domain.Repositories
+namespace Application.Repositories
 {
     public interface IEventRepository : IAddedRepository<Event>, IRemovableRepository<Event>
     {

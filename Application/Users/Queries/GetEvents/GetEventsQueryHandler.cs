@@ -2,8 +2,8 @@
 using Application.Result;
 using Application.Users.DTOs;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Users.Queries.GetEvents
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Repositories.BasicRepositories
+﻿namespace Application.Repositories.BasicRepositories
 {
     public interface IRemovableRepository<TEntity> where TEntity : class
     {

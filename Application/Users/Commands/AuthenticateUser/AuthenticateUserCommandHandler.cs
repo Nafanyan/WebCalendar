@@ -2,9 +2,9 @@
 using Application.Tokens;
 using Application.Users.DTOs;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
+using Application.UnitOfWork;
 
 namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 {

@@ -38,12 +38,18 @@ namespace Presentation.Intranet.Api
                 app.UseSwaggerUI();
             }
 
-            app.UseCors(builder =>
-            {
-                builder.WithOrigins(configuration["CORS:WithOrigins:LocalHost"])
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
+            //app.UseCors(builder =>
+            //{
+            //    builder.WithOrigins(configuration["CORS:WithOrigins:LocalHost"])
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod()
+            //    .AllowCredentials();
+            //});
+
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
             });
 
             app.UseAuthorization();

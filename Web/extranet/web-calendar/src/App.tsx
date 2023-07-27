@@ -18,7 +18,6 @@ function App() {
     if (!tokenIsValid && cookies.get("RefreshToken") == null) {
       localStorage.removeItem("token-is-valid");
       localStorage.removeItem("user-name");
-      cookies.remove("RefreshToken");
       setUserAuth(tokenIsValid);
     }
   }, [])

@@ -128,13 +128,7 @@ div#card-day-text {
     padding-bottom: 0px;
 }
 
-.card-text:last-child {
-    margin-bottom: 0;
-    height: 4rem;
-    width: 13rem;
-}
-
-.EventName {
+.eventName {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -39,3 +39,9 @@
     margin: 0px;
     margin-left: 10px;
 }
+
+.card-text:last-child {
+    margin-bottom: 0;
+    height: 3rem;
+    width: 23rem;
+}

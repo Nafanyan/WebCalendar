@@ -17,7 +17,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {userAuth ?
           <>
             <Route path="/" element={<Layout />} >

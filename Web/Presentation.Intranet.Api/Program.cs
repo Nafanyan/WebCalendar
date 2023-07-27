@@ -16,8 +16,7 @@ namespace Presentation.Intranet.Api
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json")
                 .Build();
 
-            //string connectionString = configuration["ConnectionString"];
-            string connectionString = "Host=194.58.109.241; Port=5432; Database=WebCalendar; Username=postgres; Password=skillet123";
+            string connectionString = configuration["ConnectionString"];
             builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
                  db => db.MigrationsAssembly("Infrastructure.Migration")));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -41,18 +40,11 @@ namespace Presentation.Intranet.Api
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins(configuration["CORS:WithOrigins:LocalHost"])
+                builder.WithOrigins(configuration["WithOrigins:LocalHost"])
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
             });
-
-            //app.UseCors(builder => {
-            //    //builder.AllowAnyOrigin();
-            //    //builder.AllowAnyHeader();
-            //    //builder.AllowAnyMethod();
-            //    builder.WithOrigins("http://localhost:3000");
-            //});
 
             app.UseAuthorization();
 

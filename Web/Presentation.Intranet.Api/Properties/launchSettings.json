@@ -26,6 +26,15 @@
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",
+  "EnvironmentsSample-Production": {
+    "commandName": "Project",
+    "dotnetRunMessages": true,
+    "launchBrowser": true,
+    "applicationUrl": "http://localhost:24395",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Production"
+    }
+  },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,

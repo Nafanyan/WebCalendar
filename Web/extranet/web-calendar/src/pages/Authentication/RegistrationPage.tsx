@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { IValidationResult } from "../../models/IValidationResult";
 import { UserService } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 
 export const RegistrationPage: FunctionComponent = () => {
     const navigate = useNavigate();
@@ -13,8 +13,11 @@ export const RegistrationPage: FunctionComponent = () => {
         error: "",
         isFail: false
     });
+    const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
     const registration = async () => {
+        setRequestInProgress(true);
+
         if (password != confirmPassword) {
             setValidationResult({ isFail: true, error: "Password mismatch" });
             return;
@@ -26,11 +29,11 @@ export const RegistrationPage: FunctionComponent = () => {
             PasswordHash: password
         });
 
-        if(!result.isFail)
-        {
+        if (!result.isFail) {
             navigate("/authentication");
         }
         setValidationResult(result);
+        setRequestInProgress(false);
     };
 
     return <div>
@@ -76,9 +79,18 @@ export const RegistrationPage: FunctionComponent = () => {
                                         >
                                         </Form.Group>
                                         <div className="d-grid">
-                                            <Button variant="primary" onClick={() => registration()}>
-                                                Создать аккаунт
-                                            </Button>
+                                            {requestInProgress
+                                                ?
+                                                <Button variant="primary" onClick={() => registration()}>
+                                                    <Spinner size="sm" />
+                                                    Создать аккаунт
+                                                </Button>
+                                                :
+                                                <Button variant="primary" onClick={() => registration()}>
+                                                    Создать аккаунт
+                                                </Button>
+                                            }
+
                                         </div>
                                     </Form>
                                     <div className="mt-3">

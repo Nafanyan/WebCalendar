@@ -16,17 +16,17 @@ namespace Application.Events.Queries.GetEvent
         {
             if( query.StartEvent > query.EndEvent )
             {
-                return ValidationResult.Fail( "The start date cannot be later than the end date" );
+                return ValidationResult.Fail( "Дата начала не может быть позже даты окончания" );
             }
 
             if( query.StartEvent.ToShortDateString() != query.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail( "The event must occur within one day" );
+                return ValidationResult.Fail( "Событие должно произойти в течение одного дня" );
             }
 
             if( !await _eventRepository.ContainsAsync( query.UserId, query.StartEvent, query.EndEvent ) )
             {
-                return ValidationResult.Fail( "There is no event with this time for the current user" );
+                return ValidationResult.Fail( "Для текущего пользователя нет события с этим временем" );
             }
 
             return ValidationResult.Ok();

@@ -17,32 +17,32 @@ namespace Application.Events.Commands.UpdateEvent
         {
             if( command.Name == null || command.Name == String.Empty )
             {
-                return ValidationResult.Fail( "The name of event cannot be empty/cannot be null" );
+                return ValidationResult.Fail( "Имя события не может быть пустым или null" );
             }
 
             if( command.Name.Length > 100 )
             {
-                return ValidationResult.Fail( "The name of event cannot be more than 100 characters" );
+                return ValidationResult.Fail( "Имя события не может быть больше чем 100 символов" );
             }
 
             if( command.Description.Length > 300 )
             {
-                return ValidationResult.Fail( "The description of event cannot be more than 300 characters" );
+                return ValidationResult.Fail( "Описание события не может быть больше чем 300 символов" );
             }
 
             if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail( "The event must occur within one day" );
+                return ValidationResult.Fail( "Событие должно произойти в течение одного дня" );
             }
 
             if( command.StartEvent > command.EndEvent )
             {
-                return ValidationResult.Fail( "The start date cannot be later than the end date" );
+                return ValidationResult.Fail( "Дата начала не может быть позже даты окончания" );
             }
 
             if( await _eventRepository.GetEventAsync( command.UserId, command.StartEvent, command.EndEvent ) == null )
             {
-                return ValidationResult.Fail( "There is no such event" );
+                return ValidationResult.Fail( "Такого события не существует" );
             }
 
             return ValidationResult.Ok();

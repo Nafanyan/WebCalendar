@@ -16,32 +16,32 @@ namespace Application.Events.Commands.CreateEvent
         {
             if( command.Name == null || command.Name == String.Empty )
             {
-                return ValidationResult.Fail( "The name of event cannot be empty/cannot be null" );
+                return ValidationResult.Fail( "Имя события не может быть пустым или null" );
             }
 
             if( command.Name.Length > 100 )
             {
-                return ValidationResult.Fail( "The name of event cannot be more than 100 characters" );
+                return ValidationResult.Fail( "Имя события не может быть больше чем 100 символов" );
             }
 
             if( command.Description.Length > 300 )
             {
-                return ValidationResult.Fail( "The description of event cannot be more than 300 characters" );
+                return ValidationResult.Fail( "Описание события не может быть больше чем 300 символов" );
             }
 
             if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail( "The event must occur within one day" );
+                return ValidationResult.Fail( "Событие должно произойти в течение одного дня" );
             }
 
             if( command.StartEvent >= command.EndEvent )
             {
-                return ValidationResult.Fail( "The start date cannot be later than the end date" );
+                return ValidationResult.Fail( "Дата начала не может быть позже даты окончания" );
             }
 
             if( await _eventRepository.ContainsAsync( command.UserId, command.StartEvent, command.EndEvent ) )
             {
-                return ValidationResult.Fail( "This event is superimposed on the existing event in time" );
+                return ValidationResult.Fail( "Это событие накладывается на существующее событие по времени" );
             }
 
             return ValidationResult.Ok();

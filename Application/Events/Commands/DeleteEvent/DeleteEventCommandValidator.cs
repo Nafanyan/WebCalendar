@@ -16,17 +16,17 @@ namespace Application.Events.Commands.DeleteEvent
         {
             if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail( "The event must occur within one day" );
+                return ValidationResult.Fail( "Событие должно произойти в течение одного дня" );
             }
 
             if( command.StartEvent > command.EndEvent )
             {
-                return ValidationResult.Fail( "The start date cannot be later than the end date" );
+                return ValidationResult.Fail( "Дата начала не может быть позже даты окончания" );
             }
 
             if( await _eventRepository.GetEventAsync( command.UserId, command.StartEvent, command.EndEvent ) == null )
             {
-                return ValidationResult.Fail( "There is no such event" );
+                return ValidationResult.Fail( "Такого события не существует" );
             }
 
             return ValidationResult.Ok();

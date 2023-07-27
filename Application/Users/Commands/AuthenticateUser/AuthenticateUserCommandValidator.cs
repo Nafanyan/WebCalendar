@@ -17,12 +17,12 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
         {
             if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail( "The login cannot be empty/cannot be null" );
+                return ValidationResult.Fail( "Логин не может быть пустым или null" );
             }
 
             if( !await _userRepository.ContainsAsync( user => user.Login == command.Login && user.PasswordHash == command.PasswordHash ) )
             {
-                return ValidationResult.Fail( "Invalid username or password" );
+                return ValidationResult.Fail( "Неверное имя пользователя или пароль" );
             }
 
             return ValidationResult.Ok();

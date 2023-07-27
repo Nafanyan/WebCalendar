@@ -17,13 +17,13 @@ namespace Application.Users.Commands.UpdateUserPassword
         {
             if( !await _userRepository.ContainsAsync( user => user.Id == command.Id ) )
             {
-                return ValidationResult.Fail( "There is no user with this id" );
+                return ValidationResult.Fail( "Пользователя с таким id нет" );
             }
 
             User user = await _userRepository.GetByIdAsync( command.Id );
             if( user.PasswordHash != command.OldPasswordHash )
             {
-                return ValidationResult.Fail( "The entered password does not match the current one" );
+                return ValidationResult.Fail( "Введенный пароль не совпадает с текущим" );
             }
 
             return ValidationResult.Ok();

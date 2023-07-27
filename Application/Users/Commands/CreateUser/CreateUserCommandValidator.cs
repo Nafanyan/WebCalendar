@@ -16,17 +16,17 @@ namespace Application.Users.Commands.CreateUser
         {
             if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail( "The login cannot be empty/cannot be null" );
+                return ValidationResult.Fail( "Логин не может быть пустым или null" );
             }
 
             if( command.Login.Length > 28 )
             {
-                return ValidationResult.Fail( "Login must be less than 28 characters" );
+                return ValidationResult.Fail( "Длина логина должна быть не более 28 символов" );
             }
 
             if( await _userRepository.ContainsAsync( user => user.Login == command.Login ) )
             {
-                return ValidationResult.Fail( "A user with this login already exists" );
+                return ValidationResult.Fail( "Пользователь с таким логином уже существует" );
             }
             return ValidationResult.Ok();
         }

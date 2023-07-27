@@ -17,23 +17,23 @@ namespace Application.Users.Commands.UpdateUserLogin
         {
             if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail( "The login cannot be empty/cannot be null" );
+                return ValidationResult.Fail( "Логин не может быть пустым или null" );
             }
 
             if( !await _userRepository.ContainsAsync( user => user.Id == command.Id ) )
             {
-                return ValidationResult.Fail( "There is no user with this id" );
+                return ValidationResult.Fail( "Пользователя с таким id нет" );
             }
 
             if( await _userRepository.ContainsAsync( user => user.Login == command.Login ) )
             {
-                return ValidationResult.Fail( "A user with this login already exists" );
+                return ValidationResult.Fail( "Пользователь с таким логином уже существует" );
             }
 
             User user = await _userRepository.GetByIdAsync( command.Id );
             if( user.PasswordHash != command.PasswordHash )
             {
-                return ValidationResult.Fail( "The entered password does not match the current one" );
+                return ValidationResult.Fail( "Введенный пароль не совпадает с текущим" );
             }
 
             return ValidationResult.Ok();

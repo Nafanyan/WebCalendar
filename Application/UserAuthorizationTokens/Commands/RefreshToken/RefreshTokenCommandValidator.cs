@@ -19,12 +19,12 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 
             if( token is null )
             {
-                return ValidationResult.Fail( "Authorization required" );
+                return ValidationResult.Fail( "Требуется авторизация" );
             }
 
             if( DateTime.Now > token.ExpiryDate )
             {
-                return ValidationResult.Fail( "Token expired" );
+                return ValidationResult.Fail( "Срок действия токена истек" );
             }
 
             return ValidationResult.Ok();

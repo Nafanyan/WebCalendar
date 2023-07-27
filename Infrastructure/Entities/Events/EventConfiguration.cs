@@ -12,7 +12,7 @@ namespace Infrastructure.Entities.Events
 
             builder.Property( e => e.UserId ).IsRequired();
             builder.Property( e => e.Name ).HasMaxLength( 100 ).IsRequired();
-            builder.Property( e => e.Description ).HasMaxLength( 200 ).IsRequired();
+            builder.Property( e => e.Description ).HasMaxLength( 300 ).IsRequired();
             builder.Property( e => e.StartEvent ).IsRequired();
             builder.Property( e => e.EndEvent ).IsRequired();
         }

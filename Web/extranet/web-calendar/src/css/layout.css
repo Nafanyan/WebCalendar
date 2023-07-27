@@ -65,5 +65,6 @@ header {
 }
 
 #navbar-dark-example{
-  padding-left: 63rem;
+  position: absolute;
+  padding-left: 89rem;
 }

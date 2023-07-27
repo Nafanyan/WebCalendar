@@ -68,7 +68,7 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest( commandResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
 
         [HttpDelete( "{userId}/[controller]" )]
@@ -86,7 +86,7 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest( commandResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
 
         [HttpPut( "{userId}/[controller]" )]
@@ -106,7 +106,7 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest( commandResult.ValidationResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
     }
 }

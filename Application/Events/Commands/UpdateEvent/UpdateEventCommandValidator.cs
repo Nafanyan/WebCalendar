@@ -20,6 +20,16 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail( "The name of event cannot be empty/cannot be null" );
             }
 
+            if( command.Name.Length > 100 )
+            {
+                return ValidationResult.Fail( "The name of event cannot be more than 100 characters" );
+            }
+
+            if( command.Description.Length > 300 )
+            {
+                return ValidationResult.Fail( "The description of event cannot be more than 300 characters" );
+            }
+
             if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
                 return ValidationResult.Fail( "The event must occur within one day" );
@@ -30,9 +40,9 @@ namespace Application.Events.Commands.UpdateEvent
                 return ValidationResult.Fail( "The start date cannot be later than the end date" );
             }
 
-            if( await _eventRepository.ContainsAsync( command.UserId, command.StartEvent, command.EndEvent ) )
+            if( !await _eventRepository.ContainsAsync( command.UserId, command.StartEvent, command.EndEvent ) )
             {
-                return ValidationResult.Fail( "This event is superimposed on the existing event in time" );
+                return ValidationResult.Fail( "There is no such event" );
             }
 
             return ValidationResult.Ok();

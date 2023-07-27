@@ -19,6 +19,16 @@ namespace Application.Events.Commands.CreateEvent
                 return ValidationResult.Fail( "The name of event cannot be empty/cannot be null" );
             }
 
+            if( command.Name.Length > 100 )
+            {
+                return ValidationResult.Fail( "The name of event cannot be more than 100 characters" );
+            }
+
+            if( command.Description.Length > 300 )
+            {
+                return ValidationResult.Fail( "The description of event cannot be more than 300 characters" );
+            }
+
             if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
                 return ValidationResult.Fail( "The event must occur within one day" );

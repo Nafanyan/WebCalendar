@@ -10,7 +10,6 @@ import { Button, Card, Col, Container, Form, Row, Spinner } from "react-bootstra
 
 export const AuthenticationPage: FunctionComponent = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");

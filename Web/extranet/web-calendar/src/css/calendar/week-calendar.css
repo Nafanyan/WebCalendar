@@ -112,6 +112,10 @@
     line-height: 30px;
     text-decoration: none;
     padding-left: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Обработка кнопки для описания события  */
@@ -138,6 +142,10 @@
     --bs-btn-disabled-color: #000;
     --bs-btn-disabled-bg: #d3d4d5;
     --bs-btn-disabled-border-color: #d3d4d5;
+}
+
+.EventName {
+    overflow-x: auto;
 }
 
 p {

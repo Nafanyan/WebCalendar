@@ -6,7 +6,7 @@ namespace Infrastructure.Foundation
     {
         private readonly WebCalendarDbContext _dbContext;
 
-        public UnitOfWork(WebCalendarDbContext dbContext)
+        public UnitOfWork( WebCalendarDbContext dbContext )
         {
             _dbContext = dbContext;
         }

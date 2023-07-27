@@ -7,7 +7,7 @@ namespace Application
 {
     public static class ApplicationBindings
     {
-        public static IServiceCollection AddApplicationBindings(this IServiceCollection services)
+        public static IServiceCollection AddApplicationBindings( this IServiceCollection services )
         {
             services.AddEventsBindings();
             services.AddUsersBindings();

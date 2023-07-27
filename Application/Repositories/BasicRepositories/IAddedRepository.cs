@@ -2,6 +2,6 @@
 {
     public interface IAddedRepository<TEntity> where TEntity : class
     {
-        void Add(TEntity entety);
+        void Add( TEntity entety );
     }
 }

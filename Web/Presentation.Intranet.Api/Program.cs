@@ -7,19 +7,19 @@ namespace Presentation.Intranet.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main( string[] args )
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder( args );
 
             IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json")
+                .AddJsonFile( "appsettings.json" )
+                .AddJsonFile( $"appsettings.{builder.Environment.EnvironmentName}.json" )
                 .Build();
 
             string connectionString = configuration["ConnectionString"];
-            builder.Services.AddDbContext<WebCalendarDbContext>(db => db.UseNpgsql(connectionString,
-                 db => db.MigrationsAssembly("Infrastructure.Migration")));
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            builder.Services.AddDbContext<WebCalendarDbContext>( db => db.UseNpgsql( connectionString,
+                 db => db.MigrationsAssembly( "Infrastructure.Migration" ) ) );
+            AppContext.SetSwitch( "Npgsql.EnableLegacyTimestampBehavior", true );
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,19 +32,19 @@ namespace Presentation.Intranet.Api
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if( app.Environment.IsDevelopment() )
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseCors(builder =>
+            app.UseCors( builder =>
             {
-                builder.WithOrigins(configuration["WithOrigins:LocalHost"])
+                builder.WithOrigins( configuration["WithOrigins:LocalHost"] )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
-            });
+            } );
 
             app.UseAuthorization();
 

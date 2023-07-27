@@ -17,14 +17,14 @@ namespace Application.Tests.Users.Commands.UpdateUserPassword
         {
             string dbName = $"EventDb_{DateTime.Now.ToFileTimeUtc()}";
             DbContextOptions<WebCalendarDbContext> dbContextOptions = new DbContextOptionsBuilder<WebCalendarDbContext>()
-                .UseInMemoryDatabase(dbName)
+                .UseInMemoryDatabase( dbName )
                 .Options;
-            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext(dbContextOptions);
+            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext( dbContextOptions );
 
-            IUserRepository userRepository = new UserRepository(webCalendarDbContext);
-            await InitData(userRepository, webCalendarDbContext);
+            IUserRepository userRepository = new UserRepository( webCalendarDbContext );
+            await InitData( userRepository, webCalendarDbContext );
 
-            _validator = new UpdateUserPasswordCommandValidator(userRepository);
+            _validator = new UpdateUserPasswordCommandValidator( userRepository );
         }
 
         [Test]
@@ -37,10 +37,10 @@ namespace Application.Tests.Users.Commands.UpdateUserPassword
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(updateUserPasswordCommand);
+            ValidationResult result = await _validator.ValidationAsync( updateUserPasswordCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -54,18 +54,18 @@ namespace Application.Tests.Users.Commands.UpdateUserPassword
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(updateUserPasswordCommand);
+            ValidationResult result = await _validator.ValidationAsync( updateUserPasswordCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
-        private async Task InitData(IUserRepository userRepository, WebCalendarDbContext webCalendarDbContext)
+        private async Task InitData( IUserRepository userRepository, WebCalendarDbContext webCalendarDbContext )
         {
-            User user = new User("login", "passwordHash");
-            userRepository.Add(user);
+            User user = new User( "login", "passwordHash" );
+            userRepository.Add( user );
 
-            IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);
+            IUnitOfWork unitOfWork = new UnitOfWork( webCalendarDbContext );
             await unitOfWork.CommitAsync();
         }
     }

@@ -7,15 +7,15 @@ namespace Infrastructure.Foundation
 {
     public class WebCalendarDbContext : DbContext
     {
-        public WebCalendarDbContext(DbContextOptions options) : base(options)
+        public WebCalendarDbContext( DbContextOptions options ) : base( options )
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating( ModelBuilder modelBuilder )
         {
-            modelBuilder.ApplyConfiguration(new EventConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new UserAuthorizationTokenConfiguration());
+            modelBuilder.ApplyConfiguration( new EventConfiguration() );
+            modelBuilder.ApplyConfiguration( new UserConfiguration() );
+            modelBuilder.ApplyConfiguration( new UserAuthorizationTokenConfiguration() );
         }
     }
 }

@@ -9,26 +9,26 @@ namespace Application.Tokens.CreateToken
     {
         private readonly ITokenConfiguration _tokenConfiguration;
 
-        public TokenCreator(ITokenConfiguration configuration)
+        public TokenCreator( ITokenConfiguration configuration )
         {
             _tokenConfiguration = configuration;
         }
 
-        public string CreateAccessToken(long userId)
+        public string CreateAccessToken( long userId )
         {
             List<Claim> authClaims = new List<Claim>
             {
                 new Claim(nameof(userId), userId.ToString())
             };
 
-            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfiguration.GetSecret()));
+            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes( _tokenConfiguration.GetSecret() ) );
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(_tokenConfiguration.GetAccessTokenValidityInMinutes()),
+                expires: DateTime.Now.AddMinutes( _tokenConfiguration.GetAccessTokenValidityInMinutes() ),
                 claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
+                signingCredentials: new SigningCredentials( authSigningKey, SecurityAlgorithms.HmacSha256 ) );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken( token );
         }
 
         public string CreateRefreshToken()

@@ -13,28 +13,28 @@ namespace Application.Events.Commands.UpdateEvent
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateEventCommandHandler(
-            IEventRepository eventRepository, 
+            IEventRepository eventRepository,
             IAsyncValidator<UpdateEventCommand> validator,
-            IUnitOfWork unitOfWork) 
+            IUnitOfWork unitOfWork )
         {
             _eventRepository = eventRepository;
             _updateEventCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateEventCommand updateEventCommand)
+        public async Task<CommandResult> HandleAsync( UpdateEventCommand updateEventCommand )
         {
-            ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync(updateEventCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _updateEventCommandValidator.ValidationAsync( updateEventCommand );
+            if( !validationResult.IsFail )
             {
-                Event oldEvent = await _eventRepository.GetEventAsync(updateEventCommand.UserId,
-                    updateEventCommand.StartEvent, updateEventCommand.StartEvent);
-                oldEvent.SetName(updateEventCommand.Name);
-                oldEvent.SetDescription(updateEventCommand.Description);
-                oldEvent.SetDateEvent(updateEventCommand.StartEvent, updateEventCommand.EndEvent);
+                Event oldEvent = await _eventRepository.GetEventAsync( updateEventCommand.UserId,
+                    updateEventCommand.StartEvent, updateEventCommand.StartEvent );
+                oldEvent.SetName( updateEventCommand.Name );
+                oldEvent.SetDescription( updateEventCommand.Description );
+                oldEvent.SetDateEvent( updateEventCommand.StartEvent, updateEventCommand.EndEvent );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

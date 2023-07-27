@@ -17,14 +17,14 @@ namespace Application.Tests.Users.Commands.AuthenticateUser
         {
             string dbName = $"EventDb_{DateTime.Now.ToFileTimeUtc()}";
             DbContextOptions<WebCalendarDbContext> dbContextOptions = new DbContextOptionsBuilder<WebCalendarDbContext>()
-                .UseInMemoryDatabase(dbName)
+                .UseInMemoryDatabase( dbName )
                 .Options;
-            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext(dbContextOptions);
+            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext( dbContextOptions );
 
-            IUserRepository userRepository = new UserRepository(webCalendarDbContext);
-            await InitData(userRepository, webCalendarDbContext);
+            IUserRepository userRepository = new UserRepository( webCalendarDbContext );
+            await InitData( userRepository, webCalendarDbContext );
 
-            _validator = new AuthenticateUserCommandValidator(userRepository);
+            _validator = new AuthenticateUserCommandValidator( userRepository );
         }
 
         [Test]
@@ -37,10 +37,10 @@ namespace Application.Tests.Users.Commands.AuthenticateUser
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(authenticateUserCommand);
+            ValidationResult result = await _validator.ValidationAsync( authenticateUserCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -53,10 +53,10 @@ namespace Application.Tests.Users.Commands.AuthenticateUser
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(authenticateUserCommand);
+            ValidationResult result = await _validator.ValidationAsync( authenticateUserCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -69,10 +69,10 @@ namespace Application.Tests.Users.Commands.AuthenticateUser
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(authenticateUserCommand);
+            ValidationResult result = await _validator.ValidationAsync( authenticateUserCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -86,18 +86,18 @@ namespace Application.Tests.Users.Commands.AuthenticateUser
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(authenticateUserCommand);
+            ValidationResult result = await _validator.ValidationAsync( authenticateUserCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
-        private async Task InitData(IUserRepository userRepository, WebCalendarDbContext webCalendarDbContext)
+        private async Task InitData( IUserRepository userRepository, WebCalendarDbContext webCalendarDbContext )
         {
-            User user = new User("login", "passwordHash");
-            userRepository.Add(user);
+            User user = new User( "login", "passwordHash" );
+            userRepository.Add( user );
 
-            IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);
+            IUnitOfWork unitOfWork = new UnitOfWork( webCalendarDbContext );
             await unitOfWork.CommitAsync();
         }
     }

@@ -18,14 +18,14 @@ namespace Application.Tests.UserAuthorizationTokens.Commands.RefreshToken
         {
             string dbName = $"EventDb_{DateTime.Now.ToFileTimeUtc()}";
             DbContextOptions<WebCalendarDbContext> dbContextOptions = new DbContextOptionsBuilder<WebCalendarDbContext>()
-                .UseInMemoryDatabase(dbName)
+                .UseInMemoryDatabase( dbName )
                 .Options;
-            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext(dbContextOptions);
+            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext( dbContextOptions );
 
-            IUserAuthorizationTokenRepository userAuthorizationTokenRepository = new UserAuthorizationRepository(webCalendarDbContext);
-            await InitData(userAuthorizationTokenRepository, webCalendarDbContext);
+            IUserAuthorizationTokenRepository userAuthorizationTokenRepository = new UserAuthorizationRepository( webCalendarDbContext );
+            await InitData( userAuthorizationTokenRepository, webCalendarDbContext );
 
-            _validator = new RefreshTokenCommandValidator(userAuthorizationTokenRepository);
+            _validator = new RefreshTokenCommandValidator( userAuthorizationTokenRepository );
         }
 
         [Test]
@@ -38,10 +38,10 @@ namespace Application.Tests.UserAuthorizationTokens.Commands.RefreshToken
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(refreshTokenCommand);
+            ValidationResult result = await _validator.ValidationAsync( refreshTokenCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -54,27 +54,27 @@ namespace Application.Tests.UserAuthorizationTokens.Commands.RefreshToken
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(refreshTokenCommand);
+            ValidationResult result = await _validator.ValidationAsync( refreshTokenCommand );
 
             // assert
-            Assert.IsFalse(result.IsFail);
+            Assert.IsFalse( result.IsFail );
         }
 
         private async Task InitData(
-            IUserAuthorizationTokenRepository userAuthorizationTokenRepository, 
-            WebCalendarDbContext webCalendarDbContext)
+            IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
+            WebCalendarDbContext webCalendarDbContext )
         {
-            IUserRepository userRepository = new UserRepository(webCalendarDbContext);
-            User user = new User("login", "passwordHash");
-            userRepository.Add(user);
+            IUserRepository userRepository = new UserRepository( webCalendarDbContext );
+            User user = new User( "login", "passwordHash" );
+            userRepository.Add( user );
 
             UserAuthorizationToken userAuthorizationToken = new UserAuthorizationToken(
                 1,
                 "RefreshToken",
-                DateTime.Now.AddMinutes(1));
-            userAuthorizationTokenRepository.Add(userAuthorizationToken);
+                DateTime.Now.AddMinutes( 1 ) );
+            userAuthorizationTokenRepository.Add( userAuthorizationToken );
 
-            IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);
+            IUnitOfWork unitOfWork = new UnitOfWork( webCalendarDbContext );
             await unitOfWork.CommitAsync();
         }
     }

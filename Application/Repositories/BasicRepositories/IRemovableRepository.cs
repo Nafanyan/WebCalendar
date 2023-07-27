@@ -2,6 +2,6 @@
 {
     public interface IRemovableRepository<TEntity> where TEntity : class
     {
-        void Delete(TEntity entety);
+        void Delete( TEntity entety );
     }
 }

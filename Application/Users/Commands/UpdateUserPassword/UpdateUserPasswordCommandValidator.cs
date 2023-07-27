@@ -8,22 +8,22 @@ namespace Application.Users.Commands.UpdateUserPassword
     {
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserPasswordCommandValidator(IUserRepository userRepository)
+        public UpdateUserPasswordCommandValidator( IUserRepository userRepository )
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(UpdateUserPasswordCommand command)
+        public async Task<ValidationResult> ValidationAsync( UpdateUserPasswordCommand command )
         {
-            if (!await _userRepository.ContainsAsync(user => user.Id == command.Id))
+            if( !await _userRepository.ContainsAsync( user => user.Id == command.Id ) )
             {
-                return ValidationResult.Fail("There is no user with this id");
+                return ValidationResult.Fail( "There is no user with this id" );
             }
 
-            User user = await _userRepository.GetByIdAsync(command.Id);
-            if (user.PasswordHash != command.OldPasswordHash)
+            User user = await _userRepository.GetByIdAsync( command.Id );
+            if( user.PasswordHash != command.OldPasswordHash )
             {
-                return ValidationResult.Fail("The entered password does not match the current one");
+                return ValidationResult.Fail( "The entered password does not match the current one" );
             }
 
             return ValidationResult.Ok();

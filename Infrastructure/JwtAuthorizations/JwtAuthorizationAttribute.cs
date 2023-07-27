@@ -10,34 +10,34 @@ namespace Infrastructure.JwtAuthorizations
 {
     public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization( AuthorizationFilterContext context )
         {
             ITokenConfiguration configuration = context.HttpContext.RequestServices.GetService<ITokenConfiguration>();
 
             string accessToken = context.HttpContext.Request.Headers["Access-Token"];
-            if (accessToken is null)
+            if( accessToken is null )
             {
                 context.Result = new ForbidResult();
             }
 
-            TokenSignatureVerificator tokenSignatureVerificator = new TokenSignatureVerificator(accessToken, configuration.GetSecret());
-            if (!tokenSignatureVerificator.TokenIsValid)
+            TokenSignatureVerificator tokenSignatureVerificator = new TokenSignatureVerificator( accessToken, configuration.GetSecret() );
+            if( !tokenSignatureVerificator.TokenIsValid )
             {
                 context.Result = new ForbidResult();
             }
 
             TokenDecoder tokenDecoder = new TokenDecoder();
-            JwtSecurityToken token = tokenDecoder.DecodeToken(accessToken);
-            DateTime expDate = new DateTime(1970, 1, 1).AddSeconds((token.Payload.Exp.Value)).AddHours(3);
+            JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
+            DateTime expDate = new DateTime( 1970, 1, 1 ).AddSeconds( ( token.Payload.Exp.Value ) ).AddHours( 3 );
 
-            if (DateTime.Now > expDate)
+            if( DateTime.Now > expDate )
             {
                 context.Result = new ForbidResult();
             }
 
-            long requestUserId = (long)Convert.ToDouble(context.HttpContext.Request.RouteValues["userId"]);
-            long tokenUserId = (long)Convert.ToDouble(token.Payload["userId"]);
-            if (requestUserId != tokenUserId)
+            long requestUserId = ( long )Convert.ToDouble( context.HttpContext.Request.RouteValues["userId"] );
+            long tokenUserId = ( long )Convert.ToDouble( token.Payload["userId"] );
+            if( requestUserId != tokenUserId )
             {
                 context.Result = new ForbidResult();
             }

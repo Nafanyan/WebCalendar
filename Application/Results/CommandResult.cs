@@ -6,7 +6,7 @@ namespace Application.Result
     {
         public ValidationResult ValidationResult { get; private set; }
 
-        public CommandResult(ValidationResult validationResult)
+        public CommandResult( ValidationResult validationResult )
         {
             ValidationResult = validationResult;
         }

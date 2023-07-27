@@ -8,21 +8,21 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
     {
         private readonly IUserRepository _userRepository;
 
-        public AuthenticateUserCommandValidator(IUserRepository userRepository)
+        public AuthenticateUserCommandValidator( IUserRepository userRepository )
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(AuthenticateUserCommand command)
+        public async Task<ValidationResult> ValidationAsync( AuthenticateUserCommand command )
         {
-            if (command.Login == null || command.Login == String.Empty)
+            if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail("The login cannot be empty/cannot be null");
+                return ValidationResult.Fail( "The login cannot be empty/cannot be null" );
             }
 
-            if (!await _userRepository.ContainsAsync(user => user.Login == command.Login && user.PasswordHash == command.PasswordHash))
+            if( !await _userRepository.ContainsAsync( user => user.Login == command.Login && user.PasswordHash == command.PasswordHash ) )
             {
-                return ValidationResult.Fail("Invalid username or password");
+                return ValidationResult.Fail( "Invalid username or password" );
             }
 
             return ValidationResult.Ok();

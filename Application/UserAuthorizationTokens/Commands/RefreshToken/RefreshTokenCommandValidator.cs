@@ -8,23 +8,23 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
 
-        public RefreshTokenCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
+        public RefreshTokenCommandValidator( IUserAuthorizationTokenRepository userAuthorizationTokenRepository )
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(RefreshTokenCommand command)
+        public async Task<ValidationResult> ValidationAsync( RefreshTokenCommand command )
         {
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync( command.RefreshToken );
 
-            if (token is null)
+            if( token is null )
             {
-                return ValidationResult.Fail("Authorization required");
+                return ValidationResult.Fail( "Authorization required" );
             }
 
-            if (DateTime.Now > token.ExpiryDate)
+            if( DateTime.Now > token.ExpiryDate )
             {
-                return ValidationResult.Fail("Token expired");
+                return ValidationResult.Fail( "Token expired" );
             }
 
             return ValidationResult.Ok();

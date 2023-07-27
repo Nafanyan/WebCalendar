@@ -14,7 +14,7 @@ using Presentation.Intranet.Api.Dtos.UserDtos;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("Api/[controller]")]
+    [Route( "Api/[controller]" )]
     [JwtAuthorization]
     public class UsersController : ControllerBase
     {
@@ -40,24 +40,24 @@ namespace Presentation.Intranet.Api.Controllers
             _getUserByIdQueryHandler = getUserByIdQueryHandler;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserById([FromRoute] long userId)
+        [HttpGet( "{userId}" )]
+        public async Task<IActionResult> GetUserById( [FromRoute] long userId )
         {
             GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
             {
                 Id = userId
             };
-            QueryResult<GetUserByIdQueryDto> queryResult = await _getUserByIdQueryHandler.HandleAsync(getUserByIdQuery);
+            QueryResult<GetUserByIdQueryDto> queryResult = await _getUserByIdQueryHandler.HandleAsync( getUserByIdQuery );
 
-            if (queryResult.ValidationResult.IsFail)
+            if( queryResult.ValidationResult.IsFail )
             {
-                return BadRequest(queryResult);
+                return BadRequest( queryResult );
             }
-            return Ok(queryResult);
+            return Ok( queryResult );
         }
 
-        [HttpGet("{userId}/Event")]
-        public async Task<IActionResult> GetEvents([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
+        [HttpGet( "{userId}/Event" )]
+        public async Task<IActionResult> GetEvents( [FromRoute] long userId, DateTime startEvent, DateTime endEvent )
         {
             GetEventsQuery getEventsQuery = new GetEventsQuery
             {
@@ -65,34 +65,34 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = startEvent,
                 EndEvent = endEvent
             };
-            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _getEventQueryHandler.HandleAsync(getEventsQuery);
+            QueryResult<IReadOnlyList<GetEventsQueryDto>> queryResult = await _getEventQueryHandler.HandleAsync( getEventsQuery );
 
-            if (queryResult.ValidationResult.IsFail)
+            if( queryResult.ValidationResult.IsFail )
             {
-                return BadRequest(queryResult);
+                return BadRequest( queryResult );
             }
-            return Ok(queryResult.ObjResult);
+            return Ok( queryResult.ObjResult );
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<IActionResult> Delete([FromRoute] long userId, [FromBody] DeleteUserDto deleteUserDto)
+        [HttpDelete( "{userId}" )]
+        public async Task<IActionResult> Delete( [FromRoute] long userId, [FromBody] DeleteUserDto deleteUserDto )
         {
             DeleteUserCommand deleteUserCommand = new DeleteUserCommand
             {
                 Id = userId,
                 PasswordHash = deleteUserDto.PasswordHash
             };
-            CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync(deleteUserCommand);
+            CommandResult commandResult = await _deleteUserCommandHandler.HandleAsync( deleteUserCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
             return Ok();
         }
 
-        [HttpPut("Update-Login/{userId}")]
-        public async Task<IActionResult> UpdateLogin([FromRoute] long userId, [FromBody] UpdateUserLoginDto updateUserLoginDto)
+        [HttpPut( "Update-Login/{userId}" )]
+        public async Task<IActionResult> UpdateLogin( [FromRoute] long userId, [FromBody] UpdateUserLoginDto updateUserLoginDto )
         {
             UpdateUserLoginCommand updateUserLoginCommand = new UpdateUserLoginCommand
             {
@@ -100,17 +100,17 @@ namespace Presentation.Intranet.Api.Controllers
                 Login = updateUserLoginDto.Login,
                 PasswordHash = updateUserLoginDto.PasswordHash
             };
-            CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync(updateUserLoginCommand);
+            CommandResult commandResult = await _updateUserLoginCommandHandler.HandleAsync( updateUserLoginCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
             return Ok();
         }
 
-        [HttpPut("Update-Password/{userId}")]
-        public async Task<IActionResult> UpdatePassword([FromRoute] long userId, [FromBody] UpdateUserPasswordDto updateUserPasswordDto)
+        [HttpPut( "Update-Password/{userId}" )]
+        public async Task<IActionResult> UpdatePassword( [FromRoute] long userId, [FromBody] UpdateUserPasswordDto updateUserPasswordDto )
         {
             UpdateUserPasswordCommand updateUserPasswordCommand = new UpdateUserPasswordCommand
             {
@@ -118,11 +118,11 @@ namespace Presentation.Intranet.Api.Controllers
                 OldPasswordHash = updateUserPasswordDto.OldPasswordHash,
                 NewPasswordHash = updateUserPasswordDto.NewPasswordHash
             };
-            CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync(updateUserPasswordCommand);
+            CommandResult commandResult = await _updateUserPasswordCommandHandler.HandleAsync( updateUserPasswordCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
             return Ok();
         }

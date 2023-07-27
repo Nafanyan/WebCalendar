@@ -7,16 +7,16 @@ namespace Application.Users.Queries.GetUserById
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserByIdQueryValidator(IUserRepository userRepository)
+        public GetUserByIdQueryValidator( IUserRepository userRepository )
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetUserByIdQuery query)
+        public async Task<ValidationResult> ValidationAsync( GetUserByIdQuery query )
         {
-            if (!await _userRepository.ContainsAsync(user => user.Id == query.Id))
+            if( !await _userRepository.ContainsAsync( user => user.Id == query.Id ) )
             {
-                return ValidationResult.Fail("There is no user with this id");
+                return ValidationResult.Fail( "There is no user with this id" );
             }
 
             return ValidationResult.Ok();

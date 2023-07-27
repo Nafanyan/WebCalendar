@@ -3,30 +3,30 @@ using Application.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandValidator :  IAsyncValidator<DeleteEventCommand>
+    public class DeleteEventCommandValidator : IAsyncValidator<DeleteEventCommand>
     {
         private readonly IEventRepository _eventRepository;
 
-        public DeleteEventCommandValidator(IEventRepository eventRepository)
+        public DeleteEventCommandValidator( IEventRepository eventRepository )
         {
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(DeleteEventCommand command)
+        public async Task<ValidationResult> ValidationAsync( DeleteEventCommand command )
         {
-            if (command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString())
+            if( command.StartEvent.ToShortDateString() != command.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail("The event must occur within one day");
+                return ValidationResult.Fail( "The event must occur within one day" );
             }
 
-            if (command.StartEvent > command.EndEvent)
+            if( command.StartEvent > command.EndEvent )
             {
-                return ValidationResult.Fail("The start date cannot be later than the end date");
+                return ValidationResult.Fail( "The start date cannot be later than the end date" );
             }
 
-            if (await _eventRepository.ContainsAsync(command.UserId, command.StartEvent, command.EndEvent))
+            if( await _eventRepository.ContainsAsync( command.UserId, command.StartEvent, command.EndEvent ) )
             {
-                return ValidationResult.Fail("This event is superimposed on the existing event in time");
+                return ValidationResult.Fail( "This event is superimposed on the existing event in time" );
             }
 
             return ValidationResult.Ok();

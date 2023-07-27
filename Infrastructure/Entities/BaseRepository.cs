@@ -10,18 +10,18 @@ namespace Infrastructure.Entities
         protected readonly WebCalendarDbContext DBContext;
         protected DbSet<TEntity> Entities => DBContext.Set<TEntity>();
 
-        public BaseRepository(WebCalendarDbContext dbContext)
+        public BaseRepository( WebCalendarDbContext dbContext )
         {
             DBContext = dbContext;
         }
 
-        public void Add(TEntity entity)
+        public void Add( TEntity entity )
         {
-            Entities.Add(entity);
+            Entities.Add( entity );
         }
-        public void Delete(TEntity entity)
+        public void Delete( TEntity entity )
         {
-            Entities.Remove(entity);
+            Entities.Remove( entity );
         }
     }
 }

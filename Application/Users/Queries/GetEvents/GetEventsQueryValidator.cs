@@ -7,16 +7,16 @@ namespace Application.Users.Queries.GetEvents
     {
         private readonly IUserRepository _userRepository;
 
-        public GetEventsQueryValidator(IUserRepository userRepository)
+        public GetEventsQueryValidator( IUserRepository userRepository )
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetEventsQuery query)
+        public async Task<ValidationResult> ValidationAsync( GetEventsQuery query )
         {
-            if (!await _userRepository.ContainsAsync(user => user.Id == query.UserId))
+            if( !await _userRepository.ContainsAsync( user => user.Id == query.UserId ) )
             {
-                return ValidationResult.Fail("There is no user with this id");
+                return ValidationResult.Fail( "There is no user with this id" );
             }
 
             return ValidationResult.Ok();

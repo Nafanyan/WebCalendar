@@ -11,7 +11,7 @@ namespace WebCalendar.Application.Events
 {
     public static class EventsBindings
     {
-        public static IServiceCollection AddEventsBindings(this IServiceCollection services)
+        public static IServiceCollection AddEventsBindings( this IServiceCollection services )
         {
             services.AddScoped<ICommandHandler<CreateEventCommand>, CreateEventCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateEventCommand>, UpdateEventCommandHandler>();

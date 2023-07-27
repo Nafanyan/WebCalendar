@@ -12,7 +12,7 @@ namespace Infrastructure
 {
     public static class InfrastructureBindings
     {
-        public static IServiceCollection AddInfrastructureBindings(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureBindings( this IServiceCollection services )
         {
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

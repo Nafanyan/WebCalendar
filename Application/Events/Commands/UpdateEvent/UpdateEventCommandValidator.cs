@@ -17,7 +17,7 @@ namespace Application.Events.Commands.UpdateEvent
         {
             if( command.Name == null || command.Name == String.Empty )
             {
-                return ValidationResult.Fail( "Имя события не может быть пустым или null" );
+                return ValidationResult.Fail( "Имя события не может быть пустым" );
             }
 
             if( command.Name.Length > 100 )

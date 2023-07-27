@@ -16,7 +16,7 @@ namespace Application.Users.Commands.CreateUser
         {
             if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail( "Логин не может быть пустым или null" );
+                return ValidationResult.Fail( "Логин не может быть пустым" );
             }
 
             if( command.Login.Length > 28 )

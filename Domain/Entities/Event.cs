@@ -8,7 +8,7 @@
         public DateTime StartEvent { get; set; }
         public DateTime EndEvent { get; set; }
 
-        public Event(long userId, string name, string description, DateTime startEvent, DateTime endEvent)
+        public Event(long userId, string name, string description, DateTime startEvent, DateTime endEvent )
         {
             UserId = userId;
             Name = name;

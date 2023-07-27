@@ -1,9 +1,8 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
@@ -14,25 +13,25 @@ namespace Application.Users.Commands.CreateUser
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateUserCommandHandler(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IAsyncValidator<CreateUserCommand> validator,
-            IUnitOfWork unitOfWork) 
+            IUnitOfWork unitOfWork )
         {
             _userRepository = userRepository;
             _addUserCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(CreateUserCommand addUserCommand)
+        public async Task<CommandResult> HandleAsync( CreateUserCommand addUserCommand )
         {
-            ValidationResult validationResult = await _addUserCommandValidator.ValidationAsync(addUserCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _addUserCommandValidator.ValidationAsync( addUserCommand );
+            if( !validationResult.IsFail )
             {
-                User user = new User(addUserCommand.Login, addUserCommand.PasswordHash);
-                _userRepository.Add(user);
+                User user = new User( addUserCommand.Login, addUserCommand.PasswordHash );
+                _userRepository.Add( user );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

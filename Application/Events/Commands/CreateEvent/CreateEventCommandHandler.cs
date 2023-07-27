@@ -1,9 +1,8 @@
 ﻿using Application.Result;
 using Application.CQRSInterfaces;
-using Domain.Entities;
-using Domain.Repositories;
+using Application.Entities;
+using Application.Repositories;
 using Application.Validation;
-using Domain.UnitOfWork;
 
 namespace Application.Events.Commands.CreateEvent
 {
@@ -14,26 +13,26 @@ namespace Application.Events.Commands.CreateEvent
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateEventCommandHandler(
-            IEventRepository eventRepository, 
+            IEventRepository eventRepository,
             IAsyncValidator<CreateEventCommand> validator,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork )
         {
             _eventRepository = eventRepository;
             _createEventCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(CreateEventCommand createEventCommand)
+        public async Task<CommandResult> HandleAsync( CreateEventCommand createEventCommand )
         {
-            ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync(createEventCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _createEventCommandValidator.ValidationAsync( createEventCommand );
+            if( !validationResult.IsFail )
             {
-                Event newEvent = new Event(createEventCommand.UserId, createEventCommand.Name, createEventCommand.Description,
-                    createEventCommand.StartEvent, createEventCommand.EndEvent);
-                _eventRepository.Add(newEvent);
+                Event newEvent = new Event( createEventCommand.UserId, createEventCommand.Name, createEventCommand.Description,
+                    createEventCommand.StartEvent, createEventCommand.EndEvent );
+                _eventRepository.Add( newEvent );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

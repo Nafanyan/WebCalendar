@@ -96,7 +96,8 @@ export const MonthCalendar: FunctionComponent = () => {
                                                             {eventsDay != null &&
                                                                 <Card.Text>
                                                                     <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
-                                                                    {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0, 9) + "..." : eventsDay.name + " ")}
+                                                                    <br />
+                                                                    <span className="eventName">{eventsDay.name}</span>
                                                                 </Card.Text>
                                                             }
                                                         </Card.Body>

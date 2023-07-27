@@ -15,8 +15,10 @@ const Layout: FunctionComponent = () => {
     }, [])
 
     const exit = () => {
+        localStorage.removeItem("access-token");
         localStorage.removeItem("token-is-valid");
         localStorage.removeItem("user-name");
+        
         const cookies = new Cookies();
         cookies.remove("RefreshToken");
         window.location.href = '/authentication';

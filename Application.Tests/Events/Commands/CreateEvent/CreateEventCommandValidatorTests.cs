@@ -1,10 +1,9 @@
-﻿using Application.Events.Commands.CreateEvent;
+﻿using Application.Entities;
+using Application.Events.Commands.CreateEvent;
+using Application.Repositories;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
-using Infrastructure.Data.Events;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Events;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +18,14 @@ namespace Application.Tests.Events.Commands.CreateEvent
         {
             string dbName = $"EventDb_{DateTime.Now.ToFileTimeUtc()}";
             DbContextOptions<WebCalendarDbContext> dbContextOptions = new DbContextOptionsBuilder<WebCalendarDbContext>()
-                .UseInMemoryDatabase(dbName)
+                .UseInMemoryDatabase( dbName )
                 .Options;
-            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext(dbContextOptions);
+            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext( dbContextOptions );
 
-            IEventRepository eventRepository = new EventRepository(webCalendarDbContext);
-            await InitData(eventRepository, webCalendarDbContext);
+            IEventRepository eventRepository = new EventRepository( webCalendarDbContext );
+            await InitData( eventRepository, webCalendarDbContext );
 
-            _validator = new CreateEventCommandValidator(eventRepository);
+            _validator = new CreateEventCommandValidator( eventRepository );
         }
 
         [Test]
@@ -39,10 +38,10 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(commcreateEventCommandnd);
+            ValidationResult result = await _validator.ValidationAsync( commcreateEventCommandnd );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -55,10 +54,10 @@ namespace Application.Tests.Events.Commands.CreateEvent
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -68,15 +67,16 @@ namespace Application.Tests.Events.Commands.CreateEvent
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
-                StartEvent = new DateTime(2023, 11, 1),
-                EndEvent = new DateTime(2023, 11, 2)
+                Description = "",
+                StartEvent = new DateTime( 2023, 11, 1 ),
+                EndEvent = new DateTime( 2023, 11, 2 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -86,15 +86,16 @@ namespace Application.Tests.Events.Commands.CreateEvent
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
-                StartEvent = new DateTime(1001),
-                EndEvent = new DateTime(1000)
+                Description = "",
+                StartEvent = new DateTime( 1001 ),
+                EndEvent = new DateTime( 1000 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -106,15 +107,15 @@ namespace Application.Tests.Events.Commands.CreateEvent
                 UserId = 1,
                 Name = "name",
                 Description = "",
-                StartEvent = new DateTime(1500),
-                EndEvent = new DateTime(2500)
+                StartEvent = new DateTime( 1500 ),
+                EndEvent = new DateTime( 2500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -126,15 +127,15 @@ namespace Application.Tests.Events.Commands.CreateEvent
                 UserId = 1,
                 Name = "name",
                 Description = "",
-                StartEvent = new DateTime(500),
-                EndEvent = new DateTime(1500)
+                StartEvent = new DateTime( 500 ),
+                EndEvent = new DateTime( 1500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -146,15 +147,15 @@ namespace Application.Tests.Events.Commands.CreateEvent
                 UserId = 1,
                 Name = "name",
                 Description = "",
-                StartEvent = new DateTime(100),
-                EndEvent = new DateTime(2500)
+                StartEvent = new DateTime( 100 ),
+                EndEvent = new DateTime( 2500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -166,27 +167,27 @@ namespace Application.Tests.Events.Commands.CreateEvent
                 UserId = 1,
                 Name = "name",
                 Description = "",
-                StartEvent = new DateTime(1100),
-                EndEvent = new DateTime(1500)
+                StartEvent = new DateTime( 1100 ),
+                EndEvent = new DateTime( 1500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(createEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( createEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
-        private async Task InitData(IEventRepository eventRepository, WebCalendarDbContext webCalendarDbContext)
+        private async Task InitData( IEventRepository eventRepository, WebCalendarDbContext webCalendarDbContext )
         {
-            IUserRepository userRepository = new UserRepository(webCalendarDbContext);
-            User user = new User("login", "passwordHash");
-            userRepository.Add(user);
+            IUserRepository userRepository = new UserRepository( webCalendarDbContext );
+            User user = new User( "login", "passwordHash" );
+            userRepository.Add( user );
 
-            Event newEvent = new Event(1, "name", "", new DateTime(1000), new DateTime(2000));
-            eventRepository.Add(newEvent);
+            Event newEvent = new Event( 1, "name", "", new DateTime( 1000 ), new DateTime( 2000 ) );
+            eventRepository.Add( newEvent );
 
-            IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);
+            IUnitOfWork unitOfWork = new UnitOfWork( webCalendarDbContext );
             await unitOfWork.CommitAsync();
         }
     }

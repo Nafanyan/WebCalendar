@@ -1,9 +1,8 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword
 {
@@ -14,25 +13,25 @@ namespace Application.Users.Commands.UpdateUserPassword
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateUserPasswordCommandHandler(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IAsyncValidator<UpdateUserPasswordCommand> validator,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork )
         {
             _userRepository = userRepository;
             _updateUserPasswordCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(UpdateUserPasswordCommand updateUserPasswordCommand)
+        public async Task<CommandResult> HandleAsync( UpdateUserPasswordCommand updateUserPasswordCommand )
         {
-            ValidationResult validationResult = await _updateUserPasswordCommandValidator.ValidationAsync(updateUserPasswordCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _updateUserPasswordCommandValidator.ValidationAsync( updateUserPasswordCommand );
+            if( !validationResult.IsFail )
             {
-                User user = await _userRepository.GetByIdAsync(updateUserPasswordCommand.Id);
-                user.SetPasswordHash(updateUserPasswordCommand.NewPasswordHash);
+                User user = await _userRepository.GetByIdAsync( updateUserPasswordCommand.Id );
+                user.SetPasswordHash( updateUserPasswordCommand.NewPasswordHash );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

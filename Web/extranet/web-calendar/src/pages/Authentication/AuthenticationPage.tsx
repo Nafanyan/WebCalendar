@@ -6,11 +6,10 @@ import { AuthenticationService } from "../../services/AuthenticationService";
 import { useNavigate } from "react-router-dom";
 import { CurrentDayActionType } from "../../models/type/currentDay";
 import { TokenDecoder } from "../../custom-utils/TokenDecoder";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 
 export const AuthenticationPage: FunctionComponent = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -18,8 +17,10 @@ export const AuthenticationPage: FunctionComponent = () => {
         error: "",
         isFail: false
     });
+    const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
     const authenticationWithLogin = async () => {
+        setRequestInProgress(true);
         const service: AuthenticationService = new AuthenticationService();
 
         let result: ITokenCommandResult = await service.authentication({
@@ -38,6 +39,7 @@ export const AuthenticationPage: FunctionComponent = () => {
             localStorage.setItem("token-is-valid", JSON.stringify(true));
             window.location.href = '/months';
         }
+        setRequestInProgress(false);
     };
 
     return (
@@ -69,16 +71,24 @@ export const AuthenticationPage: FunctionComponent = () => {
                                             <Form.Control type="password" placeholder="Введите пароль" onChange={l => setPassword(l.target.value)} />
                                         </Form.Group>
                                         <div className="d-grid">
-                                            <Button variant="primary" onClick={() => authenticationWithLogin()}>
-                                                Войти
-                                            </Button>
+                                            {requestInProgress
+                                                ?
+                                                <Button variant="primary" disabled>
+                                                    <Spinner size="sm" />
+                                                    Войти
+                                                </Button>
+                                                :
+                                                <Button variant="primary" onClick={() => authenticationWithLogin()}>
+                                                    Войти
+                                                </Button>}
+
                                         </div>
                                     </Form>
                                     <div className="mt-3">
                                         <p className="mb-0  text-center">
                                             Нет аккаунта?{" "}
                                             <a href="/registration" className="text-primary fw-bold">
-                                                Зарегистрируйся
+                                                Зарегестрироваться
                                             </a>
                                         </p>
                                     </div>

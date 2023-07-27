@@ -1,5 +1,5 @@
 ﻿using Application.Validation;
-using Domain.Repositories;
+using Application.Repositories;
 
 namespace Application.Users.Commands.CreateUser
 {
@@ -7,26 +7,26 @@ namespace Application.Users.Commands.CreateUser
     {
         private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandValidator(IUserRepository userRepository)
+        public CreateUserCommandValidator( IUserRepository userRepository )
         {
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(CreateUserCommand command)
+        public async Task<ValidationResult> ValidationAsync( CreateUserCommand command )
         {
-            if (command.Login == null || command.Login == String.Empty)
+            if( command.Login == null || command.Login == String.Empty )
             {
-                return ValidationResult.Fail("The login cannot be empty/cannot be null");
+                return ValidationResult.Fail( "Логин не может быть пустым" );
             }
 
-            if (command.Login.Length > 28)
+            if( command.Login.Length > 28 )
             {
-                return ValidationResult.Fail("Login must be less than 28 characters");
+                return ValidationResult.Fail( "Длина логина должна быть не более 28 символов" );
             }
 
-            if (await _userRepository.ContainsAsync(user => user.Login == command.Login))
+            if( await _userRepository.ContainsAsync( user => user.Login == command.Login ) )
             {
-                return ValidationResult.Fail("A user with this login already exists");
+                return ValidationResult.Fail( "Пользователь с таким логином уже существует" );
             }
             return ValidationResult.Ok();
         }

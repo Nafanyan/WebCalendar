@@ -7,13 +7,13 @@ namespace Application.Result
         public ValidationResult ValidationResult { get; private set; }
         public TQueryResultData ObjResult { get; private set; }
 
-        public QueryResult(TQueryResultData objResult)
+        public QueryResult( TQueryResultData objResult )
         {
             ObjResult = objResult;
             ValidationResult = ValidationResult.Ok();
         }
 
-        public QueryResult(ValidationResult validationResult)
+        public QueryResult( ValidationResult validationResult )
         {
             ValidationResult = validationResult;
         }

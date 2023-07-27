@@ -92,7 +92,7 @@ export const WeekCalendar: FunctionComponent = () => {
                                                         {eventsDay != null &&
                                                             <Card.Text >
                                                                <EventInfo startEvent={eventsDay.startEvent} endEvent={eventsDay.endEvent} />
-                                                               {" " + (eventsDay.name.length > 9 ? eventsDay.name.substring(0,9) + "..." : eventsDay.name + " ")}
+                                                               {" " + (eventsDay.name.length > 12 ? eventsDay.name.substring(0,12) + "..." : eventsDay.name + " ")}
                                                             </Card.Text>}
                                                     </Card.Body>
                                                 ))}

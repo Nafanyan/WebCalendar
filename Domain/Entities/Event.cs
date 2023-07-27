@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace Application.Entities
 {
     public class Event
     {
@@ -8,7 +8,7 @@
         public DateTime StartEvent { get; set; }
         public DateTime EndEvent { get; set; }
 
-        public Event(long userId, string name, string description, DateTime startEvent, DateTime endEvent)
+        public Event( long userId, string name, string description, DateTime startEvent, DateTime endEvent )
         {
             UserId = userId;
             Name = name;
@@ -22,15 +22,15 @@
 
         }
 
-        public void SetName(string name)
+        public void SetName( string name )
         {
             Name = name;
         }
-        public void SetDescription(string description)
+        public void SetDescription( string description )
         {
             Description = description;
         }
-        public void SetDateEvent(DateTime startEvent, DateTime endEvent)
+        public void SetDateEvent( DateTime startEvent, DateTime endEvent )
         {
             StartEvent = startEvent;
             EndEvent = endEvent;

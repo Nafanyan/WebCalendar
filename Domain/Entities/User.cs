@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace Application.Entities
 {
     public class User
     {
@@ -6,17 +6,17 @@
         public string Login { get; private set; }
         public string PasswordHash { get; private set; }
 
-        public User(string login, string passwordHash)
+        public User( string login, string passwordHash )
         {
             Login = login;
             PasswordHash = passwordHash;
         }
 
-        public void SetLogin(string login)
+        public void SetLogin( string login )
         {
             Login = login;
         }
-        public void SetPasswordHash(string passwordHash)
+        public void SetPasswordHash( string passwordHash )
         {
             PasswordHash = passwordHash;
         }

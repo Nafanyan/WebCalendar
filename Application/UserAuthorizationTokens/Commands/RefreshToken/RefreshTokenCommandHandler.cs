@@ -2,9 +2,10 @@
 using Application.Tokens.CreateToken;
 using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
+using Application.CQRSInterfaces;
+using Application.Result;
 
 namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 {
@@ -20,37 +21,37 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
             IAsyncValidator<RefreshTokenCommand> validator,
             IUnitOfWork unitOfWork,
-            ITokenConfiguration tokenConfiguration)
+            ITokenConfiguration tokenConfiguration )
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
             _userAuthorizationTokenValidator = validator;
             _unitOfWork = unitOfWork;
             _tokenConfiguration = tokenConfiguration;
-            _tokenCreator = new TokenCreator(_tokenConfiguration);
+            _tokenCreator = new TokenCreator( _tokenConfiguration );
 
         }
 
-        public async Task<CommandResult<RefreshTokenCommandDto>> HandleAsync(RefreshTokenCommand command)
+        public async Task<CommandResult<RefreshTokenCommandDto>> HandleAsync( RefreshTokenCommand command )
         {
-            ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync(command);
+            ValidationResult validationResult = await _userAuthorizationTokenValidator.ValidationAsync( command );
 
-            if (validationResult.IsFail)
+            if( validationResult.IsFail )
             {
-                return new CommandResult<RefreshTokenCommandDto>(validationResult);
+                return new CommandResult<RefreshTokenCommandDto>( validationResult );
             }
 
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
-            _userAuthorizationTokenRepository.Delete(token);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync( command.RefreshToken );
+            _userAuthorizationTokenRepository.Delete( token );
 
-            string accessToken = _tokenCreator.CreateAccessToken(token.UserId);
+            string accessToken = _tokenCreator.CreateAccessToken( token.UserId );
             string refreshToken = _tokenCreator.CreateRefreshToken();
-            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays(_tokenConfiguration.GetRefreshTokenValidityInDays());
+            DateTime refreshTokenExpiryDate = DateTime.Now.AddDays( _tokenConfiguration.GetRefreshTokenValidityInDays() );
 
             UserAuthorizationToken newToken = new UserAuthorizationToken(
                 token.UserId,
                 refreshToken,
-                refreshTokenExpiryDate);
-            _userAuthorizationTokenRepository.Add(newToken);
+                refreshTokenExpiryDate );
+            _userAuthorizationTokenRepository.Add( newToken );
 
             await _unitOfWork.CommitAsync();
 
@@ -60,7 +61,7 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
                 RefreshToken = refreshToken
             };
 
-            return new CommandResult<RefreshTokenCommandDto>(refreshTokenCommandResult);
+            return new CommandResult<RefreshTokenCommandDto>( refreshTokenCommandResult );
         }
     }
 }

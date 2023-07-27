@@ -1,5 +1,5 @@
 ﻿using Application.Validation;
-using Domain.Repositories;
+using Application.Repositories;
 
 namespace Application.Events.Queries.GetEvent
 {
@@ -7,36 +7,26 @@ namespace Application.Events.Queries.GetEvent
     {
         private readonly IEventRepository _eventRepository;
 
-        public GetEventQueryValidator(IEventRepository eventRepository)
+        public GetEventQueryValidator( IEventRepository eventRepository )
         {
             _eventRepository = eventRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(GetEventQuery query)
+        public async Task<ValidationResult> ValidationAsync( GetEventQuery query )
         {
-            if (query.StartEvent == null)
+            if( query.StartEvent > query.EndEvent )
             {
-                return ValidationResult.Fail("The start date cannot be empty/cannot be null");
+                return ValidationResult.Fail( "Дата начала не может быть позже даты окончания" );
             }
 
-            if (query.EndEvent == null)
+            if( query.StartEvent.ToShortDateString() != query.EndEvent.ToShortDateString() )
             {
-                return ValidationResult.Fail("The end date cannot be empty/cannot be null");
+                return ValidationResult.Fail( "Событие должно произойти в течение одного дня" );
             }
 
-            if (query.StartEvent > query.EndEvent)
+            if( !await _eventRepository.ContainsAsync( query.UserId, query.StartEvent, query.EndEvent ) )
             {
-                return ValidationResult.Fail("The start date cannot be later than the end date");
-            }
-
-            if (query.StartEvent.ToShortDateString() != query.EndEvent.ToShortDateString())
-            {
-                return ValidationResult.Fail("The event must occur within one day");
-            }
-
-            if (!await _eventRepository.ContainsAsync(query.UserId, query.StartEvent, query.EndEvent))
-            {
-                return ValidationResult.Fail("There is no event with this time for the current user");
+                return ValidationResult.Fail( "Для текущего пользователя нет события с этим временем" );
             }
 
             return ValidationResult.Ok();

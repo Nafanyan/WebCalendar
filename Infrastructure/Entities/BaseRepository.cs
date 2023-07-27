@@ -1,8 +1,8 @@
-﻿using Domain.Repositories.BasicRepositories;
+﻿using Application.Repositories.BasicRepositories;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Entities
 {
     public abstract class BaseRepository<TEntity> : IAddedRepository<TEntity>,
         IRemovableRepository<TEntity> where TEntity : class
@@ -10,18 +10,18 @@ namespace Infrastructure.Data
         protected readonly WebCalendarDbContext DBContext;
         protected DbSet<TEntity> Entities => DBContext.Set<TEntity>();
 
-        public BaseRepository(WebCalendarDbContext dbContext)
+        public BaseRepository( WebCalendarDbContext dbContext )
         {
             DBContext = dbContext;
         }
 
-        public void Add(TEntity entity)
+        public void Add( TEntity entity )
         {
-            Entities.Add(entity);
+            Entities.Add( entity );
         }
-        public void Delete(TEntity entity)
+        public void Delete( TEntity entity )
         {
-            Entities.Remove(entity);
+            Entities.Remove( entity );
         }
     }
 }

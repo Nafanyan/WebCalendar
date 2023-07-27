@@ -1,6 +1,6 @@
 ﻿using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.UserAuthorizationTokens.Commands.RefreshToken
 {
@@ -8,23 +8,23 @@ namespace Application.UserAuthorizationTokens.Commands.RefreshToken
     {
         private readonly IUserAuthorizationTokenRepository _userAuthorizationTokenRepository;
 
-        public RefreshTokenCommandValidator(IUserAuthorizationTokenRepository userAuthorizationTokenRepository)
+        public RefreshTokenCommandValidator( IUserAuthorizationTokenRepository userAuthorizationTokenRepository )
         {
             _userAuthorizationTokenRepository = userAuthorizationTokenRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync(RefreshTokenCommand command)
+        public async Task<ValidationResult> ValidationAsync( RefreshTokenCommand command )
         {
-            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync(command.RefreshToken);
+            UserAuthorizationToken token = await _userAuthorizationTokenRepository.GetByRefreshTokenAsync( command.RefreshToken );
 
-            if (token is null)
+            if( token is null )
             {
-                return ValidationResult.Fail("Authorization required");
+                return ValidationResult.Fail( "Требуется авторизация" );
             }
 
-            if (DateTime.Now > token.ExpiryDate)
+            if( DateTime.Now > token.ExpiryDate )
             {
-                return ValidationResult.Fail("Token expired");
+                return ValidationResult.Fail( "Срок действия токена истек" );
             }
 
             return ValidationResult.Ok();

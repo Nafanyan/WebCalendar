@@ -6,14 +6,13 @@ using Application.UserAuthorizationTokens.Commands.RefreshToken;
 using Application.Users.Commands.CreateUser;
 using Presentation.Intranet.Api.Dtos.UserDtos;
 using Presentation.Intranet.Api.Dtos.AuthenticationDtos;
-using Application.UserAuthorizationTokens.Commands;
 using Application.UserAuthorizationTokens.DTOs;
 using Application.Users.DTOs;
 
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("Api/Users")]
+    [Route( "Api/Users" )]
     public class AuthenticationController : ControllerBase
     {
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
@@ -32,45 +31,45 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost]
-        [Route("Registrate")]
-        public async Task<IActionResult> Registrate([FromBody] RegistrateUserDto registrateUserDto)
+        [Route( "Registrate" )]
+        public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto )
         {
             CreateUserCommand createUserCommand = new CreateUserCommand
             {
                 Login = registrateUserDto.Login,
                 PasswordHash = registrateUserDto.PasswordHash
             };
-            CommandResult commandResult = await _createUserCommandHandler.HandleAsync(createUserCommand);
+            CommandResult commandResult = await _createUserCommandHandler.HandleAsync( createUserCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
 
-            return Ok(commandResult);
+            return Ok( commandResult );
         }
 
-        [HttpPost("Refresh-Token")]
+        [HttpPost( "Refresh-Token" )]
         public async Task<IActionResult> RefreshToken()
         {
             string refreshTokenFromCookie = Request.Cookies["RefreshToken"];
-            
+
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
                 RefreshToken = refreshTokenFromCookie,
             };
-            CommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync(refreshTokenCommand);
+            CommandResult<RefreshTokenCommandDto> commandResult = await _refreshTokenCommandHandler.HandleAsync( refreshTokenCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
 
-            return Ok(commandResult);
+            return Ok( commandResult );
         }
 
-        [HttpPost("Authentication")]
-        public async Task<IActionResult> Authentication([FromBody] AuthenticationDto authenticationDto)
+        [HttpPost( "Authentication" )]
+        public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto )
         {
             AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand
             {
@@ -78,14 +77,14 @@ namespace Presentation.Intranet.Api.Controllers
                 PasswordHash = authenticationDto.PasswordHash
             };
             CommandResult<AuthenticateUserCommandDto> commandResult = await _authenticateCommandHandler
-                .HandleAsync(authenticateUserCommand);
+                .HandleAsync( authenticateUserCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
 
-            return Ok(commandResult);
+            return Ok( commandResult );
         }
     }
 }

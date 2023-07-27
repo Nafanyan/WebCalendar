@@ -13,10 +13,12 @@ export class AuthenticationService {
             .then((response) => {
                 localStorage.removeItem("access-token")
                 localStorage.setItem("access-token", JSON.stringify(response.data.objResult.accessToken))
+                localStorage.setItem("token-is-valid", JSON.stringify(true))
                 cookies.set("RefreshToken", response.data.objResult.refreshToken)
                 return response.data;
             }).catch(error => {
                 localStorage.removeItem("token-is-valid")
+                cookies.remove("RefreshToken")
                 return error.response.data
             })
         return response;
@@ -30,6 +32,7 @@ export class AuthenticationService {
         let response: ITokenCommandResult = await AxiosBases.post("Api/Users/Authentication", body).then((response) => {
             localStorage.removeItem("access-token")
             localStorage.setItem("access-token", JSON.stringify(response.data.objResult.accessToken))
+            localStorage.setItem("token-is-valid", JSON.stringify(true))
             cookies.set("RefreshToken", response.data.objResult.refreshToken)
             return response.data;
         }).catch(error => {

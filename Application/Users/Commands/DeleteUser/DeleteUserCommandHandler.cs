@@ -1,9 +1,8 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Users.Commands.DeleteUser
 {
@@ -14,25 +13,25 @@ namespace Application.Users.Commands.DeleteUser
         private readonly IUnitOfWork _unitOfWork;
 
         public DeleteUserCommandHandler(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IAsyncValidator<DeleteUserCommand> validator,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork )
         {
             _userRepository = userRepository;
             _deleteUserCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteUserCommand deleteUserCommand)
+        public async Task<CommandResult> HandleAsync( DeleteUserCommand deleteUserCommand )
         {
-            ValidationResult validationResult = await _deleteUserCommandValidator.ValidationAsync(deleteUserCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _deleteUserCommandValidator.ValidationAsync( deleteUserCommand );
+            if( !validationResult.IsFail )
             {
-                User user = _userRepository.GetByIdAsync(deleteUserCommand.Id).Result;
-                _userRepository.Delete(user);
+                User user = _userRepository.GetByIdAsync( deleteUserCommand.Id ).Result;
+                _userRepository.Delete( user );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

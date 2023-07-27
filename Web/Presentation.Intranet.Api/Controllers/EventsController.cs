@@ -12,7 +12,7 @@ using Infrastructure.JwtAuthorizations;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route("Api/Users")]
+    [Route( "Api/Users" )]
     [JwtAuthorization]
     public class EventsController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace Presentation.Intranet.Api.Controllers
             ICommandHandler<CreateEventCommand> createEventCommandHandler,
             ICommandHandler<DeleteEventCommand> deleteEventCommandHandler,
             ICommandHandler<UpdateEventCommand> updateEventCommandHandler,
-            IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler)
+            IQueryHandler<GetEventQueryDto, GetEventQuery> getEventQueryHandler )
         {
             _createEventCommandHandler = createEventCommandHandler;
             _deleteEventCommandHandler = deleteEventCommandHandler;
@@ -33,8 +33,8 @@ namespace Presentation.Intranet.Api.Controllers
             _getEventQueryHandler = getEventQueryHandler;
         }
 
-        [HttpGet("{userId}/[controller]")]
-        public async Task<IActionResult> GetEvent([FromRoute] long userId, DateTime startEvent, DateTime endEvent)
+        [HttpGet( "{userId}/[controller]" )]
+        public async Task<IActionResult> GetEvent( [FromRoute] long userId, DateTime startEvent, DateTime endEvent )
         {
             GetEventQuery getEventQuery = new GetEventQuery
             {
@@ -43,16 +43,16 @@ namespace Presentation.Intranet.Api.Controllers
                 EndEvent = endEvent
             };
 
-            QueryResult<GetEventQueryDto> queryResult = await _getEventQueryHandler.HandleAsync(getEventQuery);
-            if (queryResult.ValidationResult.IsFail)
+            QueryResult<GetEventQueryDto> queryResult = await _getEventQueryHandler.HandleAsync( getEventQuery );
+            if( queryResult.ValidationResult.IsFail )
             {
-                return BadRequest(queryResult);
+                return BadRequest( queryResult );
             }
-            return Ok(queryResult);
+            return Ok( queryResult );
         }
 
-        [HttpPost("{userId}/[controller]")]
-        public async Task<IActionResult> CreateEvent([FromRoute] long userId, [FromBody] CreateEventDto createEventRequest)
+        [HttpPost( "{userId}/[controller]" )]
+        public async Task<IActionResult> CreateEvent( [FromRoute] long userId, [FromBody] CreateEventDto createEventRequest )
         {
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
@@ -62,17 +62,17 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = createEventRequest.StartEvent,
                 EndEvent = createEventRequest.EndEvent
             };
-            CommandResult commandResult = await _createEventCommandHandler.HandleAsync(createEventCommand);
+            CommandResult commandResult = await _createEventCommandHandler.HandleAsync( createEventCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
 
-        [HttpDelete("{userId}/[controller]")]
-        public async Task<IActionResult> DeleteEvent([FromRoute] long userId, [FromBody] DeleteEventDto deleteEventRequest)
+        [HttpDelete( "{userId}/[controller]" )]
+        public async Task<IActionResult> DeleteEvent( [FromRoute] long userId, [FromBody] DeleteEventDto deleteEventRequest )
         {
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
@@ -80,17 +80,17 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = deleteEventRequest.StartEvent,
                 EndEvent = deleteEventRequest.EndEvent
             };
-            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync(deleteEventCommand);
+            CommandResult commandResult = await _deleteEventCommandHandler.HandleAsync( deleteEventCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult);
+                return BadRequest( commandResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
 
-        [HttpPut("{userId}/[controller]")]
-        public async Task<IActionResult> UpdateEvent([FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest)
+        [HttpPut( "{userId}/[controller]" )]
+        public async Task<IActionResult> UpdateEvent( [FromRoute] long userId, [FromBody] UpdateEventDto updateEventRequest )
         {
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
@@ -100,13 +100,13 @@ namespace Presentation.Intranet.Api.Controllers
                 StartEvent = updateEventRequest.StartEvent,
                 EndEvent = updateEventRequest.EndEvent
             };
-            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync(updateEventCommand);
+            CommandResult commandResult = await _updateEventCommandHandler.HandleAsync( updateEventCommand );
 
-            if (commandResult.ValidationResult.IsFail)
+            if( commandResult.ValidationResult.IsFail )
             {
-                return BadRequest(commandResult.ValidationResult);
+                return BadRequest( commandResult.ValidationResult );
             }
-            return Ok();
+            return Ok( commandResult );
         }
     }
 }

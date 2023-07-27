@@ -1,9 +1,8 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
+using Application.Entities;
+using Application.Repositories;
 
 namespace Application.Events.Commands.DeleteEvent
 {
@@ -14,26 +13,26 @@ namespace Application.Events.Commands.DeleteEvent
         private readonly IUnitOfWork _unitOfWork;
 
         public DeleteEventCommandHandler(
-            IEventRepository eventRepository, 
+            IEventRepository eventRepository,
             IAsyncValidator<DeleteEventCommand> validator,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork )
         {
             _eventRepository = eventRepository;
             _deleteEventCommandValidator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteEventCommand deleteEventCommand)
+        public async Task<CommandResult> HandleAsync( DeleteEventCommand deleteEventCommand )
         {
-            ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync(deleteEventCommand);
-            if (!validationResult.IsFail)
+            ValidationResult validationResult = await _deleteEventCommandValidator.ValidationAsync( deleteEventCommand );
+            if( !validationResult.IsFail )
             {
-                Event foundEvent = await _eventRepository.GetEventAsync(deleteEventCommand.UserId,
-                    deleteEventCommand.StartEvent, deleteEventCommand.EndEvent);
-                _eventRepository.Delete(foundEvent);
+                Event foundEvent = await _eventRepository.GetEventAsync( deleteEventCommand.UserId,
+                    deleteEventCommand.StartEvent, deleteEventCommand.EndEvent );
+                _eventRepository.Delete( foundEvent );
                 await _unitOfWork.CommitAsync();
             }
-            return new CommandResult(validationResult);
+            return new CommandResult( validationResult );
         }
     }
 }

@@ -6,18 +6,25 @@ import { AuthenticationPage } from './pages/Authentication/AuthenticationPage';
 import { useEffect, useState } from 'react';
 import { RegistrationPage } from './pages/Authentication/RegistrationPage';
 import RedirectToAuthenticationPage from './pages/Authentication/RedirectToAuthenticationPage';
+import { Cookies } from 'react-cookie';
 
 function App() {
   const [userAuth, setUserAuth] = useState<boolean>(Boolean(localStorage.getItem("token-is-valid")));
 
   useEffect(() => {
-    setUserAuth(Boolean(localStorage.getItem("token-is-valid")));
+    let tokenIsValid: boolean = Boolean(localStorage.getItem("token-is-valid"));
+    const cookies = new Cookies();
+
+    if (!tokenIsValid && cookies.get("RefreshToken") == null) {
+      localStorage.removeItem("token-is-valid");
+      localStorage.removeItem("user-name");
+      setUserAuth(tokenIsValid);
+    }
   }, [])
 
   return (
     <BrowserRouter>
       <Routes>
-
         {userAuth ?
           <>
             <Route path="/" element={<Layout />} >

@@ -1,6 +1,5 @@
 ﻿using Application.CQRSInterfaces;
 using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
-using Application.UserAuthorizationTokens.Commands;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUserLogin;
@@ -15,7 +14,7 @@ namespace WebCalendar.Application.Users
 {
     public static class UsersBindings
     {
-        public static IServiceCollection AddUsersBindings(this IServiceCollection services)
+        public static IServiceCollection AddUsersBindings( this IServiceCollection services )
         {
             services.AddScoped<ICommandHandler<AuthenticateUserCommandDto, AuthenticateUserCommand>, AuthenticateUserCommandHandler>();
             services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();

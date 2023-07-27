@@ -1,6 +1,5 @@
 ﻿using Application.Tokens;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 
 namespace Infrastructure.ConfigurationUtils.Token
 {
@@ -8,7 +7,7 @@ namespace Infrastructure.ConfigurationUtils.Token
     {
         private readonly IConfiguration _configuration;
 
-        public TokenConfiguration(IConfiguration configuration)
+        public TokenConfiguration( IConfiguration configuration )
         {
             _configuration = configuration;
         }

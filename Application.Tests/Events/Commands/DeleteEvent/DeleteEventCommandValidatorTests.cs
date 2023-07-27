@@ -1,10 +1,9 @@
-﻿using Application.Events.Commands.DeleteEvent;
+﻿using Application.Entities;
+using Application.Events.Commands.DeleteEvent;
+using Application.Repositories;
 using Application.Validation;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.UnitOfWork;
-using Infrastructure.Data.Events;
-using Infrastructure.Data.Users;
+using Infrastructure.Entities.Events;
+using Infrastructure.Entities.Users;
 using Infrastructure.Foundation;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +18,14 @@ namespace Application.Tests.Events.Commands.DeleteEvent
         {
             string dbName = $"EventDb_{DateTime.Now.ToFileTimeUtc()}";
             DbContextOptions<WebCalendarDbContext> dbContextOptions = new DbContextOptionsBuilder<WebCalendarDbContext>()
-                .UseInMemoryDatabase(dbName)
+                .UseInMemoryDatabase( dbName )
                 .Options;
-            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext(dbContextOptions);
+            WebCalendarDbContext webCalendarDbContext = new WebCalendarDbContext( dbContextOptions );
 
-            IEventRepository eventRepository = new EventRepository(webCalendarDbContext);
-            await InitData(eventRepository, webCalendarDbContext);
+            IEventRepository eventRepository = new EventRepository( webCalendarDbContext );
+            await InitData( eventRepository, webCalendarDbContext );
 
-            _validator = new DeleteEventCommandValidator(eventRepository);
+            _validator = new DeleteEventCommandValidator( eventRepository );
         }
 
         [Test]
@@ -35,15 +34,15 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
-                StartEvent = new DateTime(2023, 11, 1),
-                EndEvent = new DateTime(2023, 11, 2)
+                StartEvent = new DateTime( 2023, 11, 1 ),
+                EndEvent = new DateTime( 2023, 11, 2 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
@@ -52,69 +51,69 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
-                StartEvent = new DateTime(1001),
-                EndEvent = new DateTime(1000)
+                StartEvent = new DateTime( 1001 ),
+                EndEvent = new DateTime( 1000 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Access()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
-                StartEvent = new DateTime(1500),
-                EndEvent = new DateTime(2500)
+                StartEvent = new DateTime( 1500 ),
+                EndEvent = new DateTime( 2500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Success()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
-                StartEvent = new DateTime(500),
-                EndEvent = new DateTime(1500)
+                StartEvent = new DateTime( 500 ),
+                EndEvent = new DateTime( 1500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Fail()
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Access()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
-                StartEvent = new DateTime(100),
-                EndEvent = new DateTime(2500)
+                StartEvent = new DateTime( 100 ),
+                EndEvent = new DateTime( 2500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
@@ -124,27 +123,27 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
             {
                 UserId = 1,
-                StartEvent = new DateTime(1100),
-                EndEvent = new DateTime(1500)
+                StartEvent = new DateTime( 1100 ),
+                EndEvent = new DateTime( 1500 )
             };
 
             // act
-            ValidationResult result = await _validator.ValidationAsync(deleteEventCommand);
+            ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue(result.IsFail);
+            Assert.IsTrue( result.IsFail );
         }
 
-        private async Task InitData(IEventRepository eventRepository, WebCalendarDbContext webCalendarDbContext)
+        private async Task InitData( IEventRepository eventRepository, WebCalendarDbContext webCalendarDbContext )
         {
-            IUserRepository userRepository = new UserRepository(webCalendarDbContext);
-            User user = new User("login", "passwordHash");
-            userRepository.Add(user);
+            IUserRepository userRepository = new UserRepository( webCalendarDbContext );
+            User user = new User( "login", "passwordHash" );
+            userRepository.Add( user );
 
-            Event newEvent = new Event(1, "name", "", new DateTime(1000), new DateTime(2000));
-            eventRepository.Add(newEvent);
+            Event newEvent = new Event( 1, "name", "", new DateTime( 1000 ), new DateTime( 2000 ) );
+            eventRepository.Add( newEvent );
 
-            IUnitOfWork unitOfWork = new UnitOfWork(webCalendarDbContext);
+            IUnitOfWork unitOfWork = new UnitOfWork( webCalendarDbContext );
             await unitOfWork.CommitAsync();
         }
     }

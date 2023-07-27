@@ -24,7 +24,7 @@ namespace Application.Events.Commands.DeleteEvent
                 return ValidationResult.Fail( "The start date cannot be later than the end date" );
             }
 
-            if( !await _eventRepository.ContainsAsync( command.UserId, command.StartEvent, command.EndEvent ) )
+            if( await _eventRepository.GetEventAsync( command.UserId, command.StartEvent, command.EndEvent ) == null )
             {
                 return ValidationResult.Fail( "There is no such event" );
             }

@@ -67,6 +67,7 @@ namespace Application.Tests.Events.Commands.CreateEvent
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 2023, 11, 1 ),
                 EndEvent = new DateTime( 2023, 11, 2 )
             };
@@ -85,6 +86,7 @@ namespace Application.Tests.Events.Commands.CreateEvent
             CreateEventCommand createEventCommand = new CreateEventCommand
             {
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 1001 ),
                 EndEvent = new DateTime( 1000 )
             };

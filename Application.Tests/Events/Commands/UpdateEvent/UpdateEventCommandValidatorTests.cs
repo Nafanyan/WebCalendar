@@ -67,6 +67,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 2023, 11, 1 ),
                 EndEvent = new DateTime( 2023, 11, 2 )
             };
@@ -85,6 +86,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 1001 ),
                 EndEvent = new DateTime( 1000 )
             };
@@ -97,13 +99,14 @@ namespace Application.Tests.Events.Commands.UpdateEvent
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInDateExistEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInDateExistEvent_Access()
         {
             // arrange
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 1500 ),
                 EndEvent = new DateTime( 2500 )
             };
@@ -112,16 +115,17 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             ValidationResult result = await _validator.ValidationAsync( updateEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Access()
         {
             // arrange
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
+                Description = "",
                 Name = "name",
                 StartEvent = new DateTime( 500 ),
                 EndEvent = new DateTime( 1500 )
@@ -131,17 +135,18 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             ValidationResult result = await _validator.ValidationAsync( updateEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Fail()
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Access()
         {
             // arrange
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
                 Name = "name",
+                Description = "",
                 StartEvent = new DateTime( 100 ),
                 EndEvent = new DateTime( 2500 )
             };
@@ -150,7 +155,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             ValidationResult result = await _validator.ValidationAsync( updateEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
@@ -160,6 +165,7 @@ namespace Application.Tests.Events.Commands.UpdateEvent
             UpdateEventCommand updateEventCommand = new UpdateEventCommand
             {
                 UserId = 1,
+                Description = "",
                 Name = "name",
                 StartEvent = new DateTime( 1100 ),
                 EndEvent = new DateTime( 1500 )

@@ -63,7 +63,7 @@ namespace Application.Tests.Events.Commands.DeleteEvent
         }
 
         [Test]
-        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Fail()
+        public async Task ValidationAsync_StartDateIncludedInExistDateEvent_Access()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
@@ -77,11 +77,11 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Fail()
+        public async Task ValidationAsync_EndDateIncludedInExistDateEvent_Success()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
@@ -95,11 +95,11 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]
-        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Fail()
+        public async Task ValidationAsync_InputDateEventIncludedExistDateEvent_Access()
         {
             // arrange
             DeleteEventCommand deleteEventCommand = new DeleteEventCommand
@@ -113,7 +113,7 @@ namespace Application.Tests.Events.Commands.DeleteEvent
             ValidationResult result = await _validator.ValidationAsync( deleteEventCommand );
 
             // assert
-            Assert.IsTrue( result.IsFail );
+            Assert.IsFalse( result.IsFail );
         }
 
         [Test]

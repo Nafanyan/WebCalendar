@@ -1,7 +1,7 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Application.Result;
 using Application.Validation;
-using Application.Entities;
+using Domain.Entities;
 using Application.Repositories;
 
 namespace Application.Users.Commands.UpdateUserPassword

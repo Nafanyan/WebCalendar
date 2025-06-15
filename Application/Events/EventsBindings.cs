@@ -3,7 +3,7 @@ using Application.Events.Commands.DeleteEvent;
 using Application.Events.Commands.UpdateEvent;
 using Application.Events.DTOs;
 using Application.Events.Queries.GetEvent;
-using Application.CQRSInterfaces;
+using Application.Interfaces;
 using Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 

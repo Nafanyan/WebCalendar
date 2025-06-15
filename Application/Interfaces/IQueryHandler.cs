@@ -1,6 +1,6 @@
 ﻿using Application.Result;
 
-namespace Application.CQRSInterfaces
+namespace Application.Interfaces
 {
     public interface IQueryHandler<TResult, TQuery>
         where TResult : class

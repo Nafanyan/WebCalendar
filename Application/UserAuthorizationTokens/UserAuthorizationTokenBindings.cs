@@ -1,4 +1,4 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Application.UserAuthorizationTokens.Commands.RefreshToken;
 using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;

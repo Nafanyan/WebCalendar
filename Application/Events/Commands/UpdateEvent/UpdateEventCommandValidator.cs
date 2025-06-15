@@ -1,5 +1,4 @@
 ﻿using Application.Validation;
-using Application.Entities;
 using Application.Repositories;
 
 namespace Application.Events.Commands.UpdateEvent

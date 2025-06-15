@@ -1,5 +1,5 @@
 ﻿using Application.Validation;
-using Application.Entities;
+using Domain.Entities;
 using Application.Repositories;
 
 namespace Application.Users.Commands.DeleteUser

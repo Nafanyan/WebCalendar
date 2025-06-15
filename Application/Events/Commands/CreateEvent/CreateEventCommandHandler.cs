@@ -1,6 +1,6 @@
 ﻿using Application.Result;
-using Application.CQRSInterfaces;
-using Application.Entities;
+using Application.Interfaces;
+using Domain.Entities;
 using Application.Repositories;
 using Application.Validation;
 

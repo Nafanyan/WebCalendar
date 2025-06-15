@@ -2,9 +2,9 @@
 using Application.Tokens.CreateToken;
 using Application.UserAuthorizationTokens.DTOs;
 using Application.Validation;
-using Application.Entities;
+using Domain.Entities;
 using Application.Repositories;
-using Application.CQRSInterfaces;
+using Application.Interfaces;
 using Application.Result;
 
 namespace Application.UserAuthorizationTokens.Commands.RefreshToken

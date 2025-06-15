@@ -1,8 +1,8 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Application.Result;
 using Application.Users.DTOs;
 using Application.Validation;
-using Application.Entities;
+using Domain.Entities;
 using Application.Repositories;
 
 namespace Application.Users.Queries.GetUserById

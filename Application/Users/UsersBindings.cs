@@ -1,4 +1,4 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.DeleteUser;

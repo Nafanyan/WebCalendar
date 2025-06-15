@@ -1,4 +1,4 @@
-﻿using Application.Entities;
+﻿using Domain.Entities;
 using Application.Events.Commands.CreateEvent;
 using Application.Repositories;
 using Application.Validation;

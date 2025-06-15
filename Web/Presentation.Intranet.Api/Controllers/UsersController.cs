@@ -1,4 +1,4 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Application.Result;
 using Application.Tokens;
 using Application.Users.Commands.DeleteUser;

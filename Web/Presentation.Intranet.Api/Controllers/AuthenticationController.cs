@@ -1,4 +1,4 @@
-﻿using Application.CQRSInterfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Application.Result;
 using Application.UserAuthorizationTokens.Commands.AuthenticateUser;
